@@ -156,11 +156,11 @@ public class MainFragment extends Fragment {
     }
 
     private final String TAG = "From MainFragment";
-    private final String fullUrl = "https://nhentai.net/language/chinese/";
+    private final String baseUrl = "https://nhentai.net/language/chinese/";
     private final String pagePrefix = "?page=";
     SwipeRefreshLayout mySwipeRefreshLayout;
     private int page;
-    private ComicsAdapter mAdapter;
+    private ComicsAdapter comicsAdapter;
     public View myRoot;
     private Context mContext;
 
@@ -218,9 +218,9 @@ public class MainFragment extends Fragment {
     private void refreshRecycleView() {
         page = 1;
 
-        mAdapter.clear();
-        getComics(fullUrl, page, mAdapter);
-        mAdapter.notifyDataSetChanged();
+        comicsAdapter.clear();
+        setComics(baseUrl, page, comicsAdapter);
+        comicsAdapter.notifyDataSetChanged();
 
     }
 
@@ -228,18 +228,23 @@ public class MainFragment extends Fragment {
     private void setRecycleView() {
         page = 1;
         RecyclerView mRecyclerView = getView().findViewById(R.id.rvMain);
+        ArrayList<Comic> comics = new ArrayList<>();
 
-        mAdapter = new ComicsAdapter();
-//        getComics(fullUrl, page, mAdapter);
-        mAdapter.addComic(MyApi.Companion.getMainPageComics(page));
+        comicsAdapter = new ComicsAdapter();
+        comics  = MyApi.Companion.getComicsBySite(baseUrl, page, mContext);
+
+        //setComics(baseUrl, page, comicsAdapter);
+
+        //use api to get main page
+        //comicsAdapter.addComic(MyApi.Companion.getMainPageComics(page));
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(comicsAdapter);
 
-        mRecyclerView.addOnScrollListener(getEndlessScrollListener(mAdapter));
+        mRecyclerView.addOnScrollListener(getEndlessScrollListener(comicsAdapter));
         registerForContextMenu(mRecyclerView);
 
 
@@ -254,7 +259,7 @@ public class MainFragment extends Fragment {
                 if (!recyclerView.canScrollVertically(1)) {
                     Log.i(TAG, "End of list!!");
                     mySwipeRefreshLayout.setRefreshing(true);
-                    getComics(fullUrl, ++page, mAdapter);
+                    setComics(baseUrl, ++page, mAdapter);
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -262,7 +267,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    private ArrayList<Comic> getComicsData(Document result) {
+    private ArrayList<Comic> getComics(Document result) {
         ArrayList<Comic> comics;
         comics = new ArrayList<>();
 
@@ -272,19 +277,21 @@ public class MainFragment extends Fragment {
         for (Element gallery : galleries) {
 
             String title = gallery.getElementsByTag("div").get(0).text();
-            String ThumbLink = gallery.getElementsByTag("img").attr("data-src");
+            String thumbLink = gallery.getElementsByTag("img").attr("data-src");
             String id = gallery.getElementsByTag("a").attr("href").split("/")[2];
+            String mid = thumbLink.split("/")[thumbLink.split("/").length-2];
             //int totalPage = gallery.getElementById("thumbnail-container").childNodeSize();
 
             Comic comic = new Comic();
             comic.setTitle(title);
-            comic.setThumbLink(ThumbLink);
+            comic.setThumbLink(thumbLink);
             comic.setId(id);
+            comic.setMid(mid);
             //comic.setTotalPage(totalPage);
 
             //setted comic properties
             Log.e(TAG, String.format("Finished %d gallery", count++));
-            //Log.i(TAG, "getComicsData: totalPage: " + totalPage);
+            //Log.i(TAG, "setComics: totalPage: " + totalPage);
 
             comics.add(comic);
 
@@ -293,7 +300,7 @@ public class MainFragment extends Fragment {
     }
 
     /*TODO use api to get main page*/
-    public void getComics(String site, int page, final ComicsAdapter adapter) {
+    public void setComics(String site, int page, final ComicsAdapter adapter) {
         RequestQueue queue = Volley.newRequestQueue(mContext);
         final Document[] doc = new Document[1];
 
@@ -304,8 +311,8 @@ public class MainFragment extends Fragment {
                     //Log.i(TAG, "onResponse: " + response);
                     doc[0] = Jsoup.parse(response);
 
-//                    adapter.addComic(getComicsData(doc[0]));
-                    adapter.addComic(getComicsData(doc[0]));
+//                    adapter.addComic(setComics(doc[0]));
+                    adapter.addComic(getComics(doc[0]));
                     mySwipeRefreshLayout.setRefreshing(false);
                     adapter.notifyDataSetChanged();
                 }, //
@@ -339,7 +346,7 @@ public class MainFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int clickedItemPosition = item.getGroupId();
-        Comic c = mAdapter.getComicByPos(clickedItemPosition);
+        Comic c = comicsAdapter.getComicByPos(clickedItemPosition);
 
         switch (item.getItemId()) {
             case 1://add to collection
@@ -348,7 +355,8 @@ public class MainFragment extends Fragment {
                     MyApi.Companion.addToCollection(getActivity(), c);
                     //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
 
-                    Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
+                    if(getView() != null)
+                        Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
                 }else{
                     if(getView() != null)
                         Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
