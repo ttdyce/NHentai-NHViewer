@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import personal.ttd.nhviewer.R;
+import personal.ttd.nhviewer.Volley.VolleyCallback;
 import personal.ttd.nhviewer.activity.DisplayInnerPageActivity;
 import personal.ttd.nhviewer.api.MyApi;
 import personal.ttd.nhviewer.comic.Comic;
@@ -48,10 +49,229 @@ import static personal.ttd.nhviewer.api.NHapi.userAgent;
 
 public class MainFragment extends Fragment {
 
+    private final String TAG = "From MainFragment";
+    private final String baseUrl = "https://nhentai.net/language/chinese/";
+    private final String pagePrefix = "?page=";
+    public View myRoot;
+    SwipeRefreshLayout mySwipeRefreshLayout;
+    private int page;
+    private ComicsAdapter comicsAdapter;
+    private Context mContext;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+
+        // Inflate the layout for this fragment
+
+        if (myRoot == null) {
+            myRoot = inflater.inflate(R.layout.content_main, container, false);
+        }
+        return myRoot;
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        //((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("Home");
+        setRefreshLayout();
+        setRecycleView();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
+    }
+
+    private void setRefreshLayout() {
+        mySwipeRefreshLayout = getView().findViewById(R.id.srMain);
+
+        mySwipeRefreshLayout.setRefreshing(true);
+        mySwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+                        refreshRecycleView();
+                    }
+                }
+        );//End RefreshListener
+    }
+
+    private void refreshRecycleView() {
+        page = 1;
+
+        comicsAdapter.clear();
+        setComics(baseUrl, page, comicsAdapter);
+        comicsAdapter.notifyDataSetChanged();
+
+    }
+
+    private void setRecycleView() {
+        page = 1;
+        RecyclerView mRecyclerView = getView().findViewById(R.id.rvMain);
+        VolleyCallback addComicsCallback = comicsResponse-> {
+            comicsAdapter.addComic(comicsResponse);
+            comicsAdapter.notifyDataSetChanged();
+            mySwipeRefreshLayout.setRefreshing(false);
+        };
+
+        comicsAdapter = new ComicsAdapter();
+
+        //setComics(baseUrl, page, comicsAdapter);
+
+        //use api to get main page
+        //comicsAdapter.addComic(MyApi.Companion.getMainPageComics(page));
+
+        GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(comicsAdapter);
+
+        mRecyclerView.addOnScrollListener(getEndlessScrollListener(comicsAdapter));
+        registerForContextMenu(mRecyclerView);
+
+        MyApi.Companion.getComicsBySite(baseUrl, String.valueOf(page), mContext, addComicsCallback);
+    }
+
+    private RecyclerView.OnScrollListener getEndlessScrollListener(final ComicsAdapter mAdapter) {
+        return new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    Log.i(TAG, "End of list!!");
+                    mySwipeRefreshLayout.setRefreshing(true);
+                    setComics(baseUrl, ++page, mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+    }
+
+    private ArrayList<Comic> getComics(Document result) {
+        ArrayList<Comic> comics;
+        comics = new ArrayList<>();
+
+        Elements galleries = result.getElementsByClass("gallery");
+
+        int count = 1;
+        for (Element gallery : galleries) {
+
+            String title = gallery.getElementsByTag("div").get(0).text();
+            String thumbLink = gallery.getElementsByTag("img").attr("data-src");
+            String id = gallery.getElementsByTag("a").attr("href").split("/")[2];
+            String mid = thumbLink.split("/")[thumbLink.split("/").length - 2];
+            //int totalPage = gallery.getElementById("thumbnail-container").childNodeSize();
+
+            Comic comic = new Comic();
+            comic.setTitle(title);
+            comic.setThumbLink(thumbLink);
+            comic.setId(id);
+            comic.setMid(mid);
+            //comic.setTotalPage(totalPage);
+
+            //setted comic properties
+            Log.e(TAG, String.format("Finished %d gallery", count++));
+            //Log.i(TAG, "setComics: totalPage: " + totalPage);
+
+            comics.add(comic);
+
+        }
+        return comics;
+    }
+
+    /*TODO use api to get main page*/
+    public void setComics(String site, int page, final ComicsAdapter adapter) {
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        final Document[] doc = new Document[1];
+
+        StringRequest documentRequest = new StringRequest( //
+                Request.Method.GET, //
+                site + pagePrefix + page, //
+                response -> {
+                    //Log.i(TAG, "onResponse: " + response);
+                    doc[0] = Jsoup.parse(response);
+
+//                    adapter.addComic(setComics(doc[0]));
+                    adapter.addComic(getComics(doc[0]));
+                    mySwipeRefreshLayout.setRefreshing(false);
+                    adapter.notifyDataSetChanged();
+                }, //
+                error -> {
+                    // Error handling
+                    System.out.println("Houston we have a problem ... !");
+                    error.printStackTrace();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("User-Agent", userAgent);
+                return headers;
+            }
+        }; //
+
+        // Add the request to the queue...
+        queue.add(documentRequest);
+
+        // ... and wait for the document.
+        // NOTE: Be aware of user experience here. We don't want to freeze the app...
+        queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                Log.i(TAG, "onRequestFinished: Finished");
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int clickedItemPosition = item.getGroupId();
+        Comic c = comicsAdapter.getComicByPos(clickedItemPosition);
+
+        switch (item.getItemId()) {
+            case 1://add to collection
+                if (!Storage.isCollected(c.getId())) {
+                    Storage.addCollection(c);
+                    MyApi.Companion.addToCollection(getActivity(), c);
+                    //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
+
+                    if (getView() != null)
+                        Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    if (getView() != null)
+                        Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
+                }
+
+                break;
+
+            case 2:///TODO download comic
+
+                break;
+
+            default:
+                break;
+        }
+        // do something!
+        return super.onContextItemSelected(item);
+    }
+
     //Data adapter
-    public class  ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder>  {
-        private ArrayList<Comic> mDataset = new ArrayList<>();
+    public class ComicsAdapter extends RecyclerView.Adapter<ComicsAdapter.ViewHolder> {
         private final String TAG = "ComicsAdapter";
+        private ArrayList<Comic> mDataset = new ArrayList<>();
 
         public ComicsAdapter() {
 
@@ -61,7 +281,7 @@ public class MainFragment extends Fragment {
             mDataset.addAll(comics);
         }
 
-        public Comic getComicByPos(int pos){
+        public Comic getComicByPos(int pos) {
             return mDataset.get(pos);
         }
 
@@ -152,227 +372,6 @@ public class MainFragment extends Fragment {
         }
 
 
-
-    }
-
-    private final String TAG = "From MainFragment";
-    private final String baseUrl = "https://nhentai.net/language/chinese/";
-    private final String pagePrefix = "?page=";
-    SwipeRefreshLayout mySwipeRefreshLayout;
-    private int page;
-    private ComicsAdapter comicsAdapter;
-    public View myRoot;
-    private Context mContext;
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-
-        // Inflate the layout for this fragment
-
-        if (myRoot == null) {
-            myRoot = inflater.inflate(R.layout.content_main, container, false);
-        }
-        return myRoot;
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("Home");
-        setRefreshLayout();
-        setRecycleView();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mContext = activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mContext = null;
-    }
-
-
-    private void setRefreshLayout() {
-        mySwipeRefreshLayout = getView().findViewById(R.id.srMain);
-
-        mySwipeRefreshLayout.setRefreshing(true);
-        mySwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        mySwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-                        refreshRecycleView();
-                    }
-                }
-        );//End RefreshListener
-    }
-
-    private void refreshRecycleView() {
-        page = 1;
-
-        comicsAdapter.clear();
-        setComics(baseUrl, page, comicsAdapter);
-        comicsAdapter.notifyDataSetChanged();
-
-    }
-
-
-    private void setRecycleView() {
-        page = 1;
-        RecyclerView mRecyclerView = getView().findViewById(R.id.rvMain);
-        ArrayList<Comic> comics = new ArrayList<>();
-
-        comicsAdapter = new ComicsAdapter();
-        comics  = MyApi.Companion.getComicsBySite(baseUrl, page, mContext);
-
-        //setComics(baseUrl, page, comicsAdapter);
-
-        //use api to get main page
-        //comicsAdapter.addComic(MyApi.Companion.getMainPageComics(page));
-
-        GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
-
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(comicsAdapter);
-
-        mRecyclerView.addOnScrollListener(getEndlessScrollListener(comicsAdapter));
-        registerForContextMenu(mRecyclerView);
-
-
-    }
-
-    private RecyclerView.OnScrollListener getEndlessScrollListener(final ComicsAdapter mAdapter) {
-        return new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (!recyclerView.canScrollVertically(1)) {
-                    Log.i(TAG, "End of list!!");
-                    mySwipeRefreshLayout.setRefreshing(true);
-                    setComics(baseUrl, ++page, mAdapter);
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-    }
-
-
-    private ArrayList<Comic> getComics(Document result) {
-        ArrayList<Comic> comics;
-        comics = new ArrayList<>();
-
-        Elements galleries = result.getElementsByClass("gallery");
-
-        int count = 1;
-        for (Element gallery : galleries) {
-
-            String title = gallery.getElementsByTag("div").get(0).text();
-            String thumbLink = gallery.getElementsByTag("img").attr("data-src");
-            String id = gallery.getElementsByTag("a").attr("href").split("/")[2];
-            String mid = thumbLink.split("/")[thumbLink.split("/").length-2];
-            //int totalPage = gallery.getElementById("thumbnail-container").childNodeSize();
-
-            Comic comic = new Comic();
-            comic.setTitle(title);
-            comic.setThumbLink(thumbLink);
-            comic.setId(id);
-            comic.setMid(mid);
-            //comic.setTotalPage(totalPage);
-
-            //setted comic properties
-            Log.e(TAG, String.format("Finished %d gallery", count++));
-            //Log.i(TAG, "setComics: totalPage: " + totalPage);
-
-            comics.add(comic);
-
-        }
-        return comics;
-    }
-
-    /*TODO use api to get main page*/
-    public void setComics(String site, int page, final ComicsAdapter adapter) {
-        RequestQueue queue = Volley.newRequestQueue(mContext);
-        final Document[] doc = new Document[1];
-
-        StringRequest documentRequest = new StringRequest( //
-                Request.Method.GET, //
-                site + pagePrefix + page, //
-                response -> {
-                    //Log.i(TAG, "onResponse: " + response);
-                    doc[0] = Jsoup.parse(response);
-
-//                    adapter.addComic(setComics(doc[0]));
-                    adapter.addComic(getComics(doc[0]));
-                    mySwipeRefreshLayout.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
-                }, //
-                error -> {
-                    // Error handling
-                    System.out.println("Houston we have a problem ... !");
-                    error.printStackTrace();
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("User-Agent", userAgent);
-                return headers;
-            }
-        }; //
-
-        // Add the request to the queue...
-        queue.add(documentRequest);
-
-        // ... and wait for the document.
-        // NOTE: Be aware of user experience here. We don't want to freeze the app...
-        queue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
-            @Override
-            public void onRequestFinished(Request<Object> request) {
-                Log.i(TAG, "onRequestFinished: Finished");
-            }
-        });
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        int clickedItemPosition = item.getGroupId();
-        Comic c = comicsAdapter.getComicByPos(clickedItemPosition);
-
-        switch (item.getItemId()) {
-            case 1://add to collection
-                if(!Storage.isCollected(c.getId())){
-                    Storage.addCollection(c);
-                    MyApi.Companion.addToCollection(getActivity(), c);
-                    //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
-
-                    if(getView() != null)
-                        Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
-                }else{
-                    if(getView() != null)
-                        Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
-                }
-
-                break;
-
-            case 2:///TODO download comic
-
-                break;
-
-            default:
-                break;
-        }
-        // do something!
-        return super.onContextItemSelected(item);
     }
 
 

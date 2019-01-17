@@ -1,9 +1,7 @@
 package personal.ttd.nhviewer.api
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.widget.Adapter
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -15,6 +13,7 @@ import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import personal.ttd.nhviewer.DebugTag.TAG
+import personal.ttd.nhviewer.Volley.VolleyCallback
 import personal.ttd.nhviewer.api.NHapi.userAgent
 import personal.ttd.nhviewer.comic.Comic
 import personal.ttd.nhviewer.file.FeedReaderContract
@@ -25,6 +24,8 @@ class MyApi {
     //static methods
     companion object {
         private val baseUrl = "https://nhentai.net/language/chinese/"
+        private val comicBaseUrl = "https://nhentai.net/g/"
+        private val mediaBaseUrl = "https://i.nhentai.net/galleries/"//https://i.nhentai.net/galleries/1347646/1.jpg
         private val pagePrefix = "?page="
 
         fun getPages(mid:String, types:String, totalPage:Int):ArrayList<String>{
@@ -48,10 +49,9 @@ class MyApi {
         }
 
         private fun getComicsByDocument(doc:Document ): java.util.ArrayList<Comic> {
-            val comics: java.util.ArrayList<Comic>
-            comics = java.util.ArrayList()
+            val comics = java.util.ArrayList<Comic>()
 
-            val galleries = result.getElementsByClass("gallery")
+            val galleries = doc.getElementsByClass("gallery")
 
             var count = 1
             for (gallery in galleries) {
@@ -70,7 +70,7 @@ class MyApi {
                 //comic.setTotalPage(totalPage);
 
                 //setted comic properties
-                Log.e(TAG, String.format("Finished %d gallery", count++))
+                Log.e(TAG, String.format("Finished %d gallery, name=%s", count++, title))
                 //Log.i(TAG, "setComics: totalPage: " + totalPage);
 
                 comics.add(comic)
@@ -79,8 +79,53 @@ class MyApi {
             return comics
         }
 
+        private fun getComicByDocument(doc:Document ): Comic {
+            val c = Comic()
+
+            val thumbContainer = doc.getElementById("thumbnail-container")
+            val thumbLink1 = thumbContainer.child(0).getElementsByTag("img")[0].attr("data-src")
+            val mid = thumbLink1.split("/")[thumbLink1.split("/").size-2]
+            val totalPage = thumbContainer.children().size
+            //Log.e("NHMyApi", "totalpage = " + totalPage)
+            //Log.e("NHMyApi", "thumbLink1 = " + thumbLink1 + " mid  = " + mid)
+
+            c.mid = mid
+            c.totalPage = totalPage
+
+            for (i in 1..totalPage-1){
+                val page = mediaBaseUrl + mid + "/" + i + ".jpg"
+                ///TODO page logging
+                Log.e("NHMyApi", "page = " + page)
+                c.pages.add(page)
+            }
+
+
+//            var count = 1
+//            for (gallery in galleries) {
+//
+//                val title = gallery.getElementsByTag("div").get(0).text()
+//                val thumbLink = gallery.getElementsByTag("img").attr("data-src")
+//                val id = gallery.getElementsByTag("a").attr("href").split("/".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()[2]
+//                val mid = thumbLink.split("/".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()[thumbLink.split("/".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray().size - 2]
+//                //int totalPage = gallery.getElementById("thumbnail-container").childNodeSize();
+//
+//                val comic = Comic()
+//                comic.title = title
+//                comic.thumbLink = thumbLink
+//                comic.id = id
+//                comic.mid = mid
+//                //comic.setTotalPage(totalPage);
+//
+//                //setted comic properties
+//                Log.e(TAG, String.format("Finished %d gallery, name=%s", count++, title))
+//                //Log.i(TAG, "setComics: totalPage: " + totalPage);
+//
+//            }
+            return c
+        }
+
         //call get comics by document
-        fun getComicsBySite(baseUrl: String, page: Int, context: Context): java.util.ArrayList<Comic> {
+        fun getComicsBySite(baseUrl: String, page: String, context: Context, callback:VolleyCallback ){
 
 
             val queue = Volley.newRequestQueue(context)
@@ -94,8 +139,9 @@ class MyApi {
                         //Log.i(TAG, "onResponse: " + response);
                         doc = Jsoup.parse(response)
 
-                        comics.add(getComicsByDocument(doc))
-
+                        //Log.e("nhcomicsize", "entering comics loop, comics size:" + comics.size)
+                        comics.addAll(getComicsByDocument(doc))
+                        callback.onResponse(comics)
                         ///TODO finding replacement for below 3 line
 //                        adapter.addComic(getComics(doc[0]))
 //                        mySwipeRefreshLayout.setRefreshing(false)
@@ -123,7 +169,47 @@ class MyApi {
                 Log.i(TAG, "onRequestFinished: Finished")
             })
 
-            return comics
+
+        }
+
+        fun getComicById(comicid: String, context:Context, callback: VolleyCallback) {
+
+            val queue = Volley.newRequestQueue(context)
+            var doc : Document
+            val comics = ArrayList<Comic>()
+
+            val documentRequest = object : StringRequest( //
+                    Request.Method.GET, //
+                    comicBaseUrl + comicid, //
+                    { response ->
+                        //Log.i(TAG, "onResponse: " + response);
+                        doc = Jsoup.parse(response)
+
+                        //Log.e("nhcomicsize", "entering comics loop, comics size:" + comics.size)
+                        comics.add(getComicByDocument(doc))
+                        callback.onResponse(comics)
+                    }, //
+                    { error ->
+                        // Error handling
+                        println("Houston we have a problem ... !")
+                        error.printStackTrace()
+                    }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["User-Agent"] = userAgent
+                    return headers
+                }
+            } //
+
+            // Add the request to the queue...
+            queue.add(documentRequest)
+
+            // ... and wait for the document.
+            // NOTE: Be aware of user experience here. We don't want to freeze the app...
+            queue.addRequestFinishedListener(RequestQueue.RequestFinishedListener<Any> {
+                Log.i(TAG, "onRequestFinished: Finished")
+            })
         }
 
 
@@ -225,6 +311,7 @@ class MyApi {
 
             addToCollection(context, c)
         }
+
 
     }
 }
