@@ -38,7 +38,7 @@ import java.util.Map;
 
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Volley.VolleyCallback;
-import personal.ttd.nhviewer.activity.DisplayInnerPageActivity;
+import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.api.MyApi;
 import personal.ttd.nhviewer.comic.Comic;
 import personal.ttd.nhviewer.file.Storage;
@@ -315,9 +315,10 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), DisplayInnerPageActivity.class);
+                    intent.setClass(getActivity(), InnerPageActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("comicid", c.getId());///TODO orginal "Comic", c
+                    intent.putExtra("Comic", c);
+                    //intent.putExtra("comicid", c.getId());///TODO orginal "Comic", c
                     getActivity().startActivity(intent);
                 }
             });

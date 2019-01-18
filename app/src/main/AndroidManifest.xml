@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".activity.DisplayInnerPageActivity"
+            android:name=".activity.InnerPageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >

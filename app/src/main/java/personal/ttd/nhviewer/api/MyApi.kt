@@ -12,6 +12,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import personal.ttd.nhviewer.DebugTag.TAG
 import personal.ttd.nhviewer.Volley.VolleyCallback
 import personal.ttd.nhviewer.api.NHapi.userAgent
@@ -41,7 +42,7 @@ class MyApi {
         fun getThumbLink(mid:String, type:String):String{
             val t = type.get(0).toString()
 
-            return NHapi.getThumbLink(mid, t);
+            return NHapi.getThumbLink(mid, t)
         }
 
         fun getComicInfoLink(id:String):String{
@@ -86,16 +87,35 @@ class MyApi {
             val thumbLink1 = thumbContainer.child(0).getElementsByTag("img")[0].attr("data-src")
             val mid = thumbLink1.split("/")[thumbLink1.split("/").size-2]
             val totalPage = thumbContainer.children().size
+            var pageTypes = ""
             //Log.e("NHMyApi", "totalpage = " + totalPage)
             //Log.e("NHMyApi", "thumbLink1 = " + thumbLink1 + " mid  = " + mid)
 
+            for(element: Element in thumbContainer.children()){
+                val pageType:Char
+
+                val thumbLink = element.getElementsByTag("img")[0].attr("data-src")
+                val imgType = thumbLink.split(".")[thumbLink.split(".").size-1]
+
+                pageType = imgType[0]
+                pageTypes += pageType
+            }
+
             c.mid = mid
             c.totalPage = totalPage
+            c.pageTypes = pageTypes
 
             for (i in 1..totalPage-1){
-                val page = mediaBaseUrl + mid + "/" + i + ".jpg"
-                ///TODO page logging
-                Log.e("NHMyApi", "page = " + page)
+                var imgSuffix = ".jpg"
+
+                when(c.pageTypes[i-1]){
+                    'j'->imgSuffix = ".jpg"
+                    'p'->imgSuffix = ".png"
+                }
+
+
+                val page = mediaBaseUrl + mid + "/" + i + imgSuffix
+                //Log.e("NHMyApi", "page = " + page)
                 c.pages.add(page)
             }
 

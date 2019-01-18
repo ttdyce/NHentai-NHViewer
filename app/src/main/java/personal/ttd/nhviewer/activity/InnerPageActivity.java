@@ -25,7 +25,7 @@ import personal.ttd.nhviewer.glide.GlideApp;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
-public class DisplayInnerPageActivity extends AppCompatActivity {
+public class InnerPageActivity extends AppCompatActivity {
 
     private final String TAG = "From ComicDisplay";
     private int lastVisibleItemPosition;
@@ -49,7 +49,7 @@ public class DisplayInnerPageActivity extends AppCompatActivity {
             comicid = bData.getLastPathSegment();
             //using id from app
         else if (aData != null)
-            comicid = aData.getString("comicid");
+            comicid = ((Comic)aData.getParcelable("Comic")).getId();
 
         Log.i(TAG, "comicid: " + comicid);
         setupComicShowing(comicid);
@@ -215,7 +215,7 @@ public class DisplayInnerPageActivity extends AppCompatActivity {
         }
     }
 
-}//END class DisplayInnerPageActivity
+}//END class InnerPageActivity
 
 
 //    private void downloadComic() {

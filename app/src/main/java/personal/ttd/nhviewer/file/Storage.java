@@ -244,7 +244,7 @@ public class Storage {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_COMICID, c.getId());
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_FORMAT, c.getTypes());
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_FORMAT, c.getPageTypes());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(FeedReaderContract.FeedEntry.TABLE_INNERPAGE, null, values);

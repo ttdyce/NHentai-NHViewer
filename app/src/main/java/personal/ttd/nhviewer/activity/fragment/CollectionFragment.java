@@ -30,11 +30,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import personal.ttd.nhviewer.R;
-import personal.ttd.nhviewer.activity.DisplayInnerPageActivity;
+import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.comic.Comic;
 import personal.ttd.nhviewer.file.Storage;
 
@@ -82,8 +81,8 @@ public class CollectionFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-//                    intent.setClass(MainActivity.myContext, DisplayInnerPageActivity.class);
-                    intent.setClass(getActivity(), DisplayInnerPageActivity.class);
+//                    intent.setClass(MainActivity.myContext, InnerPageActivity.class);
+                    intent.setClass(getActivity(), InnerPageActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("Comic", c);
                     getActivity().startActivity(intent);

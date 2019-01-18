@@ -33,7 +33,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import personal.ttd.nhviewer.R;
-import personal.ttd.nhviewer.activity.DisplayInnerPageActivity;
+import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.api.MyApi;
 import personal.ttd.nhviewer.comic.Comic;
 
@@ -209,7 +209,7 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
             // - replace the contents of the view with that element
             final Comic c = mDataset.get(position);
             String thumbLink;
-            thumbLink = MyApi.Companion.getThumbLink(c.getMid(), c.getTypes());/*TODO perhaps types[0] == thumb's format*/
+            thumbLink = MyApi.Companion.getThumbLink(c.getMid(), c.getPageTypes());/*TODO perhaps types[0] == thumb's format*/
 
             //Log.i(TAG, "onBindViewHolder: position: " + position + c.getTitle());
             holder.tvTitle.setText(c.getTitle());
@@ -221,8 +221,8 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-//                    intent.setClass(MainActivity.myContext, DisplayInnerPageActivity.class);
-                    intent.setClass(mContext, DisplayInnerPageActivity.class);
+//                    intent.setClass(MainActivity.myContext, InnerPageActivity.class);
+                    intent.setClass(mContext, InnerPageActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("Comic", c);
                     mContext.startActivity(intent);
@@ -311,14 +311,11 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
         }
 
         JSONObject getJson(String url) throws IOException, JSONException {
-            InputStream is = new URL(url).openStream();
-            try {
+            try (InputStream is = new URL(url).openStream()) {
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
                 String jsonText = readAll(rd);
                 JSONObject json = new JSONObject(jsonText);
                 return json;
-            } finally {
-                is.close();
             }
         }
         String readAll(Reader rd) throws IOException {

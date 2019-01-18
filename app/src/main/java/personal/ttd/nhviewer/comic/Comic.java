@@ -24,7 +24,7 @@ public class Comic implements Parcelable {
     private int totalPage;
     private ArrayList<String> pages = new ArrayList<>();
     private String mid;
-    private String types;
+    private String pageTypes;
     private int seenPage;
 
     public Comic() {
@@ -37,7 +37,7 @@ public class Comic implements Parcelable {
         id = in.readString();
         mid = in.readString();
         pages = in.createStringArrayList();
-        types = in.readString();
+        pageTypes = in.readString();
         seenPage = in.readInt();
     }
 
@@ -49,7 +49,7 @@ public class Comic implements Parcelable {
         dest.writeString(id);
         dest.writeString(mid);
         dest.writeStringList(pages);
-        dest.writeString(types);
+        dest.writeString(pageTypes);
         dest.writeInt(seenPage);
     }
 
@@ -109,12 +109,12 @@ public class Comic implements Parcelable {
         this.mid = mid;
     }
 
-    public String getTypes() {
-        return types;
+    public String getPageTypes() {
+        return pageTypes;
     }
 
-    public void setTypes(String types) {
-        this.types = types;
+    public void setPageTypes(String pageTypes) {
+        this.pageTypes = pageTypes;
     }
 
     public int getSeenPage() {

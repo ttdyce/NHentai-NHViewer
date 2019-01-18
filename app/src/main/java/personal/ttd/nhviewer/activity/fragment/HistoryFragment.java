@@ -54,7 +54,7 @@ public class HistoryFragment extends DisplayComicFragment {
                 comic.setMid(mid);
                 comic.setTitle(title);
                 comic.setTotalPage(totalPage);
-                comic.setTypes(types.toString());
+                comic.setPageTypes(types.toString());
 //                comic.setSeenPage(seenPage);
                 comic.setPages(MyApi.Companion.getPages(mid, types.toString(), totalPage));
 
