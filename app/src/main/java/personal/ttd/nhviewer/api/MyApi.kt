@@ -105,7 +105,7 @@ class MyApi {
             c.totalPage = totalPage
             c.pageTypes = pageTypes
 
-            for (i in 1..totalPage-1){
+            for (i in 1..totalPage){
                 var imgSuffix = ".jpg"
 
                 when(c.pageTypes[i-1]){

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -236,6 +237,20 @@ public class MainFragment extends Fragment {
 
     }
 
+    public void addToCollection(Comic comicToCollect){
+        if (!Storage.isCollected(comicToCollect.getId())) {
+            Storage.addCollection(comicToCollect);
+            MyApi.Companion.addToCollection(getActivity(), comicToCollect);
+            //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
+
+            if (getView() != null)
+                Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
+        } else {
+            if (getView() != null)
+                Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int clickedItemPosition = item.getGroupId();
@@ -243,17 +258,7 @@ public class MainFragment extends Fragment {
 
         switch (item.getItemId()) {
             case 1://add to collection
-                if (!Storage.isCollected(c.getId())) {
-                    Storage.addCollection(c);
-                    MyApi.Companion.addToCollection(getActivity(), c);
-                    //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
-
-                    if (getView() != null)
-                        Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    if (getView() != null)
-                        Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
-                }
+                addToCollection(c);
 
                 break;
 
@@ -264,7 +269,7 @@ public class MainFragment extends Fragment {
             default:
                 break;
         }
-        // do something!
+
         return super.onContextItemSelected(item);
     }
 
@@ -324,6 +329,14 @@ public class MainFragment extends Fragment {
             });
             holder.cvComicItem.setLongClickable(true);
 
+            //set collect button
+            holder.ibCollect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addToCollection(c);
+                }
+            });
+
         }
 
         // Return the size of your dataset (invoked by the layout manager)
@@ -345,6 +358,7 @@ public class MainFragment extends Fragment {
             public CardView cvComicItem;
             public TextView tvTitle;
             public ImageView ivThumb;
+            public ImageButton ibCollect;
 
             public ViewHolder(View v) {
                 super(v);
@@ -353,6 +367,7 @@ public class MainFragment extends Fragment {
                 tvTitle = v.findViewById(R.id.tvTitle);
                 ivThumb = v.findViewById(R.id.ivThumb);
                 cvComicItem = v.findViewById(R.id.cvComicItem);
+                ibCollect = v.findViewById(R.id.ibCollect);
 
                 //
                 v.setOnCreateContextMenuListener(this);
