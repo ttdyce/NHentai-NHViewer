@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Volley.VolleyCallback;
-import personal.ttd.nhviewer.api.MyApi;
+import personal.ttd.nhviewer.api.NHTranlator;
 import personal.ttd.nhviewer.comic.Comic;
 import personal.ttd.nhviewer.glide.GlideApp;
 
@@ -60,7 +60,7 @@ public class InnerPageActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         //save this comic to history
-        MyApi.Companion.updateHistory(this, comicShowing, lastVisibleItemPosition);
+        NHTranlator.Companion.updateHistory(this, comicShowing, lastVisibleItemPosition);
         Log.i(TAG, "onStop: lastVisibleItemPosition: " + lastVisibleItemPosition);
 
         super.onStop();
@@ -72,7 +72,7 @@ public class InnerPageActivity extends AppCompatActivity {
         ///TODO seems nothing to do
         if (data != null && data.getParcelable("Comic") != null) {
             comicShowing = data.getParcelable("Comic");
-            comicShowing = MyApi.Companion.getComicByMid(comicShowing.getMid(), getApplicationContext());
+            comicShowing = NHTranlator.Companion.getComicByMid(comicShowing.getMid(), getApplicationContext());
         }
 
         VolleyCallback callback = new VolleyCallback() {
@@ -81,12 +81,12 @@ public class InnerPageActivity extends AppCompatActivity {
                 Comic c = comics.get(0);
                 comicShowing = c;
                 comicShowing.setId(comicid);
-                MyApi.Companion.addToHistory(getApplicationContext(), comicShowing, 0);
+                NHTranlator.Companion.addToHistory(getApplicationContext(), comicShowing, 0);
                 setupRecycleView();
             }
         };
 
-        MyApi.Companion.getComicById(comicid, getApplicationContext(), callback);
+        NHTranlator.Companion.getComicById(comicid, getApplicationContext(), callback);
         ///TODO disabled history function, comic id needed to be set
 
     }

@@ -22,11 +22,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import personal.ttd.nhviewer.R;
-import personal.ttd.nhviewer.activity.fragment.CollectionFragment;
-import personal.ttd.nhviewer.activity.fragment.DownloadFragment;
+import personal.ttd.nhviewer.activity.fragment.deprecated.CollectionFragment;
+import personal.ttd.nhviewer.activity.fragment.deprecated.DownloadFragment;
 import personal.ttd.nhviewer.activity.fragment.HistoryFragment;
-import personal.ttd.nhviewer.activity.fragment.PagerFragment;
-import personal.ttd.nhviewer.api.MyApi;
+import personal.ttd.nhviewer.activity.fragment.deprecated.PagerFragment;
 import personal.ttd.nhviewer.file.Storage;
 
 public class MainActivity extends AppCompatActivity{
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
 
         } else if (id == R.id.action_update) {
             Storage.updateDatabase(this);
-            //MyApi.Companion.updateFromJson(this);
+            //NHTranlator.Companion.updateFromJson(this);
         }
 
         return super.onOptionsItemSelected(item);

@@ -21,19 +21,21 @@ import personal.ttd.nhviewer.file.FeedReaderContract
 import personal.ttd.nhviewer.file.Storage
 import java.util.HashMap
 
-class MyApi {
+class NHTranlator {
     //static methods
     companion object {
-        private val baseUrl = "https://nhentai.net/language/chinese/"
-        private val comicBaseUrl = "https://nhentai.net/g/"
-        private val mediaBaseUrl = "https://i.nhentai.net/galleries/"//https://i.nhentai.net/galleries/1347646/1.jpg
+        val baseUrl = "https://nhentai.net/"
+        val baseUrlLanguage = "https://nhentai.net/language/"
+        val baseUrlChinese = "https://nhentai.net/language/chinese/"
+        val comicBaseUrl = "https://nhentai.net/g/"
+        val mediaBaseUrl = "https://i.nhentai.net/galleries/"//https://i.nhentai.net/galleries/1347646/1.jpg
         private val pagePrefix = "?page="
 
         fun getPages(mid:String, types:String, totalPage:Int):ArrayList<String>{
             val pages:ArrayList<String> = ArrayList()
 
             for(i in 1 until totalPage){
-                pages.add(NHapi.getPictureLinkByPage(mid, types[i].toString(), i))
+                pages.add(NHapi.getImageLinkByPage(mid, types[i].toString(), i))
             }
 
             return pages
@@ -144,7 +146,7 @@ class MyApi {
             return c
         }
 
-        //call get comics by document
+        //call get comicList by document
         fun getComicsBySite(baseUrl: String, page: String, context: Context, callback:VolleyCallback ){
 
 
@@ -159,7 +161,7 @@ class MyApi {
                         //Log.i(TAG, "onResponse: " + response);
                         doc = Jsoup.parse(response)
 
-                        //Log.e("nhcomicsize", "entering comics loop, comics size:" + comics.size)
+                        //Log.e("nhcomicsize", "entering comicList loop, comicList size:" + comicList.size)
                         comics.addAll(getComicsByDocument(doc))
                         callback.onResponse(comics)
                         ///TODO finding replacement for below 3 line
@@ -205,7 +207,7 @@ class MyApi {
                         //Log.i(TAG, "onResponse: " + response);
                         doc = Jsoup.parse(response)
 
-                        //Log.e("nhcomicsize", "entering comics loop, comics size:" + comics.size)
+                        //Log.e("nhcomicsize", "entering comicList loop, comicList size:" + comicList.size)
                         comics.add(getComicByDocument(doc))
                         callback.onResponse(comics)
                     }, //
@@ -230,6 +232,39 @@ class MyApi {
             queue.addRequestFinishedListener(RequestQueue.RequestFinishedListener<Any> {
                 Log.i(TAG, "onRequestFinished: Finished")
             })
+        }
+
+
+        fun getComicByMid(mid: String, applicationContext: Context): Comic {
+            return Comic();
+        }
+
+
+        /*
+        * putting everything needed into database
+        */
+        fun addToCollection(context: Context, c: Comic) {
+            Storage.insertTableCollection(context, c.id)
+            Storage.insertTableComic(context, c)
+            Storage.insertTableInnerPage(context, c)
+        }
+
+
+        /*
+        * History part
+        * */
+        fun addToHistory(context: Context, c: Comic, p: Int) {
+            Storage.insertTableHistory(context, c.id, p)
+
+        }
+
+        fun updateHistory(context: Context, c: Comic, p: Int) {
+            Storage.updateTableHistory(context, c.id, p)
+
+        }
+
+        fun getHistoryComicList(context: Context) : List<Comic>{
+            return Storage.getAllRows(context, FeedReaderContract.FeedEntry.TABLE_HISTORY, FeedReaderContract.FeedEntry.COLUMN_NAME_UPDATE_TIME)
         }
 
 
@@ -263,7 +298,7 @@ class MyApi {
                             //Log.i(TAG, String.format("onResponse: mid: %s, totalPage: %s, type: %s", mid, totalPage, type))
                             for (i in 1..totalPage) {
                                 type = response.getJSONObject("images").getJSONArray("pages").getJSONObject(i - 1).getString("t")
-                                comic.addPage(NHapi.getPictureLinkByPage(mid, type, i))
+                                comic.addPage(NHapi.getImageLinkByPage(mid, type, i))
                                 Log.i(TAG, String.format("onResponse: mid: %s, totalPage: %s, type: %s", mid, totalPage, type))
                             }
                         } catch (e: JSONException) {
@@ -288,50 +323,6 @@ class MyApi {
 
             }
         }
-        fun getComicByMid(mid: String, applicationContext: Context): Comic {
-            return Comic();
-        }
-
-
-        /*
-        * putting everything needed into database
-        */
-        fun addToCollection(context: Context, c: Comic) {
-            Storage.insertTableCollection(context, c.id)
-            Storage.insertTableComic(context, c)
-            Storage.insertTableInnerPage(context, c)
-        }
-
-
-        /*
-        * History part
-        * */
-        fun addToHistory(context: Context, c: Comic, p: Int) {
-            Storage.insertTableHistory(context, c.id, p)
-
-        }
-
-        fun updateHistory(context: Context, c: Comic, p: Int) {
-            Storage.updateTableHistory(context, c.id, p)
-
-        }
-
-        fun getHistory(context: Context) : List<Comic>{
-            return Storage.getAllRows(context, FeedReaderContract.FeedEntry.TABLE_HISTORY, FeedReaderContract.FeedEntry.COLUMN_NAME_UPDATE_TIME)
-        }
-
-        fun downloadComic(id: Int) {
-
-        }
-
-        //only for transfering data
-        fun updateFromJson(context: Context, id:Int) {
-            var c: Comic
-            c = Comic()
-
-            addToCollection(context, c)
-        }
-
 
     }
 }

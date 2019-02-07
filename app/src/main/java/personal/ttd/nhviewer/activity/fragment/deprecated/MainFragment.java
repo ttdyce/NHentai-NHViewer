@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.activity.fragment;
+package personal.ttd.nhviewer.activity.fragment.deprecated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,11 +28,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,7 @@ import java.util.Map;
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Volley.VolleyCallback;
 import personal.ttd.nhviewer.activity.InnerPageActivity;
-import personal.ttd.nhviewer.api.MyApi;
+import personal.ttd.nhviewer.api.NHTranlator;
 import personal.ttd.nhviewer.comic.Comic;
 import personal.ttd.nhviewer.file.Storage;
 import personal.ttd.nhviewer.glide.GlideApp;
@@ -128,10 +130,10 @@ public class MainFragment extends Fragment {
 
         comicsAdapter = new ComicsAdapter();
 
-        //setComics(baseUrl, page, comicsAdapter);
+        //setComics(baseUrlChinese, page, comicsAdapter);
 
         //use api to get main page
-        //comicsAdapter.addComic(MyApi.Companion.getMainPageComics(page));
+        //comicsAdapter.addComic(NHTranlator.Companion.getMainPageComics(page));
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 3);
 
@@ -142,7 +144,7 @@ public class MainFragment extends Fragment {
         mRecyclerView.addOnScrollListener(getEndlessScrollListener(comicsAdapter));
         registerForContextMenu(mRecyclerView);
 
-        MyApi.Companion.getComicsBySite(baseUrl, String.valueOf(page), mContext, addComicsCallback);
+        NHTranlator.Companion.getComicsBySite(baseUrl, String.valueOf(page), mContext, addComicsCallback);
     }
 
     private RecyclerView.OnScrollListener getEndlessScrollListener(final ComicsAdapter mAdapter) {
@@ -239,8 +241,12 @@ public class MainFragment extends Fragment {
 
     public void addToCollection(Comic comicToCollect){
         if (!Storage.isCollected(comicToCollect.getId())) {
-            Storage.addCollection(comicToCollect);
-            MyApi.Companion.addToCollection(getActivity(), comicToCollect);
+            try {
+                Storage.addCollection(comicToCollect);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            NHTranlator.Companion.addToCollection(requireActivity(), comicToCollect);
             //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
 
             if (getView() != null)

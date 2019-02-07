@@ -38,7 +38,7 @@ public class NHapi {
 
 
     @SuppressLint("DefaultLocale")
-    public static String getPictureLinkByPage(String mid, String t, int i) {
+    public static String getImageLinkByPage(String mid, String t, int i) {
         String pageLink;
 
         String type = "png";

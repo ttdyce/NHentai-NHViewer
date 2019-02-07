@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.activity.fragment;
+package personal.ttd.nhviewer.activity.fragment.deprecated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,13 +11,16 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import personal.ttd.nhviewer.R;
+import personal.ttd.nhviewer.activity.fragment.FavoriteFragment;
+import personal.ttd.nhviewer.activity.fragment.HomeFragment;
+import personal.ttd.nhviewer.activity.fragment.deprecated.CollectionFragment;
+import personal.ttd.nhviewer.activity.fragment.deprecated.MainFragment;
 
 public class PagerFragment extends Fragment {
 
@@ -98,11 +101,6 @@ public class PagerFragment extends Fragment {
         });
     }
 
-
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -112,13 +110,12 @@ public class PagerFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new MainFragment();
+                    return new HomeFragment();
                 case 1:
-                    return new CollectionFragment();
-
-                default:
-                    return new MainFragment();
+                    return new FavoriteFragment();
             }
+            return new HomeFragment();
+
         }
 
         @Override

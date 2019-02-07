@@ -37,39 +37,28 @@ public class Storage {
      * Start of old json methods
      *
      * */
-    public static void addCollection(Comic c) {
+    public static void addCollection(Comic c) throws IOException, JSONException {
+        JSONArray arr = getCollectionsJSON();
 
-        try {
+        if (arr.toString().isEmpty())
+            arr = new JSONArray();
 
-            String jsonFile = getCollections();
-            JSONArray arr;
-            FileWriter writer = new FileWriter(getCollectionsFile());
+        FileWriter writer = new FileWriter(getCollectionsFile());
 
-            JSONObject obj = new JSONObject();
-            obj.put("id", c.getId());
-            obj.put("title", c.getTitle());
-            obj.put("thumblink", c.getThumbLink());
+        JSONObject obj = new JSONObject();
+        obj.put("id", c.getId());
+        obj.put("title", c.getTitle());
+        obj.put("thumblink", c.getThumbLink());
 
-            Log.i("jsonFile", "jsonFile: " + jsonFile);
 
-            if (!jsonFile.isEmpty())
-                arr = new JSONArray(jsonFile);
-            else
-                arr = new JSONArray();
+        arr.put(obj);
+        writer.write(arr.toString());
 
-            arr.put(obj);
-            writer.write(arr.toString());
-
-            writer.flush();
-            writer.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
+        writer.flush();
+        writer.close();
     }
 
-    public static String getCollections() throws IOException {
+    public static JSONArray getCollectionsJSON() throws IOException, JSONException {
         File file = getCollectionsFile();
         FileInputStream inputStream = new FileInputStream(file);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -90,14 +79,14 @@ public class Storage {
         inputStream.close();
         inputStreamReader.close();
 
-        return stringBuilder.toString();
+        return new JSONArray(stringBuilder.toString());
 
     }
 
     public static boolean removeCollection(int pos) {
         JSONArray arr;
         try {
-            arr = new JSONArray(getCollections());
+            arr = new JSONArray(getCollectionsJSON());
             //using reversed order
 
             JSONObject removed = (JSONObject) arr.remove(arr.length() - pos - 1);
@@ -116,7 +105,7 @@ public class Storage {
         JSONArray arr;
 
         try {
-            arr = new JSONArray(getCollections());
+            arr = new JSONArray(getCollectionsJSON());
             for (int i = 0; i < arr.length(); i++) {
                 if (arr.getJSONObject(i).getString("id").equals(id))
                     return true;
@@ -280,7 +269,7 @@ public class Storage {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SEENPAGE, p);
-        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_UPDATE_TIME,dateFormat.format(date));
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_UPDATE_TIME, dateFormat.format(date));
 
         // Insert the new row, returning the primary key value of the new row
         int updateReturn = db.update(FeedReaderContract.FeedEntry.TABLE_HISTORY, values, whereCause, null);
@@ -334,7 +323,7 @@ public class Storage {
             c.setTitle(date);
 
             comics.add(c);
-            Log.i(TAG, "Done comics.add(c);, date = " + date);
+            Log.i(TAG, "Done comicList.add(c);, date = " + date);
         }
         cursor.close();
 
@@ -357,10 +346,8 @@ public class Storage {
 
     public static void updateDatabase(Context context) {
         try {
-            String jsonFile = getCollections();
-            JSONArray arr;
+            JSONArray arr= getCollectionsJSON();
 
-            arr = new JSONArray(jsonFile);
             JSONObject obj;
 
             for (int i = 0; i < arr.length(); i++) {
@@ -411,7 +398,7 @@ public class Storage {
             c.setSeenPage(seenPage);
 
             comics.add(c);
-            Log.i(TAG, "Done comics.add(c);, seenPage = " + seenPage);
+            Log.i(TAG, "Done comicList.add(c);, seenPage = " + seenPage);
         }
         cursor.close();
 

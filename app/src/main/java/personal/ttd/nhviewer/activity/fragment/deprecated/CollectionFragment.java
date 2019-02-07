@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.activity.fragment;
+package personal.ttd.nhviewer.activity.fragment.deprecated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -176,7 +176,7 @@ public class CollectionFragment extends Fragment {
         //((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Collection");
         setProgressBar();
         setRefreshLayout();
-        getCollections();//set this.comics
+        getCollections();//set this.comicList
         setRecycleView();
     }
 
@@ -257,7 +257,7 @@ public class CollectionFragment extends Fragment {
         JSONArray arr = null;
 
         try {
-            arr = new JSONArray(Storage.getCollections());
+            arr = new JSONArray(Storage.getCollectionsJSON());
             for (int i = 0; i < arr.length(); i++) {
                 Comic c = new Comic();
                 JSONObject obj;
@@ -267,7 +267,7 @@ public class CollectionFragment extends Fragment {
                     c.setThumbLink(obj.getString("thumblink"));
                     c.setId(obj.getString("id"));
                     c.setMid(c.getThumbLink().split("/")[c.getThumbLink().split("/").length-2]);
-                    //Log.i(TAG, "getCollections: mid: " + c.getThumbLink().split("/")[c.getThumbLink().split("/").length-2]);
+                    //Log.i(TAG, "getCollectionsJSON: mid: " + c.getThumbLink().split("/")[c.getThumbLink().split("/").length-2]);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -278,7 +278,7 @@ public class CollectionFragment extends Fragment {
             e.printStackTrace();
         }
 
-        Log.i("arr", "getCollections: arr: " + arr);
+        Log.i("arr", "getCollectionsJSON: arr: " + arr);
 
 
         mySwipeRefreshLayout.setRefreshing(false);
@@ -292,9 +292,9 @@ public class CollectionFragment extends Fragment {
     at page 1: we need (1-1)*20 = 0
     at page 2: we need (2-1)*20 = 20
 
-    Ending index:   (startIndex + PAGELIMIT > this.comics.size()) ? this.comics.size() : startIndex + PAGELIMIT;
-    at page 1: we need comics.size()-1, OR  1 + 20 = 21
-    at page 1: we need comics.size()-1, OR  21 + 20 = 41
+    Ending index:   (startIndex + PAGELIMIT > this.comicList.size()) ? this.comicList.size() : startIndex + PAGELIMIT;
+    at page 1: we need comicList.size()-1, OR  1 + 20 = 21
+    at page 1: we need comicList.size()-1, OR  21 + 20 = 41
      */
     private ArrayList<Comic> getCollectionsByPage(int p) {
         int startIndex, endIndex;

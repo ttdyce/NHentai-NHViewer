@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.activity.fragment;
+package personal.ttd.nhviewer.activity.fragment.deprecated;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
 
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.activity.InnerPageActivity;
-import personal.ttd.nhviewer.api.MyApi;
+import personal.ttd.nhviewer.api.NHTranlator;
 import personal.ttd.nhviewer.comic.Comic;
 
 public abstract class DisplayComicFragment extends android.support.v4.app.Fragment {
@@ -51,7 +51,7 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.content_display_comic, container, false);
+        return inflater.inflate(R.layout.content_comic_list, container, false);
     }
 
     @Override
@@ -59,7 +59,7 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
         //((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("Collection");
         //setProgressBar();
         setRefreshLayout();
-        //this.comicsToDisplay = getFreshComicToDisplay();
+        //this.comicList = setComicList();
         getFreshComicToDisplay();
     }
 
@@ -146,9 +146,9 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
     at page 1: we need (1-1)*20 = 0
     at page 2: we need (2-1)*20 = 20
 
-    Ending index:   (startIndex + PAGELIMIT > this.comicsToDisplay.size()) ? this.comicsToDisplay.size() : startIndex + PAGELIMIT;
-    at page 1: we need comicsToDisplay.size()-1, OR  1 + 20 = 21
-    at page 1: we need comicsToDisplay.size()-1, OR  21 + 20 = 41
+    Ending index:   (startIndex + PAGELIMIT > this.comicList.size()) ? this.comicList.size() : startIndex + PAGELIMIT;
+    at page 1: we need comicList.size()-1, OR  1 + 20 = 21
+    at page 1: we need comicList.size()-1, OR  21 + 20 = 41
      */
     private ArrayList<Comic> getComicsToDisplayByPage(int p) {
         int startIndex, endIndex;
@@ -209,7 +209,7 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
             // - replace the contents of the view with that element
             final Comic c = mDataset.get(position);
             String thumbLink;
-            thumbLink = MyApi.Companion.getThumbLink(c.getMid(), c.getPageTypes());/*TODO perhaps types[0] == thumb's format*/
+            thumbLink = NHTranlator.Companion.getThumbLink(c.getMid(), c.getPageTypes());/*TODO perhaps types[0] == thumb's format*/
 
             //Log.i(TAG, "onBindViewHolder: position: " + position + c.getTitle());
             holder.tvTitle.setText(c.getTitle());

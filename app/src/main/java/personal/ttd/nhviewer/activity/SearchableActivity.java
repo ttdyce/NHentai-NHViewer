@@ -23,13 +23,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import personal.ttd.nhviewer.DebugTag;
 import personal.ttd.nhviewer.R;
-import personal.ttd.nhviewer.activity.fragment.MainFragment;
+import personal.ttd.nhviewer.activity.fragment.deprecated.MainFragment;
 import personal.ttd.nhviewer.api.NHapi;
 import personal.ttd.nhviewer.comic.Comic;
 import personal.ttd.nhviewer.file.Storage;
@@ -196,7 +197,11 @@ public class SearchableActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case 1://add to collection
-                Storage.addCollection(c);
+                try {
+                    Storage.addCollection(c);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
                 Snackbar.make(findViewById(android.R.id.content), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
                 break;
 
