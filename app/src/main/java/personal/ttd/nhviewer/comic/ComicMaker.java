@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import personal.ttd.nhviewer.Saver.Saver;
+import personal.ttd.nhviewer.Saver.SaverMaker;
 import personal.ttd.nhviewer.Volley.VolleyCallback;
 import personal.ttd.nhviewer.api.NHTranlator;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 
 public class ComicMaker {
 
@@ -46,12 +48,18 @@ public class ComicMaker {
     }
 
     public static void getComicListFavorite(VolleyCallback comicListReturnCallback) throws JSONException, IOException {
-        JSONArray jsonArray = Storage.getCollectionsJSON();
+        Saver saver = SaverMaker.getDefaultSaver();
+        Collection favorite = saver.getFavorite();
 
-        ArrayList<Comic> comics = getComicListByJSONArray(jsonArray);
-        Collections.reverse(comics);
+        comicListReturnCallback.onResponse(favorite.comicList);
+    }
 
-        comicListReturnCallback.onResponse(comics);
+    ///default language = chinese
+    public static void getComicListQuery(String query, int page, Context context, VolleyCallback comicListReturnCallback) {
+        String queryChinese= query + " chinese";
+        String url = NHTranlator.Companion.getSearchBaseUrl() + queryChinese;
+
+        NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
     }
 
     ///default language = chinese
@@ -86,9 +94,9 @@ public class ComicMaker {
     public static Comic getComicByJSONObject(JSONObject jsonObject) throws JSONException {
         Comic c = new Comic();
 
-        c.setTitle(jsonObject.getString("title"));
-        c.setThumbLink(jsonObject.getString("thumblink"));
-        c.setId(jsonObject.getString("id"));
+        c.setTitle(jsonObject.getString(Collection.COLUMN_TITLE));
+        c.setThumbLink(jsonObject.getString(Collection.COLUMN_THUMB_LINK));
+        c.setId(jsonObject.getString(Collection.COLUMN_ID));
         c.setMid(c.getThumbLink().split("/")[c.getThumbLink().split("/").length - 2]);
 
         return c;

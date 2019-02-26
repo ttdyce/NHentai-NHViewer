@@ -26,7 +26,7 @@ import personal.ttd.nhviewer.activity.fragment.deprecated.CollectionFragment;
 import personal.ttd.nhviewer.activity.fragment.deprecated.DownloadFragment;
 import personal.ttd.nhviewer.activity.fragment.HistoryFragment;
 import personal.ttd.nhviewer.activity.fragment.deprecated.PagerFragment;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 
 public class MainActivity extends AppCompatActivity{
 

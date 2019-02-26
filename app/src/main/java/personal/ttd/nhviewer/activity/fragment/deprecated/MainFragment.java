@@ -44,7 +44,7 @@ import personal.ttd.nhviewer.Volley.VolleyCallback;
 import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.api.NHTranlator;
 import personal.ttd.nhviewer.comic.Comic;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 import personal.ttd.nhviewer.glide.GlideApp;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;

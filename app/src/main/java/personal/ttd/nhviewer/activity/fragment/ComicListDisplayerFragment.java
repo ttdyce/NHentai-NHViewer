@@ -20,11 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import personal.ttd.nhviewer.R;
+import personal.ttd.nhviewer.Saver.Saver;
+import personal.ttd.nhviewer.Saver.SaverMaker;
 import personal.ttd.nhviewer.Volley.VolleyCallback;
 import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.api.NHTranlator;
 import personal.ttd.nhviewer.comic.Comic;
-import personal.ttd.nhviewer.file.Storage;
 import personal.ttd.nhviewer.glide.GlideApp;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
@@ -34,11 +35,12 @@ public abstract class ComicListDisplayerFragment extends android.support.v4.app.
     private final String TAG = "ComicListDisplayer";
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected ComicListDisplayerFragment.ComicListDisplayerAdapter adapter;
-    //provided for child class
+    //provided for child class to update comics
     protected VolleyCallback comicListReturnCallback = new VolleyCallback() {
         @Override
         public void onResponse(ArrayList<Comic> comics) {
-            adapter.setComics(comics);
+            if(comics != null)
+                adapter.setComics(comics);
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -115,21 +117,22 @@ public abstract class ComicListDisplayerFragment extends android.support.v4.app.
         };
     }
 
-    public void addToCollection(Comic comicToCollect) {
-        if (!Storage.isCollected(comicToCollect.getId())) {
-            try {
-                Storage.addCollection(comicToCollect);
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            NHTranlator.Companion.addToCollection(requireActivity(), comicToCollect);
+    public void addToFavorite(Comic comicToCollect) {
+        boolean added = false;
+        Saver saver = SaverMaker.getDefaultSaver();
+
+        if (!saver.isCollected(comicToCollect.getId())) {
+            added = saver.addFavorite(comicToCollect);
+
+            //NHTranlator.Companion.addToCollection(requireActivity(), comicToCollect);
             //Storage.insertTableCollection(c.getId(), c.getTitle(), c.getThumbLink());
 
-            if (getView() != null)
+            if(added)
                 Snackbar.make(getView(), "Successfully saved to collection", Snackbar.LENGTH_SHORT).show();
+            else
+                Snackbar.make(getView(), "Error while adding", Snackbar.LENGTH_SHORT).show();
         } else {
-            if (getView() != null)
-                Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), "Already existed in collection", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -181,7 +184,7 @@ public abstract class ComicListDisplayerFragment extends android.support.v4.app.
             holder.ibCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addToCollection(c);
+                    collectButtonOnClick(c, position);
                 }
             });
         }
@@ -219,6 +222,10 @@ public abstract class ComicListDisplayerFragment extends android.support.v4.app.
         }
 
 
+    }
+
+    protected void collectButtonOnClick(Comic c, int position){
+        addToFavorite(c);
     }
 
 }

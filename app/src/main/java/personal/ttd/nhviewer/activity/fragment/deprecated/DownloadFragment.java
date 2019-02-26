@@ -2,7 +2,6 @@ package personal.ttd.nhviewer.activity.fragment.deprecated;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -25,7 +22,7 @@ import java.util.Map;
 
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.comic.Comic;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 
 public class DownloadFragment extends Fragment {
 

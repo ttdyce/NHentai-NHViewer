@@ -35,7 +35,7 @@ import java.util.Collections;
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.activity.InnerPageActivity;
 import personal.ttd.nhviewer.comic.Comic;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 
 public class CollectionFragment extends Fragment {
     //Data adapter

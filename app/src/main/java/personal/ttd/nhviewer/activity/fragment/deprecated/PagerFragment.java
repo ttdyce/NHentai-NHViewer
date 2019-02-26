@@ -84,10 +84,10 @@ public class PagerFragment extends Fragment {
                 //setTitle text
                 switch (position) {
                     case 0:
-                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("Main");
+                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("Chinese");
                         break;
                     case 1:
-                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("Collection");
+                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("Favorite");
                 }
             }
 

@@ -1,10 +1,10 @@
-package personal.ttd.nhviewer.file.AsyncTask;
+package personal.ttd.nhviewer.Saver.file.AsyncTask;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import personal.ttd.nhviewer.comic.Comic;
-import personal.ttd.nhviewer.file.Storage;
+import personal.ttd.nhviewer.Saver.file.Storage;
 
 public class SaveImageTask extends AsyncTask<Integer, Integer, Integer> {
     private Bitmap bmp;

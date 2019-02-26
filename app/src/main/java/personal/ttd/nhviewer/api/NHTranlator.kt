@@ -17,8 +17,8 @@ import personal.ttd.nhviewer.DebugTag.TAG
 import personal.ttd.nhviewer.Volley.VolleyCallback
 import personal.ttd.nhviewer.api.NHapi.userAgent
 import personal.ttd.nhviewer.comic.Comic
-import personal.ttd.nhviewer.file.FeedReaderContract
-import personal.ttd.nhviewer.file.Storage
+import personal.ttd.nhviewer.Saver.file.FeedReaderContract
+import personal.ttd.nhviewer.Saver.file.Storage
 import java.util.HashMap
 
 class NHTranlator {
@@ -29,7 +29,9 @@ class NHTranlator {
         val baseUrlChinese = "https://nhentai.net/language/chinese/"
         val comicBaseUrl = "https://nhentai.net/g/"
         val mediaBaseUrl = "https://i.nhentai.net/galleries/"//https://i.nhentai.net/galleries/1347646/1.jpg
+        val searchBaseUrl = "https://nhentai.net/search/?q="//add &sort=popular for sorting
         private val pagePrefix = "?page="
+        private val pagePrefixSearch = "&page="
 
         fun getPages(mid:String, types:String, totalPage:Int):ArrayList<String>{
             val pages:ArrayList<String> = ArrayList()
@@ -149,25 +151,25 @@ class NHTranlator {
         //call get comicList by document
         fun getComicsBySite(baseUrl: String, page: String, context: Context, callback:VolleyCallback ){
 
+            val prefix:String
 
             val queue = Volley.newRequestQueue(context)
             var doc : Document
             val comics = ArrayList<Comic>()
 
+            if(baseUrl.contains(searchBaseUrl))
+                prefix = pagePrefixSearch
+            else
+                prefix = pagePrefix
+
             val documentRequest = object : StringRequest( //
                     Request.Method.GET, //
-                    baseUrl + pagePrefix + page, //
+                    baseUrl + prefix + page, //
                     { response ->
-                        //Log.i(TAG, "onResponse: " + response);
                         doc = Jsoup.parse(response)
 
-                        //Log.e("nhcomicsize", "entering comicList loop, comicList size:" + comicList.size)
                         comics.addAll(getComicsByDocument(doc))
                         callback.onResponse(comics)
-                        ///TODO finding replacement for below 3 line
-//                        adapter.addComic(getComics(doc[0]))
-//                        mySwipeRefreshLayout.setRefreshing(false)
-//                        adapter.notifyDataSetChanged()
                     }, //
                     { error ->
                         // Error handling
