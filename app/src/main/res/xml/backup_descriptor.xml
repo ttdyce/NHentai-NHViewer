@@ -2,4 +2,6 @@
 <full-backup-content>
     <!-- Exclude specific shared preferences that contain GCM registration Id -->
     <include domain="database" path="nhcollection.db"/>
+    <include domain="sharedpref" path="."/>
+
 </full-backup-content>

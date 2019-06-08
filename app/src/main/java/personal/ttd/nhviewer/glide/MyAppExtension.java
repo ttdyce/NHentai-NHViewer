@@ -26,7 +26,10 @@ public class MyAppExtension {
         return options
                 .placeholder(R.color.cardview_dark_background)
                 .format(PREFER_ARGB_8888)
-                .dontTransform();
+                .dontTransform()
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // cache image after loaded for first time
+
+                ;
     }
 
 }

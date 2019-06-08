@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_search"
         android:orderInCategory="200"
@@ -14,9 +10,28 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/select_sort_way"
+        android:id="@+id/action_jumpToPage"
+        android:orderInCategory="200"
+        android:title="Jump to page"
+        android:icon="@drawable/ic_jump_to_page_black_24dp"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        android:id="@+id/action_backup"
         android:orderInCategory="100"
-        android:title="@string/sort"
+        android:title="Backup to pc"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_reverse"
+        android:orderInCategory="100"
+        android:title="Reverse comic"
         app:showAsAction="never"
         />
     <item

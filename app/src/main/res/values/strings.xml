@@ -110,10 +110,12 @@
     <string name="tips_no_result">No Results.</string>
     <string name="tips_no_more_results">This is the last page.</string>
 
-    <!-- Category -->
-    <string-array name="category_tabs_title">
-        <item>Latest</item>
-        <item>Popular</item>
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>All</item>
+        <item>Chinese</item>
+        <item>English</item>
+        <item>Japanese</item>
     </string-array>
 
     <!-- Settings -->
@@ -196,4 +198,5 @@
     <string name="sort">Sort</string>
     <string name="search_here">Search Here</string>
     <string name="check_database">check database</string>
+    <string name="default_collection">default_collection</string>
 </resources>
