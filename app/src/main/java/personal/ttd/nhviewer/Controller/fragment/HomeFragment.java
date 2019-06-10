@@ -47,7 +47,7 @@ public class HomeFragment extends ComicListFragment{
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String storedLanguage = pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, languageNotSet);
 
-        if(storedLanguage.equals("All")){
+        if(storedLanguage.equals(languageNotSet)){
             //pop up dialog for setting default language
             String[] languageArray = getResources().getStringArray(R.array.languages);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(

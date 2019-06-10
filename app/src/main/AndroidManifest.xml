@@ -19,7 +19,7 @@
         <activity
             android:name=".Controller.MainActivity"
             android:exported="true"
-            android:label="NHViewer"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/MainTheme"
             >

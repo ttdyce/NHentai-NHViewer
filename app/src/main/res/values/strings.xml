@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">NHBooks</string>
+    <string name="app_name">NHViewer</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="action_next_page">Load next page</string>
