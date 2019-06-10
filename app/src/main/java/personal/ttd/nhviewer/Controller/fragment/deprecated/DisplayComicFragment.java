@@ -198,7 +198,7 @@ public abstract class DisplayComicFragment extends android.support.v4.app.Fragme
                                                                  int viewType) {
             // create a new view
             View v = (View) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.comics_item, parent, false);
+                    .inflate(R.layout.item_comics, parent, false);
             return new DisplayComicAdapter.ViewHolder(v);
         }
 

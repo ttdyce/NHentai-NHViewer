@@ -60,7 +60,7 @@ public class CollectionFragment extends Fragment {
                                                                 int viewType) {
             // create a new view
             View v = (View) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.comics_item, parent, false);
+                    .inflate(R.layout.item_comics, parent, false);
             return new CollectionsAdapter.ViewHolder(v);
         }
 

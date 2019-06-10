@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,13 +49,18 @@ public abstract class ComicListFragment extends BaseListFragment {
     }
 
     public void addCollection(Comic comicSelected, int collectionid) {
-        boolean added = false,
-                collected = false;
+        boolean added = false, collected = false;
         String collectionName = Collection.NAME_LIST.get(collectionid);
-        Snackbar snackbarAdded = Snackbar.make(baseListRoot, String.format("Added to %s", collectionName), Snackbar.LENGTH_SHORT);
-        Snackbar snackbarError = Snackbar.make(baseListRoot, "Error, comic is not added", Snackbar.LENGTH_SHORT);
-        Snackbar snackbarExist = Snackbar.make(baseListRoot, String.format("Already existed in %s", collectionName), Snackbar.LENGTH_SHORT);
+
+        Spanned addedText = Html.fromHtml(String.format("Added to <font color=\"#ffff00\">%s</font>", collectionName));
+        Spanned errorText = Html.fromHtml("<font color=\"#d50000\">Error</font>, comic is not added");
+        Spanned existText = Html.fromHtml(String.format("Already existed in <font color=\"#ffff00\">%s</font>", collectionName));
+
+        Snackbar snackbarAdded = Snackbar.make(getView(), addedText, Snackbar.LENGTH_SHORT);
+        Snackbar snackbarError = Snackbar.make(getView(), errorText, Snackbar.LENGTH_SHORT);
+        Snackbar snackbarExist = Snackbar.make(getView(), existText, Snackbar.LENGTH_SHORT);
         snackbarAdded.setAction("change", v -> {
+            // TODO: 6/10/2019 Allow pop up menu for changing collect location
             //Log.e(TAG, "addCollection: change clicked");
         });
         snackbarExist.setAction("uncollect", v -> uncollect(collectionid, comicSelected));
@@ -148,7 +155,7 @@ public abstract class ComicListFragment extends BaseListFragment {
 
         @Override
         protected int getListItemLayout() {
-            return R.layout.comic_list_item;
+            return R.layout.list_item_comic;
         }
 
         @Override

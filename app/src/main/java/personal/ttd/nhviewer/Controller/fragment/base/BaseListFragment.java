@@ -41,7 +41,6 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected BaseListAdapter adapter;
     protected SharedPreferences sharedPref;
     protected RecyclerView rvDisplayComic;
-    protected CoordinatorLayout baseListRoot;
     private int currentPage = 1;
     private boolean isSelectionMode = false;
     private boolean isLastPage = false;
@@ -57,7 +56,8 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
 
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
+            if(((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
         }
     };
 
@@ -81,13 +81,12 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        baseListRoot = getView().findViewById(R.id.baseListRoot);
-        rvDisplayComic = getView().findViewById(R.id.rvBaseList);
+        rvDisplayComic = view.findViewById(R.id.rvBaseList);
 
-        setSwipeRefreshLayout();
+        setSwipeRefreshLayout(view);
         setRecycleView();
         setList(currentPage);
-        setFab(view);
+        setFab();
     }
 
     @Override
@@ -100,8 +99,10 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser && getActivity() != null)
+        if (isVisibleToUser && getActivity() != null){
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
+            setFab();
+        }
 
         if (!isVisibleToUser)
             resetMode();
@@ -154,13 +155,16 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         selectMenu(menu);
     }
 
-    protected void setFab(View v) {
-        FloatingActionButton fab = v.findViewById(R.id.fabBaseList);
+    protected void setFab() {
+        FloatingActionButton fab = getActivity().findViewById(R.id.fabBaseList);
 
-        if (getIsFabVisible())
+        if (getIsFabVisible()){
+            fab.show();
             fab.setOnClickListener(getFabOnClickListener());
-        else
+        }
+        else{
             fab.hide();
+        }
 
     }
 
@@ -208,7 +212,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         final EditText input = new EditText(requireContext());
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         builder.setTitle("Jump to page...");
         builder.setView(input);
@@ -238,8 +242,8 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
 
     }
 
-    private void setSwipeRefreshLayout() {
-        swipeRefreshLayout = getView().findViewById(R.id.srBaseList);
+    private void setSwipeRefreshLayout(View v) {
+        swipeRefreshLayout = v.findViewById(R.id.srBaseList);
 
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
@@ -284,7 +288,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         }
 
         protected int getListItemLayout() {
-            return R.layout.base_list_item;
+            return R.layout.list_item_base;
         }
 
         @Override

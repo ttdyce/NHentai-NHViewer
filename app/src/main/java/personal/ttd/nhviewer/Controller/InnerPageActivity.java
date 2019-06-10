@@ -25,9 +25,7 @@ import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.bumptech.glide.util.FixedPreloadSizeProvider;
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -187,7 +185,7 @@ public class InnerPageActivity extends AppCompatActivity {
         public ComicDisplayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             // create a new view
             View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.comic_item, parent, false);
+                    .inflate(R.layout.item_comic, parent, false);
 
 
             return new ComicDisplayAdapter.ViewHolder(v);
