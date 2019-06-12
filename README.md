@@ -31,7 +31,7 @@ Build and run the project inside Android Studio.
 
 * [SemVer](http://semver.org/)
 
-For the versions available, see the [tags on this repository](https://github.com/your/project/tags)
+For the versions available, see the [tags on this repository](https://github.com/ttdyce/nhviewer/tags)
 
 ## Authors
 
