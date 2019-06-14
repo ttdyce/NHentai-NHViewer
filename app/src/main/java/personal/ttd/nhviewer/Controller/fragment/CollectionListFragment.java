@@ -52,7 +52,7 @@ public class CollectionListFragment extends BaseListFragment {
     }
 
     @Override
-    protected boolean getIsFabVisible() {
+    protected boolean getIsUsingFab() {
         return true;
     }
 

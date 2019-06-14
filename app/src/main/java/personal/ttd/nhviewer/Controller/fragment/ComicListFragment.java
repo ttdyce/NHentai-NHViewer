@@ -44,7 +44,7 @@ public abstract class ComicListFragment extends BaseListFragment {
 
 
     @Override
-    protected boolean getIsFabVisible() {
+    protected boolean getIsUsingFab() {
         return false;
     }
 

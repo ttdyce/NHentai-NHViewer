@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -41,6 +40,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected BaseListAdapter adapter;
     protected SharedPreferences sharedPref;
     protected RecyclerView rvDisplayComic;
+    protected FloatingActionButton fab;
     private int currentPage = 1;
     private boolean isSelectionMode = false;
     private boolean isLastPage = false;
@@ -56,7 +56,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
 
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
-            if(((AppCompatActivity) getActivity()).getSupportActionBar() != null)
+            if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
         }
     };
@@ -93,13 +93,24 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     public void onPause() {
         super.onPause();
         resetMode();
+
+        if(getIsUsingFab())
+            fab.hide();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getIsUsingFab())
+            fab.show();
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser && getActivity() != null){
+        if (isVisibleToUser && getActivity() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
             setFab();
         }
@@ -141,7 +152,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected abstract boolean getCanDelete();
 
     //o : type of getDataset<T>()
-    protected void remove(Object o){/*Override if canDelete return true*/}
+    protected void remove(Object o) {/*Override if canDelete return true*/}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -156,15 +167,12 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     }
 
     protected void setFab() {
-        FloatingActionButton fab = getActivity().findViewById(R.id.fabBaseList);
+        if (!getIsUsingFab())
+            return;
 
-        if (getIsFabVisible()){
-            fab.show();
-            fab.setOnClickListener(getFabOnClickListener());
-        }
-        else{
-            fab.hide();
-        }
+        fab = getActivity().findViewById(R.id.fabBaseList);
+        fab.show();
+        fab.setOnClickListener(getFabOnClickListener());
 
     }
 
@@ -178,7 +186,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         isLastPage = value;
     }
 
-    protected abstract boolean getIsFabVisible();
+    protected abstract boolean getIsUsingFab();
 
     protected View.OnClickListener getFabOnClickListener() {
         return null;
