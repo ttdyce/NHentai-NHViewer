@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.Controller.fragment;
+package personal.ttd.nhviewer.Controller.fragment.base;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import personal.ttd.nhviewer.Controller.fragment.SettingFragment;
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Controller.InnerPageActivity;
 import personal.ttd.nhviewer.Controller.fragment.base.BaseListFragment;
@@ -116,6 +117,15 @@ public abstract class ComicListFragment extends BaseListFragment {
 
     }
 
+    protected void onClickFavorite(Comic c) {
+        addCollection(c, Collection.FAVARITE_ID);
+    }
+
+    protected void onClickCollect(Comic c) {
+        int collectionid = Integer.parseInt(sharedPref.getString(SettingFragment.KEY_PREF_DEFAULT_COLLECTION_ID, "-1"));
+        addCollection(c, collectionid);
+    }
+
     //Data adapter
     private class ComicListAdapter extends BaseListAdapter {
         ArrayList<Comic> comics = new ArrayList<>();
@@ -139,7 +149,7 @@ public abstract class ComicListFragment extends BaseListFragment {
             comicListHolder.ibFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addCollection(c, Collection.FAVARITE_ID);
+                    onClickFavorite(c);
                 }
             });
 
@@ -147,8 +157,7 @@ public abstract class ComicListFragment extends BaseListFragment {
             comicListHolder.ibCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int collectionid = Integer.parseInt(sharedPref.getString(SettingFragment.KEY_PREF_DEFAULT_COLLECTION_ID, "-1"));
-                    addCollection(c, collectionid);
+                    onClickCollect(c);
                 }
             });
         }
@@ -208,7 +217,6 @@ public abstract class ComicListFragment extends BaseListFragment {
         public void reverse() {
             Collections.reverse(comics);
         }
-
 
         class ComicListViewHolder extends BaseListViewHolder {
             ImageButton ibFavorite;

@@ -48,13 +48,20 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
     protected ListReturnCallBack listReturnCallback = new ListReturnCallBack() {
         @Override
         public void onResponse(ArrayList list) {
-            if (list != null)
-                if (list.size() != 0)
-                    adapter.addList(list);
-                else
-                    setIsLastPage(true);
+            int originalSize = adapter.getDataList().size();
 
-            adapter.notifyDataSetChanged();
+            if (list != null)
+                if (list.size() != 0) {
+                    adapter.addList(list);
+
+                    if (originalSize != 0)
+                        adapter.notifyItemRangeInserted(originalSize, list.size());
+                    else
+                        adapter.notifyDataSetChanged();
+                } else {
+                    setIsLastPage(true);
+                }
+
             swipeRefreshLayout.setRefreshing(false);
             if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(getActionBarTitle());
@@ -94,15 +101,16 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         super.onPause();
         resetMode();
 
-        if(getIsUsingFab())
+        if (getIsUsingFab())
             fab.hide();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if(getIsUsingFab())
+        if (getIsUsingFab())
             fab.show();
     }
 
@@ -170,7 +178,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
         if (!getIsUsingFab())
             return;
 
-        fab = getActivity().findViewById(R.id.fabBaseList);
+        fab = getActivity().findViewById(R.id.fabHome);
         fab.show();
         fab.setOnClickListener(getFabOnClickListener());
 

@@ -4,17 +4,23 @@
 
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
+        android:orderInCategory="0"
         android:title="@string/search"
         android:icon="@drawable/ic_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_jumpToPage"
-        android:orderInCategory="200"
+        android:orderInCategory="0"
         android:title="Jump to page"
         android:icon="@drawable/ic_jump_to_page_black_24dp"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="0"
+        android:title="Sort"
+        android:icon="@drawable/ic_sort_black_24dp"
+        app:showAsAction="always" />
 
 
     <item

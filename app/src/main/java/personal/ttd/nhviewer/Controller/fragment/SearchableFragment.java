@@ -1,10 +1,16 @@
 package personal.ttd.nhviewer.Controller.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.MenuItem;
 
+import personal.ttd.nhviewer.Controller.fragment.base.ComicListFragment;
 import personal.ttd.nhviewer.Model.comic.ComicMaker;
+import personal.ttd.nhviewer.R;
 
-public class SearchableFragment extends ComicListFragment{
+public class SearchableFragment extends ComicListFragment {
+    private boolean sortByPopular = false;
+
     @Override
     protected String getActionBarTitle() {
         return "Search result";
@@ -28,7 +34,26 @@ public class SearchableFragment extends ComicListFragment{
         if(bundle != null)
             query = bundle.getString("query");
 
-        ComicMaker.getComicListQuery(query, page, requireContext(), listReturnCallback, sharedPref);
+        ComicMaker.getComicListQuery(query, page, sortByPopular, requireContext(), listReturnCallback, sharedPref);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_sort) {
+            sortByPopular = !sortByPopular;
+            refreshRecyclerView(1);
+        }
+
+        return true;
+    }
 }

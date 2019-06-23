@@ -4,12 +4,9 @@ import android.Manifest;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.bottomappbar.BottomAppBar;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -19,30 +16,28 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import personal.ttd.nhviewer.Controller.fragment.CollectionListFragment;
 import personal.ttd.nhviewer.Controller.fragment.HistoryFragment;
 import personal.ttd.nhviewer.Controller.fragment.SettingFragment;
-import personal.ttd.nhviewer.Controller.fragment.deprecated.DownloadFragment;
 import personal.ttd.nhviewer.Controller.fragment.PagerFragment;
+import personal.ttd.nhviewer.Controller.fragment.TagFragment;
 import personal.ttd.nhviewer.Model.comic.Collection;
 import personal.ttd.nhviewer.Model.comic.CollectionTool;
+import personal.ttd.nhviewer.Model.tag.TagManager;
 import personal.ttd.nhviewer.R;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -58,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             put(R.id.nav_collection, new CollectionListFragment());
 //            put(R.id.nav_download, new DownloadFragment());
             put(R.id.nav_history, new HistoryFragment());
+            put(R.id.nav_tag, new TagFragment());
             put(R.id.nav_setting, new SettingFragment());
         }
     };
@@ -131,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         initActionBarDrawer();
         //initBottomAppbar();
         initCollection();
+        initTag();
     }
 
 //    private void initBottomAppbar() {
@@ -208,6 +205,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initTag() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> tags = TagManager.getTagAll(preferences);
+
+        if(tags.isEmpty()){
+            // TODO: 2019/6/20 notify user that it is empty list
+        }else{
+            //put empty set
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putStringSet(TagFragment.KEY_PREF_TAG, tags);
+            editor.apply();
+
+        }
+    }
+
     private void initCollection() {
         try {
             Collection.loadCollection();
@@ -215,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //set default collection id
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         String defaultCollectionId = preferences.getString(SettingFragment.KEY_PREF_DEFAULT_COLLECTION_ID, String.valueOf(Collection.FAVARITE_ID));

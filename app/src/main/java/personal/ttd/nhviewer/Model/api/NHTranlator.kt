@@ -30,6 +30,7 @@ import kotlin.collections.toTypedArray
 class NHTranlator {
     //static methods
     companion object {
+        val suffixSortPopular = NHapi.Suffix.sortPopular
         val baseUrl = "https://nhentai.net/"
         val baseUrlLanguage = "https://nhentai.net/language/"
         val baseUrlChinese = "https://nhentai.net/language/chinese/"
@@ -169,6 +170,8 @@ class NHTranlator {
                 prefix = pagePrefixSearch
             else
                 prefix = pagePrefix
+
+            Log.i("NHT", "loaded url: " + baseUrl + prefix + page)
 
             val documentRequest = object : StringRequest( //
                     Request.Method.GET, //

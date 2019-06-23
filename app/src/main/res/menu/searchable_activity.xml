@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_jumpToPage"
+        android:orderInCategory="200"
+        android:title="Jump to page"
+        android:icon="@drawable/ic_jump_to_page_black_24dp"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="200"
+        android:title="Sort"
+        android:icon="@drawable/ic_sort_black_24dp"
+        app:showAsAction="always" />
+
+
+</menu>

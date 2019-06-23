@@ -54,13 +54,8 @@ public class JSONSaver implements Saver {
     }
 
     @Override
-    public boolean removeFavorite(String cid) {
-        try {
-            return removeFavorite(Integer.parseInt(cid));
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public Comic removeFavorite(Comic comic) throws IOException, JSONException {
+        return removeCollection(Collection.FAVARITE_ID, comic);
     }
 
     @Override
@@ -139,9 +134,9 @@ public class JSONSaver implements Saver {
 
         setJSONFile(collectionid, arr.toString());
 
-        String id = removedObj.getString("id")
-                , title = removedObj.getString("title")
-                , thumblink = removedObj.getString("thumblink");
+        String id = removedObj.getString("id");
+        String title = removedObj.getString("title");
+        String thumblink = removedObj.getString("thumblink");
         return new Comic(id, title, thumblink);
     }
 
@@ -157,9 +152,9 @@ public class JSONSaver implements Saver {
 
         setJSONFile(collectionid, arr.toString());
 
-        String id = removedObj.getString("id")
-                , title = removedObj.getString("title")
-                , thumblink = removedObj.getString("thumblink");
+        String id = removedObj.getString("id");
+        String title = removedObj.getString("title");
+        String thumblink = removedObj.getString("thumblink");
         return new Comic(id, title, thumblink);
     }
 

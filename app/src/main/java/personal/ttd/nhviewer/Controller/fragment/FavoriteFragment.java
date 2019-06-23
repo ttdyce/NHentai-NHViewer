@@ -8,49 +8,48 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
+import personal.ttd.nhviewer.Controller.fragment.base.ComicListFragment;
 import personal.ttd.nhviewer.Model.Saver.Saver;
 import personal.ttd.nhviewer.Model.Saver.SaverMaker;
 import personal.ttd.nhviewer.Model.comic.Collection;
 import personal.ttd.nhviewer.Model.comic.Comic;
 import personal.ttd.nhviewer.Model.comic.ComicMaker;
 
-public class FavoriteFragment extends ComicListDisplayerFragment {
-
-    @Override
-    protected String getSubtitle() {
-        return "Favorite";
-    }
-
-    @Override
-    protected int getCollectionid() {
-        return Collection.FAVARITE_ID;
-    }
-
-    @Override
-    protected void setComicList(int page) {
-        hasPage = false;
-
-        try {
-            ComicMaker.getComicListFavorite(comicListReturnCallback);
-        } catch (JSONException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
+public class FavoriteFragment extends ComicListFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //refresh comics when this fragment is visible
         if(isVisibleToUser && adapter != null)
-            refreshComicList();
-
-        if(isVisibleToUser)
-            setSubtitle(getSubtitle());
+            refreshRecyclerView(1);
     }
 
     @Override
-    public void favoriteButtonOnClick(Comic c, int position){
+    protected String getActionBarTitle() {
+        return "Favorite";
+    }
+
+    @Override
+    protected boolean getCanDelete() {
+        return true;
+    }
+
+    @Override
+    protected boolean getHasPage() {
+        return false;
+    }
+
+    @Override
+    protected void setList(int page) {
+        try {
+            ComicMaker.getComicListFavorite(listReturnCallback);
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onClickFavorite(Comic c){
         Saver saver = SaverMaker.getDefaultSaver();
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -58,9 +57,13 @@ public class FavoriteFragment extends ComicListDisplayerFragment {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        if(saver.removeFavorite(String.valueOf(position))){
-                            refreshComicList();
-                            Snackbar.make(getView(), "Collection removed", Snackbar.LENGTH_SHORT).show();
+                        try {
+                            if(saver.removeFavorite(c) != null){
+                                refreshRecyclerView(1);
+                                Snackbar.make(getView(), "Collection removed", Snackbar.LENGTH_SHORT).show();
+                            }
+                        } catch (IOException|JSONException e) {
+                            e.printStackTrace();
                         }
                         break;
 
@@ -73,7 +76,6 @@ public class FavoriteFragment extends ComicListDisplayerFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Are you sure to remove?").setPositiveButton("Yes", dialogClickListener).setNegativeButton("No", dialogClickListener).show();
-
 
 
     }

@@ -24,8 +24,8 @@ public class DBSaver implements Saver{
     }
 
     @Override
-    public boolean removeFavorite(String cid) {
-        return false;
+    public Comic removeFavorite(Comic cid) {
+        return null;
     }
 
     @Override

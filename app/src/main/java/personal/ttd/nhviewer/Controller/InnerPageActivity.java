@@ -68,6 +68,12 @@ public class InnerPageActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void init() {
         String comicid = getComicId();
 
@@ -105,6 +111,12 @@ public class InnerPageActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.tbInnerPage);
         setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() == null)
+            return;
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //setTitle(comicShowing.getTitle());
     }
 

@@ -24,7 +24,7 @@ Currently, I am using json file saver and database saver.
 public interface Saver {
     boolean addFavorite(Comic c);
     Collection getFavorite();
-    boolean removeFavorite(String cid);
+    Comic removeFavorite(Comic cid) throws IOException, JSONException;
 
     boolean addHistory(Comic c);
     Collection getHistory();

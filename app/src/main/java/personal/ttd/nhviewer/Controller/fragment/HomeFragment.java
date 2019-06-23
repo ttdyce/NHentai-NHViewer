@@ -5,14 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import personal.ttd.nhviewer.Controller.fragment.base.ComicListFragment;
 import personal.ttd.nhviewer.Model.comic.ComicMaker;
 import personal.ttd.nhviewer.R;
 
-public class HomeFragment extends ComicListFragment{
+public class HomeFragment extends ComicListFragment {
     public static final String SUBTITLE = "My Home";
+    private boolean sortByPopular = false;
 
     @Override
     protected boolean getHasPage() {
@@ -32,7 +35,7 @@ public class HomeFragment extends ComicListFragment{
     @Override
     protected void setList(int page) {
         // TODO: 6/6/2019 This comic list should be configurable, using sharePreference setting
-        ComicMaker.getComicListDefault(page, requireContext(),listReturnCallback, sharedPref);
+        ComicMaker.getComicListDefault(page, sortByPopular, requireContext(), listReturnCallback, sharedPref);
     }
 
     @Override
@@ -42,12 +45,26 @@ public class HomeFragment extends ComicListFragment{
         initDefaultSearchSetting();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_sort) {
+            sortByPopular = !sortByPopular;
+            refreshRecyclerView(1);
+        }
+
+        return true;
+    }
+
     private void initDefaultSearchSetting() {
         String languageNotSet = "not set";
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String storedLanguage = pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, languageNotSet);
 
-        if(storedLanguage.equals(languageNotSet)){
+        if (storedLanguage.equals(languageNotSet)) {
             //pop up dialog for setting default language
             String[] languageArray = getResources().getStringArray(R.array.languages);
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(

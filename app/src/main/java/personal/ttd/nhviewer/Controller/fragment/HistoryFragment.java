@@ -1,5 +1,6 @@
 package personal.ttd.nhviewer.Controller.fragment;
 
+import personal.ttd.nhviewer.Controller.fragment.base.ComicListFragment;
 import personal.ttd.nhviewer.Model.comic.ComicMaker;
 
 public class HistoryFragment extends ComicListFragment {

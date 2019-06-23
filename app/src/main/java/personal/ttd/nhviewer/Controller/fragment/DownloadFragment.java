@@ -1,4 +1,4 @@
-package personal.ttd.nhviewer.Controller.fragment.deprecated;
+package personal.ttd.nhviewer.Controller.fragment;
 
 import android.app.Activity;
 import android.content.Context;

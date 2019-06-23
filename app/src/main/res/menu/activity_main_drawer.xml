@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_history_black_24dp"
             android:title="History" />
         <item
+            android:id="@+id/nav_tag"
+            android:icon="@drawable/ic_tag_black_24dp"
+            android:title="Tags" />
+        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />

@@ -118,6 +118,12 @@
         <item>Japanese</item>
     </string-array>
 
+    <!-- Tags -->
+    <string-array name="tags">
+        <item>Required tags</item>
+        <item>Filtered tags</item>
+    </string-array>
+
     <!-- Settings -->
     <string name="settings_main">Settings</string>
     <string name="snackbar_need_restart">You need to restart the app to apply settings.</string>

@@ -9,12 +9,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import personal.ttd.nhviewer.Controller.fragment.SettingFragment;
+import personal.ttd.nhviewer.Controller.fragment.TagFragment;
+import personal.ttd.nhviewer.Model.ListReturnCallBack;
 import personal.ttd.nhviewer.Model.Saver.Saver;
 import personal.ttd.nhviewer.Model.Saver.SaverMaker;
-import personal.ttd.nhviewer.Model.ListReturnCallBack;
 import personal.ttd.nhviewer.Model.api.NHTranlator;
+import personal.ttd.nhviewer.Model.tag.TagManager;
 
 public class ComicMaker {
 
@@ -38,26 +42,39 @@ public class ComicMaker {
     }
 
     ///default language = all
-    public static void getComicListQuery(String query, int page, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
-        String defaultLanguage = " " + pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");;
-        String url = NHTranlator.Companion.getSearchBaseUrl() + query + defaultLanguage;
+    public static void getComicListQuery(String query, int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
+        Set<String> tags = TagManager.getTagAll(pref);
+        StringBuilder tagQuery = new StringBuilder(" ");
+
+        for (String t :
+                tags) {
+            tagQuery.append(t).append(" ");
+        }
+        String defaultLanguage = " Language:" + pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");
+        String url = NHTranlator.Companion.getSearchBaseUrl() + tagQuery.toString() + query + defaultLanguage;
+
+        if (sortPopular)
+            url += NHTranlator.Companion.getSuffixSortPopular();
 
         NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
     }
 
     ///default language = all
-    public static void getComicListDefault(int page, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
+    public static void getComicListDefault(int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
         String language = pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");
 
-        if(!language.equals("All") && !language.equals(""))
-            getComicListByLanguage(language, page, context, comicListReturnCallback);
+        if (!language.equals("All") && !language.equals(""))
+            getComicListByLanguage(language, page, sortPopular, context, comicListReturnCallback);
         else
             getComiListAll(page, context, comicListReturnCallback);
     }
 
-    public static void getComicListByLanguage(String language, int page, Context context, ListReturnCallBack comicListReturnCallback) {
-        language += "/";
-        String url = NHTranlator.Companion.getBaseUrlLanguage() + language.toLowerCase();
+    public static void getComicListByLanguage(String language, int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback) {
+        language += " ";
+        String url = NHTranlator.Companion.getSearchBaseUrl() + "Language:" + language.toLowerCase();
+
+        if (sortPopular)
+            url += NHTranlator.Companion.getSuffixSortPopular();
 
         NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
 //        DM5Translator.Companion.getComics(context, comicListReturnCallback);

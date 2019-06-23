@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import personal.ttd.nhviewer.Model.comic.CollectionTool;
 import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Controller.fragment.SearchableFragment;
 
@@ -19,6 +22,15 @@ public class SearchableActivity extends AppCompatActivity {
         setContentView(R.layout.activity_searching);
 
         init();
+    }
+
+    //Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.searchable_activity, menu);
+
+        return true;
     }
 
     private void init() {
