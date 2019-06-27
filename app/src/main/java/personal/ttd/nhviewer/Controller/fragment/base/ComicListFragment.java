@@ -60,10 +60,10 @@ public abstract class ComicListFragment extends BaseListFragment {
         Snackbar snackbarAdded = Snackbar.make(getView(), addedText, Snackbar.LENGTH_SHORT);
         Snackbar snackbarError = Snackbar.make(getView(), errorText, Snackbar.LENGTH_SHORT);
         Snackbar snackbarExist = Snackbar.make(getView(), existText, Snackbar.LENGTH_SHORT);
-        snackbarAdded.setAction("change", v -> {
-            // TODO: 6/10/2019 Allow pop up menu for changing collect location
-            //Log.e(TAG, "addCollection: change clicked");
-        });
+//        snackbarAdded.setAction("change", v -> {
+//            // TODO: 6/10/2019 Allow pop up menu for changing collect location
+//            //Log.e(TAG, "addCollection: change clicked");
+//        });
         snackbarExist.setAction("uncollect", v -> uncollect(collectionid, comicSelected));
 
         collected = ComicTool.isCollected(comicSelected.getId(), collectionid);

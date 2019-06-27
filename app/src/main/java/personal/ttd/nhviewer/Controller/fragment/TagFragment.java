@@ -1,5 +1,7 @@
 package personal.ttd.nhviewer.Controller.fragment;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,14 +14,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +35,8 @@ import personal.ttd.nhviewer.R;
 
 public class TagFragment extends android.support.v4.app.Fragment {
     public static final String KEY_PREF_TAG = "tags";
+    public static final String KEY_PREF_TAG_HOME_ENABLE = "tag_home_enable";
+    public static final String KEY_PREF_TAG_SEARCH_ENABLE = "tag_search_enable";
     private final List<View> views = new ArrayList<>();
     private ViewPager vp;
     private TabLayout tl;
@@ -78,36 +85,52 @@ public class TagFragment extends android.support.v4.app.Fragment {
 
     private void initFAB() {
         fab.setOnClickListener(v -> {
-            final EditText input = new EditText(requireContext());
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            //keyboard show/hide
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            // custom dialog
+            final Dialog dialog = new Dialog(requireContext());
+            dialog.setContentView(R.layout.dialog_add_tag);
+            dialog.setTitle("Add tag");
 
-            builder.setTitle("Tag name");
-            builder.setView(input);
+            // set the custom dialog components - text, image and button
+            EditText etTagName = dialog.findViewById(R.id.etTagName);
+            RadioGroup rgTagType = dialog.findViewById(R.id.rgTagType);
+            Button btnCancel = dialog.findViewById(R.id.btnCancel);
+            Button btnAdd = dialog.findViewById(R.id.btnAdd);
 
-            builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String tagName = input.getText().toString();
+                public void onClick(View v) {
+                    String tagName;
+                    if (rgTagType.getCheckedRadioButtonId() == R.id.rbTagFiltered)
+                        tagName = "-";
+                    else
+                        tagName = "";
+
+                    tagName += etTagName.getText().toString();
 
                     if (TagManager.addTag(tagName, PreferenceManager.getDefaultSharedPreferences(requireContext()))) {
                         Snackbar.make(getView(), String.format("\"%s\" is added", tagName), Snackbar.LENGTH_SHORT).show();
                         refreshListData();
-//                        refreshListView();
                     } else {
                         Snackbar.make(getView(), "Failed adding tag", Snackbar.LENGTH_SHORT).show();
                     }
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+
+                    dialog.dismiss();
                 }
             });
 
-            builder.show();
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+            etTagName.performClick();
         });
     }
 
@@ -125,7 +148,7 @@ public class TagFragment extends android.support.v4.app.Fragment {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 if (TagManager.removeTag(parent.getAdapter().getItem(position).toString(),
-                                        PreferenceManager.getDefaultSharedPreferences(requireContext())) ) {
+                                        PreferenceManager.getDefaultSharedPreferences(requireContext()))) {
                                     refreshListData();
                                     Snackbar.make(getView(), "Tag removed", Snackbar.LENGTH_SHORT).show();
                                 }

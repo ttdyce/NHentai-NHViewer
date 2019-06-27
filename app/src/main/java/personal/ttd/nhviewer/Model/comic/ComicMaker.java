@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import personal.ttd.nhviewer.Controller.fragment.SettingFragment;
@@ -45,12 +44,21 @@ public class ComicMaker {
     public static void getComicListQuery(String query, int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
         Set<String> tags = TagManager.getTagAll(pref);
         StringBuilder tagQuery = new StringBuilder(" ");
+        boolean enableTag = pref.getBoolean(TagFragment.KEY_PREF_TAG_SEARCH_ENABLE, true);
 
-        for (String t :
-                tags) {
-            tagQuery.append(t).append(" ");
-        }
-        String defaultLanguage = " Language:" + pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");
+        if (enableTag)
+            for (String t :
+                    tags) {
+                tagQuery.append(t).append(" ");
+            }
+        String storedLanguage = pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");
+        String defaultLanguage = " Language:";
+
+        if (storedLanguage.equals("All"))
+            defaultLanguage = "";
+        else
+            defaultLanguage += storedLanguage;
+
         String url = NHTranlator.Companion.getSearchBaseUrl() + tagQuery.toString() + query + defaultLanguage;
 
         if (sortPopular)
@@ -64,27 +72,35 @@ public class ComicMaker {
         String language = pref.getString(SettingFragment.KEY_PREF_DEFAULT_LANGUAGE, "");
 
         if (!language.equals("All") && !language.equals(""))
-            getComicListByLanguage(language, page, sortPopular, context, comicListReturnCallback);
+            getComicListByLanguage(language, page, sortPopular, context, comicListReturnCallback, pref);
         else
-            getComiListAll(page, context, comicListReturnCallback);
+            getComiListAll(page, sortPopular, context, comicListReturnCallback, pref);
     }
 
-    public static void getComicListByLanguage(String language, int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback) {
-        language += " ";
-        String url = NHTranlator.Companion.getSearchBaseUrl() + "Language:" + language.toLowerCase();
+    public static void getComicListByLanguage(String language, int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
 
-        if (sortPopular)
-            url += NHTranlator.Companion.getSuffixSortPopular();
+        if (pref.getBoolean(TagFragment.KEY_PREF_TAG_HOME_ENABLE, true)) {
+            getComicListQuery("", page, sortPopular, context, comicListReturnCallback, pref);
+        } else {
+            language += " ";
+            String url = NHTranlator.Companion.getSearchBaseUrl() + "Language:" + language.toLowerCase();
 
-        NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
-//        DM5Translator.Companion.getComics(context, comicListReturnCallback);
+            if (sortPopular)
+                url += NHTranlator.Companion.getSuffixSortPopular();
+
+            NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
+        }
     }
 
-    public static void getComiListAll(int page, Context context, ListReturnCallBack comicListReturnCallback) {
+    public static void getComiListAll(int page, boolean sortPopular, Context context, ListReturnCallBack comicListReturnCallback, SharedPreferences pref) {
+        Set<String> tags = TagManager.getTagAll(pref);
         String url = NHTranlator.Companion.getBaseUrl();
+        Boolean enableHomeTag = pref.getBoolean(TagFragment.KEY_PREF_TAG_HOME_ENABLE, true);
 
-        NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
-//        DM5Translator.Companion.getComics(context, comicListReturnCallback);
+        if (enableHomeTag && !tags.isEmpty())
+            getComicListQuery("", page, sortPopular, context, comicListReturnCallback, pref);
+        else
+            NHTranlator.Companion.getComicsBySite(url, String.valueOf(page), context, comicListReturnCallback);
     }
 
     //some json related methods

@@ -34,7 +34,6 @@ public class HomeFragment extends ComicListFragment {
 
     @Override
     protected void setList(int page) {
-        // TODO: 6/6/2019 This comic list should be configurable, using sharePreference setting
         ComicMaker.getComicListDefault(page, sortByPopular, requireContext(), listReturnCallback, sharedPref);
     }
 
