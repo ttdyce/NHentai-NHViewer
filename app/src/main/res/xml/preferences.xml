@@ -2,8 +2,9 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
+        android:key="@string/default_collection"
         android:title="Default collection"
-        android:key="@string/default_collection"/>
+        />
     <ListPreference
         android:key="default_language"
         android:entries="@array/languages"
