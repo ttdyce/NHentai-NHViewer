@@ -19,9 +19,9 @@ This application aims to provide different reading experience on android and to 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to run the app in debug mode. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to run the app in debug mode.
 
-By the way, the application is currently fetching the HTML page instead of using the JSON API as the API was down during my development. 
+By the way, the application is currently fetching the HTML page instead of using the JSON API as the API was down during my development.
 
 ## Deployment
 
@@ -59,5 +59,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   * [jsoup](https://jsoup.org/download)
   * [Glide](http://bumptech.github.io/glide/doc/download-setup.html)
   * [Volley](https://developer.android.com/training/volley)
-  
+
   and some Android support libraries
