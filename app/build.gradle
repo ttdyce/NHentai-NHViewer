@@ -3,14 +3,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('D:\\OneDrive\\FromLaptop\\Programs\\Android\\_signing\\myapps.jks')
-            storePassword 'Myapps6611'
-            keyAlias = 'key0'
-            keyPassword 'Myapps6611'
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "personal.ttd.nhviewer"
