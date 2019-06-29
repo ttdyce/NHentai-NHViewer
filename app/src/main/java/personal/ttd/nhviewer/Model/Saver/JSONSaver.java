@@ -38,7 +38,7 @@ import static personal.ttd.nhviewer.Model.comic.Collection.COLUMN_TITLE;
 
 public class JSONSaver implements Saver {
     // Get the directory for the user's public document directory. Here I use <internal storage>/document/NH/
-    private final String PATH_NH_ROOT =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + Collection.PARENT_DIRECTORY_NAME + "/";
+    private final String PATH_NH_ROOT = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/" + Collection.PARENT_DIRECTORY_NAME + "/";
     private final String PATH_NH_REMOVED = PATH_NH_ROOT + Collection.REMOVED_DIRECTORY_NAME;
     private final File FILE_NH_ROOT = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), Collection.PARENT_DIRECTORY_NAME);
     private final File FILE_NH_REMOVED = new File(PATH_NH_REMOVED);
@@ -146,7 +146,7 @@ public class JSONSaver implements Saver {
         JSONObject removedObj = null;
         for (int i = 0; i < arr.length(); i++) {
             JSONObject obj = arr.getJSONObject(i);
-            if(obj.getString("id").equals(comic.getId()))
+            if (obj.getString("id").equals(comic.getId()))
                 removedObj = (JSONObject) arr.remove(i);
         }
 
@@ -172,7 +172,7 @@ public class JSONSaver implements Saver {
     public String removeCollectionList(int collectionid) throws IOException {
         String removedName = Collection.NAME_LIST.remove(collectionid);
         File removedFile = getFile(removedName);
-        if(!FILE_NH_REMOVED.exists())
+        if (!FILE_NH_REMOVED.exists())
             FILE_NH_REMOVED.mkdir();
 
         removedFile.renameTo(new File(PATH_NH_REMOVED, removedName));
@@ -220,21 +220,23 @@ public class JSONSaver implements Saver {
     public ArrayList<Collection> getCollectionList() throws IOException, JSONException {
         ArrayList<Collection> list = new ArrayList<>();
         int count = Collection.CUSTOM_ID_START;
+        File[] collectionFiles = getFileAll();
 
-        for (File f :
-                getFileAll()) {
-            Collection collection = new Collection();
-            collection.id = count++;
-            collection.name = f.getName();
-            collection.comicList = ComicMaker.getComicListByJSONArray(getJSONArr(collection.name));
+        if (collectionFiles != null)//null when first time running
+            for (File f :
+                    collectionFiles) {
+                Collection collection = new Collection();
+                collection.id = count++;
+                collection.name = f.getName();
+                collection.comicList = ComicMaker.getComicListByJSONArray(getJSONArr(collection.name));
 
-            if (!f.getName().equals(Collection.NAME_LIST.get(0))
-                    && !f.getName().equals(Collection.NAME_LIST.get(1))) {
-                list.add(collection);
+                if (!f.getName().equals(Collection.NAME_LIST.get(0))
+                        && !f.getName().equals(Collection.NAME_LIST.get(1))) {
+                    list.add(collection);
 //                Collection.NEXT_CUSTOM_ID ++ ;
-            } else
-                count--;
-        }
+                } else
+                    count--;
+            }
 
         return list;//true means removed
     }
@@ -243,10 +245,10 @@ public class JSONSaver implements Saver {
     private File[] getFileAll() {
         File root = FILE_NH_ROOT;
         FileFilter filter = file -> {
-          if(file.isDirectory())
-              return false;
+            if (file.isDirectory())
+                return false;
 
-          return true;
+            return true;
         };
 
         return root.listFiles(filter);
@@ -343,7 +345,7 @@ public class JSONSaver implements Saver {
 
                     byte[] bytes = new byte[4096];
                     int length;
-                    while((length = fis.read(bytes)) >= 0) {
+                    while ((length = fis.read(bytes)) >= 0) {
                         zipOut.write(bytes, 0, length);
                     }
                     fis.close();
@@ -369,18 +371,17 @@ public class JSONSaver implements Saver {
                 String response = dis.readUTF();
 
                 //Toast cannot run on thread, use Activity.runOnUiThread instead
-                ((AppCompatActivity)context).runOnUiThread(new Runnable() {
+                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(context, "Backup " + response, Toast.LENGTH_SHORT).show();
                     }
                 });
 
 
-
-            }catch (SocketTimeoutException e){
+            } catch (SocketTimeoutException e) {
                 e.printStackTrace();
                 //Toast cannot run on thread, use Activity.runOnUiThread instead
-                ((AppCompatActivity)context).runOnUiThread(new Runnable() {
+                ((AppCompatActivity) context).runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(context, "Failed, server not found or no response", Toast.LENGTH_SHORT).show();
                     }
@@ -388,13 +389,13 @@ public class JSONSaver implements Saver {
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
-                    if(fis != null)
+                    if (fis != null)
                         fis.close();
-                    if(dis != null)
+                    if (dis != null)
                         dis.close();
-                    if(dos != null)
+                    if (dos != null)
                         dos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
