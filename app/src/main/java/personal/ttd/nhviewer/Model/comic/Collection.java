@@ -54,13 +54,6 @@ public class Collection {
         for (Collection c :
                 saver.getCollectionList()) {
             addCollection(c.id, c.name);
-//            CollectionFragment f = new CollectionFragment();
-//            Bundle args = new Bundle();
-//
-//            args.putInt("id", c.id);
-//            f.setArguments(args);
-//
-//            FRAGMENT_LIST.put(c.id, f);
         }
 
     }
