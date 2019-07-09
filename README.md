@@ -7,7 +7,7 @@ This application aims to provide different reading experience on android and to 
 ## Download
 [Released apk](https://github.com/ttdyce/nhviewer/releases)
 
-* Star the project may speed up patch release (¬‿¬ ) *
+*Star the project may speed up patch release (¬‿¬ )*
 
 ## Screenshots
 
