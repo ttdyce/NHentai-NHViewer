@@ -115,7 +115,7 @@ public class TagFragment extends android.support.v4.app.Fragment {
                         Snackbar.make(getView(), String.format("\"%s\" is added", tagName), Snackbar.LENGTH_SHORT).show();
                         refreshListData();
                     } else {
-                        Snackbar.make(getView(), "Failed adding tag", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), "Failed adding, tag name is not valid", Snackbar.LENGTH_SHORT).show();
                     }
 
                     dialog.dismiss();

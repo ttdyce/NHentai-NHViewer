@@ -15,6 +15,9 @@ public class TagManager {
     }
 
     public static boolean addTag(String tagName, SharedPreferences pref) {
+        if(tagName.length() < 1)
+            return false;
+
         Set<String> tags = getTagAll(pref);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -26,8 +29,9 @@ public class TagManager {
 
     public static Set<String> getTagRequired(SharedPreferences pref) {
         Set<String> tags = getTagAll(pref), requiredTags = new LinkedHashSet<>();
+
         for (String t : tags) {
-            if (t.charAt(0) != '-')
+            if (t.length() > 0 && t.charAt(0) != '-')
                 requiredTags.add(t);
         }
 
@@ -37,7 +41,7 @@ public class TagManager {
     public static Set<String> getTagFiltered(SharedPreferences pref) {
         Set<String> tags = getTagAll(pref), filteredTags = new LinkedHashSet<>();
         for (String t : tags) {
-            if (t.charAt(0) == '-')
+            if (t.length() > 0 && t.charAt(0) == '-')
                 filteredTags.add(t);
         }
 
