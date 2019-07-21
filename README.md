@@ -1,5 +1,7 @@
 # NHentaiViewer
 
+[![Build Status](https://travis-ci.com/ttdyce/NHentaiViewer.svg?branch=master)](https://travis-ci.com/ttdyce/NHentaiViewer)
+
 Third-party application for browsing [nhentai.net](https://nhentai.net). 
 
 This application aims to provide different reading experience on android and to build further functions on top of the site. 

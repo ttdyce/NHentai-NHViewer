@@ -34,7 +34,7 @@ deploy:
   skip_cleanup: true
   overwrite: true
   api_key:
-    secure: 7008f6b9e26d11414269fe7eca8e14274c521798
+    secure: 73e8d08bfc379be602720f0e4cdc3c07ad204d51
   file: /home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk
   on:
     repo: ttdyce/NHentaiViewer
