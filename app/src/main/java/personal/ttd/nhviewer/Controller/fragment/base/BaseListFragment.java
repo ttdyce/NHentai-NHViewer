@@ -60,6 +60,7 @@ public abstract class BaseListFragment extends android.support.v4.app.Fragment {
                         adapter.notifyDataSetChanged();
                 } else {
                     setIsLastPage(true);
+                    adapter.notifyItemRemoved(originalSize);//for removing last favorite comic, it may need checking (originalSize == 0)
                 }
 
             swipeRefreshLayout.setRefreshing(false);
