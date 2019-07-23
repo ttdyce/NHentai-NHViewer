@@ -7,6 +7,9 @@ Third-party application for browsing [nhentai.net](https://nhentai.net).
 This application aims to provide different reading experience on android and to build further functions on top of the site. 
 
 ## Download
+
+note: The signed apk is recommended. 
+
 [Released apk](https://github.com/ttdyce/nhviewer/releases)
 
 *Star the project may speed up patch release (¬‿¬ )*
