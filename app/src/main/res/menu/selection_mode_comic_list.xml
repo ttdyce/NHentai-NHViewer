@@ -4,9 +4,9 @@
 
     <item
         android:id="@+id/action_removeFromCollection"
-        android:orderInCategory="200"
-        android:title="Jump to page"
         android:icon="@drawable/ic_delete_black_24dp"
+        android:orderInCategory="200"
+        android:title="@string/action_favorite_true"
         app:showAsAction="ifRoom" />
 
 </menu>

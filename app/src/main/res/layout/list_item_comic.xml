@@ -38,10 +38,10 @@
                 android:id="@+id/tvTitleBaseList"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:background="#64e1e1e1"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:top="@+id/ibFavorite"
-                android:background="#64e1e1e1"
                 card_view:layout_constraintBottom_toTopOf="@+id/cvCollect"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent" />

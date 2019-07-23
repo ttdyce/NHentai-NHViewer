@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NhViewer</string>
+
+    <!-- Initial -->
+    <string name="dialog_permission_title">需要權限</string>
+    <string name="dialog_permission_msg">NHBooks需要在外部儲存器上讀寫的權限才能保存圖片。 沒有它們，這個應用程序無法正常工作.</string>
+    <string name="snack_permission_failed">權限請求被拒絕！</string>
+
+    <string name="tips_network_error">連線到 NHentai 失敗 QQ</string>
+    <string name="snack_action_try_again">再試一次!!</string>
+    <string name="snack_action_get_it">了解</string>
+
+    <!-- Header -->
+    <string name="action_next_page">載入下一頁</string>
+    <string name="action_search">搜尋</string>
+    <string name="sort">分類</string>
+    <string name="action_jumpToPage">跳至</string>
+    <string name="action_backup">備份至電腦</string>
+    <string name="check_database">檢查資料庫</string>
+    <string name="search_here">在這裡搜尋</string>
+    <string name="title_bar_updated_time_just_now">立即更新</string>
+    <string name="title_bar_updated_time_at">更新於 %s</string>
+    <string name="title_bar_updated_time_null">下拉以獲取最新資訊</string>
+
+    <!-- Search -->
+    <string name="tips_search_text_empty">我叫你輸入關鍵字!!</string>
+    <string name="action_clear">清除</string>
+    <string name="action_clear_recents">清除紀錄</string>
+    <string name="activity_search_result">清除結果</string>
+    <string name="title_search_result">搜尋結果: %s</string>
+    <string name="tips_no_result">沒有東西 QQ</string>
+    <string name="tips_no_more_results">這裡是最後一頁.</string>
+
+    <!-- Home -->
+    <string name="item_home">首頁</string>
+    <string name="item_recent">最近</string>
+    <string name="title_page_latest">最新</string>
+    <string name="item_download">下載</string>
+    <string name="default_collection">默認集合</string>
+    <string name="item_favorite_books">收藏</string>
+    <string name="item_favorite_categories">收藏的類別</string>
+    <string name="item_tag">標籤</string>
+    <string name="item_character">人物</string>
+    <string name="item_group_other">其他</string>
+    <string name="item_settings">設定</string>
+    <string name="item_open_nhentai">開啟 NHentai.net</string>
+    <string name="item_collections">集合</string>
+    <string name="item_history">歷史</string>
+
+    <!-- Random -->
+    <string name="activity_random">我覺得真幸運~</string>
+    <string name="random_failed_set">無法從NHentai抓到任何東西. 再來一次?</string>
+    <string name="random_no_data">請點擊SHUFFLE按鈕</string>
+
+    <!-- Details -->
+    <string name="activity_details">詳細</string>
+    <string name="tag_type_tag">標籤: </string>
+    <string name="tag_type_parodies">Parodies: </string>
+    <string name="tag_type_language">Language: </string>
+    <string name="tag_type_characters">Characters: </string>
+    <string name="tag_type_artists">Artists: </string>
+    <string name="tag_type_group">Groups: </string>
+    <string name="tag_type_upload_time">更新時間: </string>
+    <string name="action_favorite_false">加入收藏</string>
+    <string name="action_favorite_true">從收藏中移除本子</string>
+    <string name="favorite_add_finished">本子成功加入收藏</string>
+    <string name="favorite_categories_add_finished">類別成功加入收藏</string>
+    <string name="favorite_remove_finished">成功從收藏中移除本子</string>
+    <string name="favorite_categories_remove_finished">成功從收藏中移除類別</string>
+    <string name="action_share">分享....</string>
+    <string name="action_share_send_text">我找到了一本很讚的本子:\"%1$s\" 連結:%2$s (R-18 警告! 分享自 NHBooks：https://github.com/fython/NHentai-android )</string>
+    <string name="action_share_send_category">%1$s 超讚! 連結:%2$s (R-18 警告! 分享自 NHBooks：https://github.com/fython/NHentai-android )</string>
+    <string name="action_download_none">儲存到外部</string>
+    <string name="action_download_okay">刪除</string>
+    <string name="dialog_ask_download_title">你真的想要下載這個本子嗎?</string>
+    <string name="dialog_ask_download_summary">將儲存至 \"%s\".</string>
+    <string name="dialog_ask_delete_title">你真的想要「刪除」這個本子嗎</string>
+    <string name="dialog_ask_delete_summary">警告!刪除後無法取消操作。</string>
+    <string name="dialog_ask_d_or_d_title">這本書還沒有完全下載</string>
+    <string name="dialog_ask_d_or_d_summary">已經成功下載 %1$d 頁在 \"%2$s\".</string>
+    <string name="dialog_ask_d_or_d_delete">刪除</string>
+    <string name="dialog_ask_d_or_d_continue">繼續下載</string>
+
+    <string name="dialog_download_title">下載: </string>
+    <string name="dialog_download_progress">正在下載: </string>
+    <string name="dialog_download_finished">下載完畢!</string>
+    <string name="dialog_download_error"> 下載時出錯!</string>
+
+    <string name="dialog_download_paused">(暫停)</string>
+    <string name="dialog_download_restart">有問題?</string>
+    <string name="dialog_download_notification_title">下載完畢!</string>
+    <string name="dialog_download_pause">暫停/繼續</string>
+    <string name="dialog_download_copying">將圖片複製到外部儲存器....請稍候。</string>
+
+    <string name="title_preview">預覽</string>
+    <string name="title_recommend">推薦的 Book</string>
+
+    <string name="activity_gallery">畫廊</string>
+    <string name="info_total_pages">"%d 頁"</string>
+    <string name="action_save">儲存</string>
+    <string name="action_save_succeed">當前圖片已保存到 \"%s\".</string>
+    <string name="action_save_failed">當前圖片尚未下載完畢，請緩一緩你的雞雞</string>
+    <string name="action_save_unknown">儲存失敗</string>
+
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>All</item>
+        <item>Chinese</item>
+        <item>English</item>
+        <item>Japanese</item>
+    </string-array>
+
+    <!-- Tags -->
+    <string-array name="tags">
+        <item>關注的標籤</item>
+        <item>要過濾的標籤</item>
+    </string-array>
+
+    <!-- Settings -->
+    <string name="snackbar_need_restart">你需要重新啟動 NHViewer 來應用設定</string>
+    <string name="snackbar_need_restart_action">現在就重啟</string>
+    <string name="category_options">應用選項</string>
+    <string name="category_about">關於</string>
+    <string name="set_title_app_version">應用版本</string>
+    <string name="settings_license">授權</string>
+    <string name="set_title_google_plus">Google Plus</string>
+    <string name="set_title_google_plus_summary">+Fung Jichun</string>
+    <string name="set_title_github">Github Repo</string>
+    <string name="set_title_github_website">"https://github.com/fython/NHentai-android"</string>
+    <string name="set_title_gpgroup">Google+ Group</string>
+    <string name="set_title_gpgroup_link">"https://plus.google.com/communities/106652485673516183999"</string>
+    <string name="set_title_telegram">Telegram Group</string>
+    <string name="set_title_telegram_link">"https://telegram.me/joinchat/0668165200bd194d0a89b8995057e330"</string>
+    <string name="set_title_alipay">給我們斗內</string>
+    <string name="set_title_alipay_address">316643843\@qq.com</string>
+    <string name="category_ui">結果</string>
+    <string name="category_list">清單</string>
+    <string name="set_title_hd_image">加載高質量的預覽圖片</string>
+    <string name="set_title_hd_image_summary">允許使用更多的記憶體</string>
+    <string name="set_title_cards_count">橫向卡片的數量</string>
+    <string name="set_title_cards_count_summary">現在的值: %s</string>
+    <string-array name="set_cards_count_options">
+        <item>自動</item>
+        <item>自訂</item>
+    </string-array>
+    <string-array name="set_cards_count_options_value">
+        <item>-1</item>
+        <item>0</item>
+    </string-array>
+    <string name="category_details">資訊</string>
+    <string name="set_title_full_image_in_details">加載高質量的預覽圖片</string>
+    <string name="set_title_full_image_in_details_summary">這將使用更多的記憶體</string>
+    <string name="set_title_allow_standalone_task">允許獨立任務</string>
+    <string name="set_title_allow_standalone_task_desc">每本書都將顯示為獨立任務</string>
+    <string name="set_title_android_too_old_desc">您的Android版本不支持此功能</string>
+    <string name="settings_storage">儲存</string>
+    <string name="category_folder">資料夾</string>
+    <string name="set_title_nomedia">不要在畫廊中顯示已儲存的書</string>
+    <string name="set_title_nomedia_summary">透過創建 \".nomedia\" 來保護你的 ♂祕密花園♂</string>
+
+    <!-- Donate -->
+    <string name="dialog_donate_title">斗內</string>
+    <string name="dialog_donate_message">一個好的應用需要時間、精力和支持
+		如果您非常喜歡NHBooks並且願意捐贈我們，請將您的斗內發送到此處 (支付寶):316643843\@qq.com</string>
+
+    <!--User Agent -->
+    <string name="user_agent" translatable="false">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>
+    <string name="clear_search_inputs">清除所有搜尋紀錄</string>
+    <string name="clear_search_title">清除搜尋紀錄</string>
+    <string name="search_cleared">清除搜尋紀錄完畢</string>
+
+    <!-- AutoUpdate -->
+    <string name="new_version_available">新版本檢查: </string>
+    <string name="button_update">更新</string>
+    <string name="updated_apk_download_error">下載更新時出錯</string>
+    <string name="updating">下載更新中</string>
+    <string name="update_complete">完成更新下載</string>
+    <string name="checking">檢查更新</string>
+    <string name="no_update">目前已是最新版本</string>
+    <string name="ignore">忽略</string>
+    <string name="close">關閉</string>
+    <string name="clear_cache_title">清除暫存</string>
+    <string name="clear_cache">清除裝置上的暫存</string>
+    <string name="cache_cleared">暫存清除完畢</string>
+    <string name="thumbnail">縮圖</string>
+    <string name="comic_content">漫畫內容</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="navigation_drawer_open">打開導覽列</string>
+    <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">導覽列</string>
+    <string name="areYouSure">你確定?</string>
+
+</resources>

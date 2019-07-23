@@ -4,15 +4,15 @@
 
     <item
         android:id="@+id/action_jumpToPage"
-        android:orderInCategory="200"
-        android:title="Jump to page"
         android:icon="@drawable/ic_jump_to_page_black_24dp"
+        android:orderInCategory="200"
+        android:title="@string/action_jumpToPage"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_sort"
-        android:orderInCategory="200"
-        android:title="Sort"
         android:icon="@drawable/ic_sort_black_24dp"
+        android:orderInCategory="200"
+        android:title="@string/sort"
         app:showAsAction="always" />
 
 
