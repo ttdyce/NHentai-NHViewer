@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/nav_home"
-        android:title="Home" />
+        android:title="@string/item_home" />
 
     <group>
         <item
             android:id="@+id/nav_collection"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Collections" />
+            android:title="@string/item_collections" />
         <!--<item-->
             <!--android:id="@+id/nav_download"-->
             <!--android:icon="@drawable/ic_menu_slideshow"-->
@@ -19,15 +19,15 @@
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/ic_history_black_24dp"
-            android:title="History" />
+            android:title="@string/item_history" />
         <item
             android:id="@+id/nav_tag"
             android:icon="@drawable/ic_tag_black_24dp"
-            android:title="Tags" />
+            android:title="@string/item_tag" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Settings" />
+            android:title="@string/item_settings" />
     </group>
 
     <!--<item android:title="Communicate">-->

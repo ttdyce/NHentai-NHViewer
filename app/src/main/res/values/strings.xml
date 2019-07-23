@@ -2,25 +2,45 @@
 <resources>
 
     <string name="app_name">NHViewer</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
-    <string name="action_next_page">Load next page</string>
+
 
     <!-- Initial -->
     <string name="dialog_permission_title">Permission is needed</string>
     <string name="dialog_permission_msg">NHBooks needs permission to read and wtite on the external storage to save images. Without them, this app could not work well.</string>
     <string name="snack_permission_failed">The request of permissions was denied!</string>
 
-    <!-- New Home Design -->
-    <string name="search_bar_hint">Search books here....</string>
-    <string name="title_bar_main_recent">Latest Books</string>
+    <string name="tips_network_error">Connection to NHentai failed.</string>
+    <string name="snack_action_try_again">Try again</string>
+    <string name="snack_action_get_it">I got it</string>
+
+    <!-- Header -->
+    <string name="action_search">Search</string>
+    <string name="action_next_page">Load next page</string>
+    <string name="sort">Sort</string>
+    <string name="action_jumpToPage">Jump To Page</string>
+    <string name="action_backup">Backup to pc</string>
+
+    <string name="search_here">Search Here</string>
+    <string name="check_database">check database</string>
     <string name="title_bar_updated_time_just_now">Updated just now</string>
     <string name="title_bar_updated_time_at">Updated at %s</string>
     <string name="title_bar_updated_time_null">Pull down to get the latest information</string>
 
+    <!-- Search -->
+    <string name="tips_search_text_empty">Please input the name of the book!</string>
+    <string name="action_clear">Clear text</string>
+    <string name="action_clear_recents">Clear all Recents</string>
+    <string name="activity_search_result">Search Results</string>
+    <string name="title_search_result">Search Results: %s</string>
+    <string name="tips_no_result">No Results.</string>
+    <string name="tips_no_more_results">This is the last page.</string>
+
+    <!-- Home -->
     <string name="item_home">Home</string>
     <string name="item_recent">Recents</string>
+    <string name="title_page_latest">Latest</string>
     <string name="item_download">Saved Books</string>
+    <string name="default_collection">default_collection</string>
     <string name="item_favorite_books">Favorite Books</string>
     <string name="item_favorite_categories">Favorite Categories</string>
     <string name="item_tag">Tags</string>
@@ -28,22 +48,8 @@
     <string name="item_group_other">Other</string>
     <string name="item_settings">Settings</string>
     <string name="item_open_nhentai">Open NHentai.net</string>
-
-    <string name="title_page_latest">Latest</string>
-    <string name="title_page_download">Saved Books</string>
-    <string name="title_page_favorite">Favorite Books</string>
-    <string name="title_page_favorite_category">Favorite Categories</string>
-    <string-array name="page_titles">
-        <item>@string/title_page_latest</item>
-        <item>@string/title_page_download</item>
-        <item>@string/title_page_favorite</item>
-        <item>@string/title_page_favorite_category</item>
-    </string-array>
-    <string name="tips_network_error">Connection to NHentai failed.</string>
-    <string name="snack_action_try_again">Try again</string>
-    <string name="snack_action_get_it">I got it</string>
-
-    <string name="label_added_to_favorite">FAV.</string>
+    <string name="item_collections">Collections</string>
+    <string name="item_history">History</string>
 
     <!-- Random -->
     <string name="activity_random">I\'m feeling lucky</string>
@@ -100,16 +106,6 @@
     <string name="action_save_failed">The current image hasn\'t been downloaded. Please wait for it to finish.</string>
     <string name="action_save_unknown">Failed to save images.</string>
 
-    <string name="activity_search">Search Books</string>
-    <string name="search_text_hint">Enter Book name....</string>
-    <string name="tips_search_text_empty">Please input the name of the book!</string>
-    <string name="action_clear">Clear text</string>
-    <string name="action_clear_recents">Clear all Recents</string>
-    <string name="activity_search_result">Search Results</string>
-    <string name="title_search_result">Search Results: %s</string>
-    <string name="tips_no_result">No Results.</string>
-    <string name="tips_no_more_results">This is the last page.</string>
-
     <!-- Languages -->
     <string-array name="languages">
         <item>All</item>
@@ -125,7 +121,6 @@
     </string-array>
 
     <!-- Settings -->
-    <string name="settings_main">Settings</string>
     <string name="snackbar_need_restart">You need to restart the app to apply settings.</string>
     <string name="snackbar_need_restart_action">Restart Now</string>
     <string name="category_options">Application Options</string>
@@ -173,7 +168,7 @@
 		If you love NHBooks very much and you\'re willing to donate us, please send your support to here (Alipay):316643843\@qq.com</string>
 
     <!--User Agent -->
-    <string name="user_agent" translatable="false">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>
+    <string name="user_agent">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>
     <string name="clear_search_inputs">Clear All Saved Searches</string>
     <string name="clear_search_title">Clear Saved Searches</string>
     <string name="search_cleared">Search results cleared succesfully</string>
@@ -200,9 +195,5 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="areYouSure">Are you sure?</string>
-    <string name="search">Search</string>
-    <string name="sort">Sort</string>
-    <string name="search_here">Search Here</string>
-    <string name="check_database">check database</string>
-    <string name="default_collection">default_collection</string>
+
 </resources>
