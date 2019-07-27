@@ -56,11 +56,18 @@ public class CollectionListFragment extends BaseListFragment {
         return true;
     }
 
+    //Not removeing favorite & history file
     @Override
     protected void remove(Object o) {
         Collection collection = (Collection) o;
         int id = collection.id;
+        String collectionName = Collection.NAME_LIST.get(id);
         String removed = "N/A";
+
+        if(collectionName.equals("History") || collectionName.equals("Favorite")){
+            Snackbar.make(getView(), String.format("Sorry, collection \"%s\" is not removable", collectionName), Snackbar.LENGTH_SHORT).show();
+            return;
+        }
 
         try {
             removed = CollectionTool.removeCollectionList(id);
@@ -68,7 +75,7 @@ public class CollectionListFragment extends BaseListFragment {
             e.printStackTrace();
         }
 
-        Snackbar.make(getView(), String.format("Removed collection \"%s\".", removed), Snackbar.LENGTH_SHORT);
+        Snackbar.make(getView(), String.format("Removed collection \"%s\"", removed), Snackbar.LENGTH_SHORT).show();
 
         adapter.collections.remove(collection);
 

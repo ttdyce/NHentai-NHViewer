@@ -177,7 +177,7 @@ public class JSONSaver implements Saver {
 
         removedFile.renameTo(new File(PATH_NH_REMOVED, removedName));
 
-        return removedName;//true means removed
+        return removedName;
     }
 
     @Override
@@ -267,6 +267,8 @@ public class JSONSaver implements Saver {
      * */
     private JSONArray getJSONArr(String collectionName) throws IOException, JSONException {
         File file = getFile(collectionName);
+        if (file == null)
+            return new JSONArray();
 
         FileInputStream inputStream = new FileInputStream(file);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -408,15 +410,22 @@ public class JSONSaver implements Saver {
 
     //create file with collection name if needed, and return it
     private File getFile(String collectionName) throws IOException {
-        File file = new File(FILE_NH_ROOT, collectionName);
-        boolean isIOSuccess = true;
+        boolean fileExist = false;
 
-        //if no collection found, create a new one.
-        if (!FILE_NH_ROOT.exists() || !file.exists()) {
-            isIOSuccess = FILE_NH_ROOT.mkdirs();
-            isIOSuccess = file.createNewFile();
+        for (String name :
+                FILE_NH_ROOT.list()) {
+            if (name.equals(collectionName))
+                fileExist = true;
         }
 
+        if (fileExist)
+            return new File(FILE_NH_ROOT, collectionName);
+
+        //needed to create file
+        File file = new File(FILE_NH_ROOT.getAbsolutePath(), collectionName);
+        file.createNewFile();
+
         return file;
+
     }
 }
