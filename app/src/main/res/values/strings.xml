@@ -40,7 +40,7 @@
     <string name="item_recent">Recents</string>
     <string name="title_page_latest">Latest</string>
     <string name="item_download">Saved Books</string>
-    <string name="default_collection">default_collection</string>
+    <string name="default_collection" translatable="false">default_collection</string>
     <string name="item_favorite_books">Favorite Books</string>
     <string name="item_favorite_categories">Favorite Categories</string>
     <string name="item_tag">Tags</string>
@@ -129,14 +129,6 @@
     <string name="settings_license">Licenses</string>
     <string name="set_title_google_plus">Google Plus</string>
     <string name="set_title_google_plus_summary">+Fung Jichun</string>
-    <string name="set_title_github">Github Repo</string>
-    <string name="set_title_github_website">"https://github.com/fython/NHentai-android"</string>
-    <string name="set_title_gpgroup">Google+ Group</string>
-    <string name="set_title_gpgroup_link">"https://plus.google.com/communities/106652485673516183999"</string>
-    <string name="set_title_telegram">Telegram Group</string>
-    <string name="set_title_telegram_link">"https://telegram.me/joinchat/0668165200bd194d0a89b8995057e330"</string>
-    <string name="set_title_alipay">Donate us via Alipay</string>
-    <string name="set_title_alipay_address">316643843\@qq.com</string>
     <string name="category_ui">Appearance</string>
     <string name="category_list">List</string>
     <string name="set_title_hd_image">Load high quality preview images</string>
@@ -161,11 +153,6 @@
     <string name="category_folder">Folder</string>
     <string name="set_title_nomedia">Do not show saved books in gallery</string>
     <string name="set_title_nomedia_summary">Protect your secret gardens by creating \".nomedia\" in directory</string>
-
-    <!-- Donate -->
-    <string name="dialog_donate_title">Donate us</string>
-    <string name="dialog_donate_message">A nice application needs time, energy and your support.
-		If you love NHBooks very much and you\'re willing to donate us, please send your support to here (Alipay):316643843\@qq.com</string>
 
     <!--User Agent -->
     <string name="user_agent">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>

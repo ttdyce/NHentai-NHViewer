@@ -12,8 +12,8 @@ import android.support.v7.preference.PreferenceManager;
 import java.util.ArrayList;
 import java.util.Map;
 
-import personal.ttd.nhviewer.R;
 import personal.ttd.nhviewer.Model.comic.Collection;
+import personal.ttd.nhviewer.R;
 
 public class SettingFragment extends PreferenceFragmentCompat {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "default_language";
@@ -93,13 +93,13 @@ public class SettingFragment extends PreferenceFragmentCompat {
             return;
 
         languageListPref.setSummary(defaultLanguage);
-        if(defaultLanguage.equals(""))
+        if (defaultLanguage.equals(""))
             languageListPref.setSummary("All");
 
     }
 
 
-    private class mOnSharedPreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener{
+    private class mOnSharedPreferenceChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -109,7 +109,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 int selectedIndex = Integer.parseInt(sharedPreferences.getString(key, "-1"));
                 connectionPref.setSummary(Collection.NAME_LIST.get(selectedIndex));
 
-            } else if(key.equals(KEY_PREF_DEFAULT_LANGUAGE)){
+            } else if (key.equals(KEY_PREF_DEFAULT_LANGUAGE)) {
                 String selectedLanguage = sharedPreferences.getString(key, "not set");
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();

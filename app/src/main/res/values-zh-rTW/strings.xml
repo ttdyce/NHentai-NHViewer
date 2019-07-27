@@ -38,7 +38,6 @@
     <string name="item_recent">最近</string>
     <string name="title_page_latest">最新</string>
     <string name="item_download">下載</string>
-    <string name="default_collection">默認集合</string>
     <string name="item_favorite_books">收藏</string>
     <string name="item_favorite_categories">收藏的類別</string>
     <string name="item_tag">標籤</string>
@@ -127,14 +126,6 @@
     <string name="settings_license">授權</string>
     <string name="set_title_google_plus">Google Plus</string>
     <string name="set_title_google_plus_summary">+Fung Jichun</string>
-    <string name="set_title_github">Github Repo</string>
-    <string name="set_title_github_website">"https://github.com/fython/NHentai-android"</string>
-    <string name="set_title_gpgroup">Google+ Group</string>
-    <string name="set_title_gpgroup_link">"https://plus.google.com/communities/106652485673516183999"</string>
-    <string name="set_title_telegram">Telegram Group</string>
-    <string name="set_title_telegram_link">"https://telegram.me/joinchat/0668165200bd194d0a89b8995057e330"</string>
-    <string name="set_title_alipay">給我們斗內</string>
-    <string name="set_title_alipay_address">316643843\@qq.com</string>
     <string name="category_ui">結果</string>
     <string name="category_list">清單</string>
     <string name="set_title_hd_image">加載高質量的預覽圖片</string>
@@ -159,11 +150,6 @@
     <string name="category_folder">資料夾</string>
     <string name="set_title_nomedia">不要在畫廊中顯示已儲存的書</string>
     <string name="set_title_nomedia_summary">透過創建 \".nomedia\" 來保護你的 ♂祕密花園♂</string>
-
-    <!-- Donate -->
-    <string name="dialog_donate_title">斗內</string>
-    <string name="dialog_donate_message">一個好的應用需要時間、精力和支持
-		如果您非常喜歡NHBooks並且願意捐贈我們，請將您的斗內發送到此處 (支付寶):316643843\@qq.com</string>
 
     <!--User Agent -->
     <string name="user_agent" translatable="false">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>
