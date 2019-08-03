@@ -5,6 +5,7 @@ notifications:
 env:
   global:
   - ANDROID_API=28
+  - secure: OrP19N+QrfNddcwZDGpAXfGJJgaYmiwZ06p+X9h508MJZ/Y2bQ5FT6FsGGcJOW2TXtr5AGokRFFeEhJa0KbDO6r/q8l3VPJay0p3654klwq0LMsSKUiiHKmTl9p8SbQ4liWP4mhMrPkww//wfCEL3adW+bqCK3ecxeo9aDw0SmLKk+uX8+LPEzir/II3XdCoWWmR8pb0BDVnQB2gOq/9VC97CGT4xwXZpElYnhaxyyZVeewLtkTmBxS4KTupfuc1r5LM2H+qOKjCFKCriOTRUCSWhCibwW4q7ura/XuHhP/24jNfY+yY/hZLguZiNTgCH7mSeZOBgFT8+utS3UZaaz7E0mVBffWh7pwWYSX9o/o7WUrpt0wMS0LVYvrgIN1tD7M8wlc8/OVC6iNDH+qI1v43RRRAZC0EwDfKFZFtWi+fSMIM+FOxLHkIYa+KIbBYKBxKsOVp7HAG6H4YTnlPCOo3mrRSHWSEhkrECBU5p5ISKq876/RnHVclDU3VSOrVw0BXZoS+gjrIpSW6tMMTKPMMABZZvruZr6X2wpnUvZFNl2zUomhwAQ69z9ZTFUE6P4mWPXrPVXbUS2K3ThtCN6QzWLoJGc1+4CP7Y9Eua7KllEXyh3Sj/bbLpdonwkBb0WmvoHt3YO7NYHf92oiuGXN+9f/XL7TfOCZ6nZQ57PU=
 android:
   components:
   - tools
@@ -15,8 +16,7 @@ android:
   licenses:
   - android-sdk-license-.+
 before_install:
-- openssl aes-256-cbc -K $encrypted_c06c49fb7c7a_key -iv $encrypted_c06c49fb7c7a_iv 
-  -in app/myapps.jks.enc -out app/myapps.jks -d
+- openssl aes-256-cbc -k "$super_secret_password" -in app/myapps.jks.enc -out app/myapps.jks -d
 - chmod +x gradlew
 before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
 cache:
