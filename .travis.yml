@@ -4,32 +4,32 @@ notifications:
   email: true
 env:
   global:
-  - ANDROID_API=28
-  - secure: OrP19N+QrfNddcwZDGpAXfGJJgaYmiwZ06p+X9h508MJZ/Y2bQ5FT6FsGGcJOW2TXtr5AGokRFFeEhJa0KbDO6r/q8l3VPJay0p3654klwq0LMsSKUiiHKmTl9p8SbQ4liWP4mhMrPkww//wfCEL3adW+bqCK3ecxeo9aDw0SmLKk+uX8+LPEzir/II3XdCoWWmR8pb0BDVnQB2gOq/9VC97CGT4xwXZpElYnhaxyyZVeewLtkTmBxS4KTupfuc1r5LM2H+qOKjCFKCriOTRUCSWhCibwW4q7ura/XuHhP/24jNfY+yY/hZLguZiNTgCH7mSeZOBgFT8+utS3UZaaz7E0mVBffWh7pwWYSX9o/o7WUrpt0wMS0LVYvrgIN1tD7M8wlc8/OVC6iNDH+qI1v43RRRAZC0EwDfKFZFtWi+fSMIM+FOxLHkIYa+KIbBYKBxKsOVp7HAG6H4YTnlPCOo3mrRSHWSEhkrECBU5p5ISKq876/RnHVclDU3VSOrVw0BXZoS+gjrIpSW6tMMTKPMMABZZvruZr6X2wpnUvZFNl2zUomhwAQ69z9ZTFUE6P4mWPXrPVXbUS2K3ThtCN6QzWLoJGc1+4CP7Y9Eua7KllEXyh3Sj/bbLpdonwkBb0WmvoHt3YO7NYHf92oiuGXN+9f/XL7TfOCZ6nZQ57PU=
+    - ANDROID_API=28
+    - secure: jqQJ3WXC94shPZSwQX6SnLMGoMGt7xZfUcSV2KgQ648R47kaSMnwt7kyh1X7wXX2ttL1BG4Mkii4JSsEzehzLfA0AJN9hRwdY7EctMPE3QTPfHXKL/CSQBc+2vh2OPpP0iw3FNHxL6uS/TT3zydy6m8aRxwvXPoZ4d7r0l6TnQG2MVzC4eufyZj7Ms2cXY57aZDDbramTFIIYzLGtCX+aGgCdFGQ/fWbNnVBprHdNbeRq0VqlhUl2Cc+GCZEVYzjbwIhRq3SEdmV5W0uHZR6+2kqf6pigyVdDvxcigKF/jzRzwkADzn/nTpBcBHcQ03sxtCBs2mBF0YDd0fNMzyX9i7SZliiGIzJo08zWqRoqipWd29fGHiJoM4VeSEparY/G+EPNzuA0IdnCgKzG8e6BLpo0cJ16CxVrj28lUel10VKihbJcvgyS0OaUpba57/5hplEw49Ldvj9jIf8nICSXLftrn25uDkhorOFnztAUo/R8F6QA5zzv+dska58y+jriAM/rhEA5xLzpLWmcJcph5abRvurhceAVI/s6gaj7MOJCjwTrJNyizQo3tof/wZlI4iXfBEbOuB3jo1rkxrrMHtRXLwewjpezm7GWiDcGBD49tgigV2B0VfCYjIM0MEm9oucLpB8Dp2e4VbFRxRuM6TkxfC5iZIVX1SL4jk2TlY=
 android:
   components:
-  - tools
-  - platform-tools
-  - build-tools-28.0.3
-  - android-${ANDROID_API}
-  - extra-android-m2repository
+    - tools
+    - platform-tools
+    - build-tools-28.0.3
+    - android-${ANDROID_API}
+    - extra-android-m2repository
   licenses:
-  - android-sdk-license-.+
+    - android-sdk-license-.+
 before_install:
-- openssl aes-256-cbc -k "$super_secret_password" -in app/myapps.jks.enc -out app/myapps.jks -d
-- chmod +x gradlew
+  - openssl aes-256-cbc -k "$super_secret_password" -in app/myapps.jks.enc -out app/myapps.jks -d
+  - chmod +x gradlew
 before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
 cache:
   directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
-  - "$HOME/.android/build-cache"
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
+    - "$HOME/.android/build-cache"
 before_deploy:
-- mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk
-- mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk
+  - mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk
+  - mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk
 script:
-- "./gradlew assembleDebug"
-- "./gradlew assembleRelease"
+  - "./gradlew assembleDebug"
+  - "./gradlew assembleRelease"
 deploy:
   provider: releases
   skip_cleanup: true
@@ -37,8 +37,8 @@ deploy:
   api_key:
     secure: V4d6VAD4MBk3Uk9DlizxOCXEFgJGtsSMuTOddtJAT/ETByCfrk09u3FjRCPPzRipfnPwrtIbNtVOLI7/joR6amErxoyPg0kLeARFDIh8lcRhbELv+ybuDNRM/FvRlSc0+RtXZ5XYlU+cVAtUH3gnnv3smxFTZvLHM4ZD4f5ND6Q4AlemWqy7gpqYobxw8bFEhOTWKB+HUeBsNBdqPCSjWrmcvTWYdE0WNb8h5N03ncnJ1PySu4FM+UD1bOGvSgE/ACRcNG0ASCNwChrhokz/RnVfhujIhgL4G3bK5unJqTqgHeE76R9zV4pKdsHsiy0B1S/6IkAyiDFDgRtU9qfPWD1tc9d9E+xsoMiyX0h9B9EK+aoTu2wnZqwHVa5gk63eO0kPDjlU3SY/zeJ5DTMUTOdJVkvDPJrApsDs4H4yGQmCXuaG6i6kqICGjFLfB2bLIaKNbobIyxd5g2B9CqHn2eHNXT9LDUVUXDIT38LNvDf9a+2o9feRX5hwkj1FHEAXD/R67AljrLKsDWHgZJLi6xP9wjD2qFHsCZKIBrvw/+R3xoZkql37WS1QI6TjpcvaJ02dJJuOGoLs4L+SYb5tLS5eXGFb2L0ezzUOeutvzYtxT+rswmrY7rdqeJV1UZtLWvy6f+CiH4i1+YzT/qcDrSEM3Ly/AyzpT6oXLdpj7aw=
   file:
-  - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
-  - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
+    - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
+    - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
   on:
     repo: ttdyce/NHentaiViewer
     tags: true
