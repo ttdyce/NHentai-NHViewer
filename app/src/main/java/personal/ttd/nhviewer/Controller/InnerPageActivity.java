@@ -122,22 +122,24 @@ public class InnerPageActivity extends AppCompatActivity {
 
 
     private void initComicShowing(String comicid) {
+        GlideRequests glideRequest = GlideApp.with(this);//create it here to avoid activity is destroyed
+
         ListReturnCallBack returnCallBack = comics -> {
             comicShowing = (Comic) comics.get(0);
             comicShowing.setId(comicid);
 
             //dont know if work
             NHTranlator.Companion.addToHistory(this, comicShowing, 0);
-            initRecycleView();
+            initRecycleView(glideRequest);
         };
 
         ComicMaker.getComicById(comicid, this, returnCallBack);
     }
 
     //comicShowing is returned
-    private void initRecycleView() {
+    private void initRecycleView(GlideRequests glideRequest) {
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new ComicDisplayAdapter(comicShowing, GlideApp.with(this));
+        mAdapter = new ComicDisplayAdapter(comicShowing, glideRequest);
         mRecyclerView = findViewById(R.id.rvComic);
 
         //mAdapter.notifyDataSetChanged();
@@ -149,7 +151,7 @@ public class InnerPageActivity extends AppCompatActivity {
         ListPreloader.PreloadModelProvider modelProvider = new MyPreloadModelProvider();
         RecyclerViewPreloader<ContactsContract.Contacts.Photo> preloader =
                 new RecyclerViewPreloader<ContactsContract.Contacts.Photo>(
-                        Glide.with(this), modelProvider, sizeProvider, 10 /*maxPreload*/);
+                        glideRequest, modelProvider, sizeProvider, 10 /*maxPreload*/);
 
         mRecyclerView.addOnScrollListener(preloader);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
