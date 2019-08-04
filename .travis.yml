@@ -16,7 +16,7 @@ android:
   licenses:
     - android-sdk-license-.+
 before_install:
-  - openssl aes-256-cbc -k "$super_secret_password" -in app/myapps.jks.enc -out app/myapps.jks -d
+  - openssl aes-256-cbc -k "$keystore_d" -in app/myapps.jks.enc -out app/myapps.jks -d
   - chmod +x gradlew
 before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
 cache:
