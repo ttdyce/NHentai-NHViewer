@@ -16,13 +16,21 @@ note: The signed apk is recommended.
 
 ## Screenshots
 
-![Comic display demo](https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/favorite_list.png "Comic display demo")
-
-[More screenshots...](https://github.com/ttdyce/NHentaiViewer/wiki/Screenshots)
+<img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/favorite_list.png" alt="Comic display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/collection_list.png" alt="Collection display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/navigation_view.png" alt="Navigation" width="280">
 
 ## Features
 
-[See wiki here](https://github.com/ttdyce/NHentaiViewer/wiki)
+- General
+  - Displaying scroll-able comic list
+  - Displaying vertically-scrolling comic content
+  - Sorting comic list by popularity
+  - Searching (With custom tags and language)
+  - Page skipping
+
+- Collection system
+  - add / remove collection list
+  - add / remove comic into collection list
+  - backup collection content to desktop (using another Java program)
 
 ## Getting Started
 
@@ -58,6 +66,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
+* Thanks for
+  * Chinese translate from [neslxzhen](https://github.com/neslxzhen)
 * Inspired by
   * [nhentai.net](https://nhentai.net)
   * [NHBooks](https://github.com/NHMoeDev/NHentai-android)
