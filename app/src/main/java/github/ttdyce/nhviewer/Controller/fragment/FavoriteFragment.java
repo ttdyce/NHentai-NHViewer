@@ -1,8 +1,8 @@
 package github.ttdyce.nhviewer.Controller.fragment;
 
 import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AlertDialog;
 
 import org.json.JSONException;
 

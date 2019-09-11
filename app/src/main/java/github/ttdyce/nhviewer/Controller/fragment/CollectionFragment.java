@@ -1,7 +1,7 @@
 package github.ttdyce.nhviewer.Controller.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import github.ttdyce.nhviewer.Controller.fragment.base.ComicListFragment;
 import github.ttdyce.nhviewer.Model.comic.Collection;

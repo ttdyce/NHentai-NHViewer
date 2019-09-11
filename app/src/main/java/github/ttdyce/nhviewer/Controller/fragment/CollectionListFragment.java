@@ -2,10 +2,11 @@ package github.ttdyce.nhviewer.Controller.fragment;
 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AlertDialog;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -129,7 +130,7 @@ public class CollectionListFragment extends BaseListFragment {
             FragmentManager fm = getFragmentManager();
             Fragment f = Collection.FRAGMENT_LIST.get(position);
 
-            android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+            FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(MainActivity.FRAME_HOME, f);
             transaction.addToBackStack(null);
             transaction.commit();

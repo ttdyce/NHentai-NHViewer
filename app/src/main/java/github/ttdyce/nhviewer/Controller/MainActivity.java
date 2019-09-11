@@ -6,19 +6,22 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.main_activity, menu);
 
-        android.support.v7.widget.SearchView searchView;
-        searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
+        androidx.appcompat.widget.SearchView searchView;
+        searchView = (androidx.appcompat.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
         setSearchView(searchView);
 
         return true;
@@ -127,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
         //initBottomAppbar();
         initCollection();
         initTag();
+
+        checkUpdate();
+    }
+
+    private void checkUpdate() {
+        final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfig.activateFetched();
+
     }
 
 //    private void initBottomAppbar() {
@@ -272,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private void setSearchView(android.support.v7.widget.SearchView mSearchView) {
+    private void setSearchView(androidx.appcompat.widget.SearchView mSearchView) {
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         ComponentName name = new ComponentName(getApplicationContext(), SearchableActivity.class);
         if (manager != null) {
@@ -286,14 +297,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void initFragment(Fragment f) {
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(FRAME_HOME, f);
         transaction.commit();
     }
 
     public void replaceFragment(Fragment f) {
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(FRAME_HOME, f);
         transaction.addToBackStack(null);
         transaction.commit();

@@ -3,9 +3,12 @@ package github.ttdyce.nhviewer.Controller;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 
 import github.ttdyce.nhviewer.R;
@@ -46,13 +49,13 @@ public class SearchableActivity extends AppCompatActivity {
 
     private void setSearchableFragment(String query) {
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.Fragment fragment = new SearchableFragment();
+        Fragment fragment = new SearchableFragment();
         Bundle bundle = new Bundle();
 
         bundle.putString("query", query);
         fragment.setArguments(bundle);
 
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.frameSearchable, fragment);
         transaction.commit();
     }

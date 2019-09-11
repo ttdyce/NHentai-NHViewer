@@ -2,7 +2,7 @@ package github.ttdyce.nhviewer.Model.Saver;
 
 import android.content.Context;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
