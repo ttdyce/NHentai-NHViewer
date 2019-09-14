@@ -16,6 +16,9 @@ public class Comic {
     private int uploadDate;
     private Tag[] tags;
 
+    public Comic() {
+    }
+
     public Comic(JSONObject o) throws JSONException {
         setId(o.getInt("id"));
         setMid(o.getString("media_id"));

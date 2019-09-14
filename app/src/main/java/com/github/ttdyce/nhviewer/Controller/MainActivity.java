@@ -1,8 +1,10 @@
-package com.github.ttdyce.nhviewer;
+package com.github.ttdyce.nhviewer.Controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.github.ttdyce.nhviewer.R;
 
 public class MainActivity extends AppCompatActivity {
 
