@@ -1,25 +1,18 @@
 package com.github.ttdyce.nhviewer;
 
 import com.github.ttdyce.nhviewer.Model.Comic;
+import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
 public class ComicUnitTest {
     @Test
-    public void comic_creation() {
-        try {
-            JSONObject o = new JSONObject(sampleComicJSON);
-            Comic c = new Comic(o);
-
-            assertNotNull(c);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void comic_creation_by_gson() {
+        Gson gson = new Gson();
+        Comic comic = gson.fromJson(sampleComicJSON, Comic.class);
+        assertNotNull(comic);
 
     }
 
