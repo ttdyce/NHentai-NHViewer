@@ -1,11 +1,5 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.Comic;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *

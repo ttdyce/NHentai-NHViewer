@@ -1,6 +1,6 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.Comic;
+import com.github.ttdyce.nhviewer.Model.Comic.Comic;
 import com.google.gson.Gson;
 
 import org.junit.Test;
@@ -12,8 +12,6 @@ public class ComicUnitTest {
     public void comic_creation_by_gson() {
         Gson gson = new Gson();
         Comic comic = gson.fromJson(sampleComicJSON, Comic.class);
-        assertNotNull(comic);
-
     }
 
     private String sampleComicJSON = "{\n" +

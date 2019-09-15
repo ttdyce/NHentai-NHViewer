@@ -1,4 +1,4 @@
-package com.github.ttdyce.nhviewer.Model;
+package com.github.ttdyce.nhviewer.Model.Comic;
 
 import java.util.List;
 

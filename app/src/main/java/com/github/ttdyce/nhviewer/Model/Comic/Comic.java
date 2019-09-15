@@ -1,4 +1,6 @@
-package com.github.ttdyce.nhviewer.Model;
+package com.github.ttdyce.nhviewer.Model.Comic;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -62,6 +64,12 @@ public class Comic {
     //Comic Title
     public class Title {
         String english, japanese, pretty;
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "\nPretty: " + pretty;
+        }
     }
 
     public class Images {

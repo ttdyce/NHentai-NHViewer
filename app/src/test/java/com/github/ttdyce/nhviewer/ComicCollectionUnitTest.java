@@ -1,7 +1,7 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.Comic;
-import com.github.ttdyce.nhviewer.Model.ComicCollection;
+import com.github.ttdyce.nhviewer.Model.Comic.Comic;
+import com.github.ttdyce.nhviewer.Model.Comic.ComicCollection;
 
 import org.junit.Test;
 
