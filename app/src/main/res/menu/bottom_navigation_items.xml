@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_index"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
+    <item
+        android:id="@+id/action_comic_collection"
+        android:icon="@drawable/ic_folder_black_24dp"
+        android:title="Collection" />
+    <item
+        android:id="@+id/action_tag"
+        android:title="Tag" />
+    <item
+        android:id="@+id/action_favorite"
+        android:title="Favorite" />
+    <item
+        android:id="@+id/action_setting"
+        android:title="Setting" />
+</menu>

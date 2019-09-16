@@ -31,6 +31,9 @@ public class NHAPI {
         getComicList(query, 1, sortedPopular, callback);
     }
 
+    /*
+    * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
+    * */
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
