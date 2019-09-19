@@ -13,6 +13,7 @@ note: The signed apk is recommended.
 [Released apk](https://github.com/ttdyce/nhviewer/releases)
 
 *Star the project may speed up patch release (¬‿¬ )*
+
 *Version 2 will update the code, layout, and performance! (2019-09-19)*
 
 ## Screenshots
