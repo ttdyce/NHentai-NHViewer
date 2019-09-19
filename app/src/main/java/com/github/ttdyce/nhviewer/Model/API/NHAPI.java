@@ -89,16 +89,26 @@ public class NHAPI {
     public static class URLs {
         private static String searchPrefix = "https://nhentai.net/api/galleries/search?query=";
         private static String getComicPrefix = "https://nhentai.net/api/gallery/";
+        private static String[] types = {"jpg", "png"};
 
-        private static String search(String query, int page, boolean sortedPopular) {
+        public static String search(String query, int page, boolean sortedPopular) {
             if (sortedPopular)
                 return searchPrefix + query + "&page=" + page + "&sort=popular";
             else
                 return searchPrefix + query + "&page=" + page;
         }
 
-        private static String getComic(int id){
+        public static String getComic(int id){
             return getComicPrefix + id;
+        }
+
+        public static String getGetThumbnail(String mid, String type){
+            for (String t:types) {
+                if(t.charAt(0) == type.charAt(0))
+                    return String.format("https://t.nhentai.net/galleries/%s/thumb.%s", mid, t);
+            }
+
+            return "";//should be not needed
         }
     }
 }

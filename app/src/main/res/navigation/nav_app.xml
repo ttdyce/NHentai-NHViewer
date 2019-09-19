@@ -6,14 +6,22 @@
     app:startDestination="@id/comicListFragment">
     <fragment
         android:id="@+id/comicListFragment"
-        android:name="com.github.ttdyce.nhviewer.ComicListFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
         android:label="fragment_comic_list"
-        tools:layout="@layout/fragment_comic_list" />
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue="index"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"/>
+    </fragment>
     <fragment
         android:id="@+id/comicCollectionFragment"
         android:name="com.github.ttdyce.nhviewer.ComicCollectionFragment"
         android:label="fragment_comic_collection"
-        tools:layout="@layout/fragment_comic_collection" >
+        tools:layout="@layout/fragment_comic_collection">
         <action
             android:id="@+id/action_comicCollectionFragment_to_comicListFragment"
             app:destination="@id/comicListFragment" />

@@ -68,7 +68,7 @@ public class Comic {
         @NonNull
         @Override
         public String toString() {
-            return "\nPretty: " + pretty;
+            return english;
         }
     }
 
@@ -76,6 +76,18 @@ public class Comic {
         Image[] pages;
         Image cover;
         Image thumbnail;
+
+        public Image[] getPages() {
+            return pages;
+        }
+
+        public Image getCover() {
+            return cover;
+        }
+
+        public Image getThumbnail() {
+            return thumbnail;
+        }
     }
 
     //Comic Image
@@ -91,6 +103,18 @@ public class Comic {
             this.type = type;
             this.width = width;
             this.height = height;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
         }
     }
 
