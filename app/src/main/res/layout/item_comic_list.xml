@@ -35,7 +35,6 @@
         android:id="@+id/tvComicListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:ellipsize="end"
         android:lines="2" />
 
@@ -43,8 +42,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        >
 
         <ImageButton
             android:id="@+id/ibCollect"

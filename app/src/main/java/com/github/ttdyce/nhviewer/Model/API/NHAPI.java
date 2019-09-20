@@ -12,6 +12,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.Locale;
+
 public class NHAPI {
     private Context context;
 
@@ -102,10 +104,18 @@ public class NHAPI {
             return getComicPrefix + id;
         }
 
-        public static String getGetThumbnail(String mid, String type){
+        public static String getThumbnail(String mid, String type){
             for (String t:types) {
                 if(t.charAt(0) == type.charAt(0))
-                    return String.format("https://t.nhentai.net/galleries/%s/thumb.%s", mid, t);
+                    return String.format(Locale.ENGLISH, "https://t.nhentai.net/galleries/%s/thumb.%s", mid, t);
+            }
+
+            return "";//should be not needed
+        }
+        public static String getPage(String mid, int page, String type){
+            for (String t:types) {
+                if(t.charAt(0) == type.charAt(0))
+                    return String.format(Locale.ENGLISH, "https://i.nhentai.net/galleries/%s/%d.%s", mid, page, t);
             }
 
             return "";//should be not needed

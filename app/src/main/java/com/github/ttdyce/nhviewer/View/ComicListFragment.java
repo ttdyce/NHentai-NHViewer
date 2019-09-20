@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     private String collectionName;
     private String query;
     private RecyclerView rvComicList;
+    private ComicListPresenter presenter;
 
     public ComicListFragment() {
         // Required empty public constructor
@@ -71,12 +74,13 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ComicListPresenter comicListPresenter = new ComicListPresenter(this);
+        NavController navController = Navigation.findNavController(view);
+        presenter = new ComicListPresenter(this, navController);
         GridLayoutManager layoutManager = new GridLayoutManager(requireActivity(), 3);
         rvComicList = view.findViewById(R.id.rvComicList);
 
         rvComicList.setHasFixedSize(true);
-        rvComicList.setAdapter(comicListPresenter.getAdapter());
+        rvComicList.setAdapter(presenter.getAdapter());
         rvComicList.setLayoutManager(layoutManager);
     }
 
@@ -88,7 +92,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     }
 
     @Override
-    public void onBindViewHolder(ComicListViewHolder holder, String title, String thumbUrl, int numOfPages) {
+    public void onBindViewHolder(ComicListViewHolder holder, final int position, String title, String thumbUrl, int numOfPages) {
 
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH,"%dp", numOfPages));
@@ -100,6 +104,14 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         Glide.with(requireContext())
                 .load(thumbUrl)
                 .into(holder.ivThumb);
+
+        holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onComicItemClick(position);
+            }
+        });
+
     }
 
     @Override

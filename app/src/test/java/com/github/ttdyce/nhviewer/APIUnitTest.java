@@ -11,7 +11,7 @@ public class APIUnitTest {
 
     @Test
     public void get_thumbnail_url() {
-        String url = NHAPI.URLs.getGetThumbnail(mid, "j");
+        String url = NHAPI.URLs.getThumbnail(mid, "j");
 
         assertEquals(url, "https://t.nhentai.net/galleries/" + mid + "/thumb.jpg");
     }

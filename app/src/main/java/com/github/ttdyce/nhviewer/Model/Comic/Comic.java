@@ -59,6 +59,17 @@ public class Comic {
         return tags;
     }
 
+    public String[] getPageTypes() {
+        String[] types = new String[numOfPages];
+        Image[] pages = getImages().getPages();
+
+        for (int i = 0; i < types.length; i++) {
+            types[i] = pages[i].getType();
+        }
+
+        return types;
+    }
+
     /*Inner classes*/
 
     //Comic Title
