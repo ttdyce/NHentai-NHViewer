@@ -15,7 +15,8 @@
             app:argType="string" />
         <argument
             android:name="query"
-            app:argType="string"/>
+            app:argType="string"
+            android:defaultValue=" " />
     </fragment>
     <fragment
         android:id="@+id/comicCollectionFragment"
@@ -26,4 +27,6 @@
             android:id="@+id/action_comicCollectionFragment_to_comicListFragment"
             app:destination="@id/comicListFragment" />
     </fragment>
+    <argument android:defaultValue=" "
+        android:name="query" />
 </navigation>

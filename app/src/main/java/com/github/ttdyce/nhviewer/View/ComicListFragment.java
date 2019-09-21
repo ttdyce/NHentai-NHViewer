@@ -9,9 +9,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,22 +35,16 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     private String collectionName;
     private String query;
+
     private RecyclerView rvComicList;
     private ComicListPresenter presenter;
+    private ContentLoadingProgressBar pbComicList;
+    private TextView tvComicListDesc;
 
     public ComicListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ComicListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ComicListFragment newInstance(String param1, String param2) {
         ComicListFragment fragment = new ComicListFragment();
         Bundle args = new Bundle();
@@ -82,9 +78,13 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         super.onViewCreated(view, savedInstanceState);
 
         NavController navController = Navigation.findNavController(view);
-        presenter = new ComicListPresenter(this);
+        presenter = new ComicListPresenter(this, collectionName, query);
         GridLayoutManager layoutManager = new GridLayoutManager(requireActivity(), 3);
         rvComicList = view.findViewById(R.id.rvComicList);
+        pbComicList = view.findViewById(R.id.pbComicList);
+        tvComicListDesc = view.findViewById(R.id.tvComicListDesc);
+
+        tvComicListDesc.setText("Loading from " + collectionName + "...");
 
         rvComicList.setHasFixedSize(true);
         rvComicList.setAdapter(presenter.getAdapter());
@@ -121,6 +121,10 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public void onBindViewHolder(ComicListViewHolder holder, final int position, String title, String thumbUrl, int numOfPages) {
+        //endless scroll
+        if (position == rvComicList.getAdapter().getItemCount() - 1) {
+            presenter.loadNextPage();
+        }
 
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH,"%dp", numOfPages));
@@ -156,7 +160,23 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public void updateList() {
+        RecyclerView.Adapter adapter = rvComicList.getAdapter();
         rvComicList.getAdapter().notifyDataSetChanged();
+
+        boolean loading = false;
+        if(adapter.getItemCount() == 0)
+            loading = true;
+        toggleLoadingDesc(loading);
+    }
+
+    private void toggleLoadingDesc(boolean loading){
+        if(loading){
+            pbComicList.show();
+            tvComicListDesc.setVisibility(View.VISIBLE);
+        }else{
+            pbComicList.hide();
+            tvComicListDesc.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

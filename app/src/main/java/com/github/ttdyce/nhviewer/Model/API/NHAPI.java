@@ -39,7 +39,7 @@ public class NHAPI {
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = URLs.search(query, page, sortedPopular);
+        String url = URLs.search("language:chinese " + query, page, sortedPopular);// TODO: 2019/9/22 hardcoded language:chinese
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

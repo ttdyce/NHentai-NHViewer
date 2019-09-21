@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ttdyce.nhviewer.Model.API.NHAPI;
@@ -23,31 +22,41 @@ import java.util.ArrayList;
 
 public class ComicListPresenter {
     private ComicListView comicListView;
+    private String collectionName, query;
+    private boolean sortedPopularNow = false, hasNextPage = true;
+    private int pageNow = 1;
+
     private ComicListAdapter adapter;
     private ResponseCallback callback;
 
-    public ComicListPresenter(final ComicListView comicListView) {
+    public ComicListPresenter(final ComicListView comicListView, String collectionName, String query) {
+        this.collectionName = collectionName;
+        this.query = query;
+
         this.comicListView = comicListView;
         this.adapter = new ComicListAdapter();
-
-        NHAPI nhapi = new NHAPI(comicListView.getContext());
-        callback = new ResponseCallback() {
+        this.callback = new ResponseCallback() {
             @Override
             public void onReponse(String result) {
                 JsonArray array = new JsonParser().parse(result).getAsJsonArray();
                 Gson gson = new Gson();
-                for (JsonElement jsonElement : array) {
 
-                    Comic c = gson.fromJson(jsonElement, Comic.class);
-                    adapter.addComic(c);
-                }
+                if (array.size() == 0)
+                    hasNextPage = false;
+                else
+                    for (JsonElement jsonElement : array) {
+
+                        Comic c = gson.fromJson(jsonElement, Comic.class);
+                        adapter.addComic(c);
+                    }
 
                 adapter.notifyDataSetChanged();
                 comicListView.updateList();
             }
         };
 
-        nhapi.getComicList("language:chinese", true, callback);
+        NHAPI nhapi = new NHAPI(comicListView.getContext());
+        nhapi.getComicList(query, sortedPopularNow, callback);
     }
 
     public ComicListAdapter getAdapter() {
@@ -69,7 +78,7 @@ public class ComicListPresenter {
     }
 
     public void onCollectClick(int position) {
-        comicListView.showAdded(false , "F Testing");
+        comicListView.showAdded(false, "F Testing");
 
     }
 
@@ -78,10 +87,22 @@ public class ComicListPresenter {
     }
 
     public void onSortClick() {
+        //toggle sort by popular
+        sortedPopularNow = !sortedPopularNow;
+        adapter.clear();
+        comicListView.updateList();
 
+        NHAPI nhapi = new NHAPI(comicListView.getContext());
+        nhapi.getComicList(query, sortedPopularNow, callback);
     }
 
     public void onJumpToPageClick() {
+
+    }
+
+    public void loadNextPage() {
+        NHAPI nhapi = new NHAPI(comicListView.getContext());
+        nhapi.getComicList(query, ++pageNow,sortedPopularNow, callback);
 
     }
 
@@ -112,6 +133,10 @@ public class ComicListPresenter {
         public void addComic(Comic c) {
             comics.add(c);
         }
+
+        public void clear() {
+            comics.clear();
+        }
     }
 
     public interface ComicListView {
@@ -123,6 +148,7 @@ public class ComicListPresenter {
         void updateList();
 
         Context getContext();
+
         void showAdded(boolean isAdded, String collectionName);
 
     }

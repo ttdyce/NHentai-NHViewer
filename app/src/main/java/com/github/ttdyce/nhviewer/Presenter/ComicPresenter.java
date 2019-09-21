@@ -16,7 +16,7 @@ public class ComicPresenter {
         this.view = view;
         String[] urls = new String[numOfPages];
         for (int i = 0; i < numOfPages; i++) {
-            urls[i] = NHAPI.URLs.getPage(mid, i, types[i]);
+            urls[i] = NHAPI.URLs.getPage(mid, i+1, types[i]);
         }
         this.adapter = new ComicAdapter(urls);
     }
