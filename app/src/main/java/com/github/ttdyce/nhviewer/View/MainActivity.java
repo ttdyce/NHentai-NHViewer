@@ -3,6 +3,7 @@ package com.github.ttdyce.nhviewer.View;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void init() {
+        //app bar
+        Toolbar myToolbar = findViewById(R.id.toolbar_main);
+        setSupportActionBar(myToolbar);
+        
         //Link bottom navigation view with jetpack navigation
         NavController navController = Navigation.findNavController(this, R.id.fragmentNavHost);
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);

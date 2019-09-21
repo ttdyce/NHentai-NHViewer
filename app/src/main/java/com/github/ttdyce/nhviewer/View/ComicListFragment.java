@@ -2,7 +2,11 @@ package com.github.ttdyce.nhviewer.View;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.github.ttdyce.nhviewer.Presenter.ComicListPresenter;
 import com.github.ttdyce.nhviewer.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 
@@ -63,11 +68,13 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() == null)
             return;
 
         collectionName = getArguments().getString(ARG_COLLECTION_NAME);
         query = getArguments().getString(ARG_QUERY);
+
     }
 
     @Override
@@ -75,13 +82,34 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         super.onViewCreated(view, savedInstanceState);
 
         NavController navController = Navigation.findNavController(view);
-        presenter = new ComicListPresenter(this, navController);
+        presenter = new ComicListPresenter(this);
         GridLayoutManager layoutManager = new GridLayoutManager(requireActivity(), 3);
         rvComicList = view.findViewById(R.id.rvComicList);
 
         rvComicList.setHasFixedSize(true);
         rvComicList.setAdapter(presenter.getAdapter());
         rvComicList.setLayoutManager(layoutManager);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.app_bar_items, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                presenter.onSortClick();
+                return true;
+            case R.id.action_jumpToPage:
+                presenter.onJumpToPageClick();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -111,6 +139,18 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
                 presenter.onComicItemClick(position);
             }
         });
+        holder.ibCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onCollectClick(position);
+            }
+        });
+        holder.ibFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onFavoriteClick(position);
+            }
+        });
 
     }
 
@@ -122,6 +162,14 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     @Override
     public Context getContext() {
         return requireActivity();
+    }
+
+    @Override
+    public void showAdded(boolean isAdded, String collectionName) {
+        if(isAdded)
+            Snackbar.make(requireView(), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
+        else
+            Snackbar.make(requireView(), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
     }
 
 }

@@ -24,15 +24,14 @@ import java.util.ArrayList;
 public class ComicListPresenter {
     private ComicListView comicListView;
     private ComicListAdapter adapter;
-    private NavController navController;
+    private ResponseCallback callback;
 
-    public ComicListPresenter(final ComicListView comicListView, final NavController navController) {
+    public ComicListPresenter(final ComicListView comicListView) {
         this.comicListView = comicListView;
         this.adapter = new ComicListAdapter();
-        this.navController = navController;
 
         NHAPI nhapi = new NHAPI(comicListView.getContext());
-        ResponseCallback callback = new ResponseCallback() {
+        callback = new ResponseCallback() {
             @Override
             public void onReponse(String result) {
                 JsonArray array = new JsonParser().parse(result).getAsJsonArray();
@@ -67,6 +66,23 @@ public class ComicListPresenter {
         intent.putExtra(ComicActivity.ARG_PAGE_TYPES, c.getPageTypes());
 
         activity.startActivity(intent, args);
+    }
+
+    public void onCollectClick(int position) {
+        comicListView.showAdded(false , "F Testing");
+
+    }
+
+    public void onFavoriteClick(int position) {
+        comicListView.showAdded(true, "N/A");
+    }
+
+    public void onSortClick() {
+
+    }
+
+    public void onJumpToPageClick() {
+
     }
 
     private class ComicListAdapter extends RecyclerView.Adapter<ComicListViewHolder> {
@@ -107,6 +123,7 @@ public class ComicListPresenter {
         void updateList();
 
         Context getContext();
+        void showAdded(boolean isAdded, String collectionName);
 
     }
 }
