@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +26,10 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
     private String[] pageTypes;
     private ComicPresenter presenter;
 
+    private RecyclerView rvComic;
+    private ProgressBar pbComic;
+    private LinearLayoutManager layoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +47,11 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         numOfPages = extras.getInt(ARG_NUM_OF_PAGES);
         pageTypes = extras.getStringArray(ARG_PAGE_TYPES);
 
+        rvComic = findViewById(R.id.rvComic);
+        pbComic = findViewById(R.id.pbComic);
+
         presenter = new ComicPresenter(this, mid, pageTypes, numOfPages);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         RecyclerView rvComic = findViewById(R.id.rvComic);
 
         rvComic.setHasFixedSize(true);
@@ -59,9 +67,14 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
     }
 
     @Override
-    public void onBindViewHolder(ComicViewHolder holder, String url) {
+    public void onBindViewHolder(ComicViewHolder holder, int position, String url) {
         Glide.with(this)
                 .load(url)
                 .into(holder.ivComicPage);
+
+        holder.tvComicPage.setText(String.valueOf(position + 1));
+
+        int pos = layoutManager.findLastVisibleItemPosition();
+        pbComic.setProgress(100 * pos / layoutManager.getItemCount());
     }
 }

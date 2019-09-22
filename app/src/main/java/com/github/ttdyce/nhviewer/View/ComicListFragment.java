@@ -186,10 +186,11 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public void showAdded(boolean isAdded, String collectionName) {
+
         if(isAdded)
-            Snackbar.make(requireView(), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(requireActivity().findViewById(R.id.rootMain), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
         else
-            Snackbar.make(requireView(), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(requireActivity().findViewById(R.id.rootMain), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
     }
 
 }

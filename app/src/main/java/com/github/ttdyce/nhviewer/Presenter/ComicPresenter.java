@@ -43,7 +43,7 @@ public class ComicPresenter {
         public void onBindViewHolder(@NonNull ComicViewHolder holder, int position) {
             String url = pagesUrl[position];
 
-            view.onBindViewHolder(holder, url);
+            view.onBindViewHolder(holder, position, url);
         }
 
         @Override
@@ -56,7 +56,7 @@ public class ComicPresenter {
 
         ComicViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
 
-        void onBindViewHolder(ComicViewHolder holder, String url);
+        void onBindViewHolder(ComicViewHolder holder, int position, String url);
 
     }
 }
