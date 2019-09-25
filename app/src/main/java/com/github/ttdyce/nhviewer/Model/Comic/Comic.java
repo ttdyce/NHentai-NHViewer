@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Comic {
     private int id;
+
     @SerializedName("num_pages")
     private int numOfPages;
 
