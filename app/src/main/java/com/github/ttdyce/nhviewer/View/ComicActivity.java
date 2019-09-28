@@ -1,5 +1,6 @@
 package com.github.ttdyce.nhviewer.View;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,8 +70,11 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
 
     @Override
     public void onBindViewHolder(ComicViewHolder holder, int position, String url) {
+        // TODO: 2019/9/28 Hardcoded Comic image size override 1080x1920
         Glide.with(this)
                 .load(url)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(this, R.color.colorSecondary)))
+                .override(1080, 1920)
                 .into(holder.ivComicPage);
 
         holder.tvComicPage.setText(String.valueOf(position + 1));

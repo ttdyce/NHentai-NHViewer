@@ -52,7 +52,7 @@
             android:layout_alignParentTop="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Collect button"
-            android:src="@drawable/ic_playlist_add_black_24dp" />
+            android:src="@drawable/ic_add_to_photos_black_24dp" />
 
         <TextView
             android:id="@+id/tvNumOfPages"

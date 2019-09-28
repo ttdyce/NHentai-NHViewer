@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private static AppDatabase appDatabase;
+    private static NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        // TODO: 2019/9/25 Database is always clearing for better debugging
+        deleteDatabase(AppDatabase.DB_NAME);
         //init Collections
         appDatabase = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "ComicCollection").build();
+                AppDatabase.class, AppDatabase.DB_NAME)
+                .fallbackToDestructiveMigration().build();
 
 //        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),
 //                AppDatabase.class, "ComicCollection")
@@ -43,10 +47,9 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        appDatabase.clearAllTables();
-                        dao.insert(ComicCollectionEntity.create("History", "2"));
-                        dao.insert(ComicCollectionEntity.create("Favorite", "2"));
-                        dao.insert(ComicCollectionEntity.create("ReadLater", "2"));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_HISTORY, -1));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_FAVORITE, -1));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_NEXT, -1));
                         for (ComicCollectionEntity entity :
                                 dao.getAll()) {
                             Log.i("InsideThread", "Found entity: " + entity.getName());
@@ -54,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("InsideThread", "Thread ended!");
                     }
                 }).start();
+        navController = Navigation.findNavController(this, R.id.fragmentNavHost);
         //app bar
         Toolbar myToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(myToolbar);
 
         //Link bottom navigation view with jetpack navigation
-        NavController navController = Navigation.findNavController(this, R.id.fragmentNavHost);
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
 
         NavigationUI.setupWithNavController(bottomNavigation, navController);
@@ -70,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
     //Singleton database
     public static AppDatabase getAppDatabase(){
         return appDatabase;
+    }
+    //Singleton
+    public static NavController getNavController(){
+        return navController;
     }
 
 }

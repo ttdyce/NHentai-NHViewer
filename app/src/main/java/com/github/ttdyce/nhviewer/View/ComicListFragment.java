@@ -1,6 +1,7 @@
 package com.github.ttdyce.nhviewer.View;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,10 +14,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +26,6 @@ import com.github.ttdyce.nhviewer.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
-
-import static com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade;
 
 public class ComicListFragment extends Fragment implements ComicListPresenter.ComicListView {
     private static final String ARG_COLLECTION_NAME = "collectionName";
@@ -45,11 +43,11 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         // Required empty public constructor
     }
 
-    public static ComicListFragment newInstance(String param1, String param2) {
+    public static ComicListFragment newInstance(String collectionName, String query) {
         ComicListFragment fragment = new ComicListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_COLLECTION_NAME, param1);
-        args.putString(ARG_QUERY, param2);
+        args.putString(ARG_COLLECTION_NAME, collectionName);
+        args.putString(ARG_QUERY, query);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,7 +75,6 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        NavController navController = Navigation.findNavController(view);
         presenter = new ComicListPresenter(this, collectionName, query);
         GridLayoutManager layoutManager = new GridLayoutManager(requireActivity(), 3);
         rvComicList = view.findViewById(R.id.rvComicList);
@@ -128,13 +125,10 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH,"%dp", numOfPages));
-//        GlideApp.with(holder.itemView.getContext())
-//                .load(thumbUrl)
-//                .customFormat()
-//                .transition(withCrossFade())
-//                .into(holder.ivThumb);
+
         Glide.with(requireContext())
                 .load(thumbUrl)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.colorSecondary)))
                 .into(holder.ivThumb);
 
         holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
@@ -159,14 +153,11 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     }
 
     @Override
-    public void updateList() {
+    public void updateList(Boolean isLoading) {
         RecyclerView.Adapter adapter = rvComicList.getAdapter();
-        rvComicList.getAdapter().notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
 
-        boolean loading = false;
-        if(adapter.getItemCount() == 0)
-            loading = true;
-        toggleLoadingDesc(loading);
+        toggleLoadingDesc(isLoading);
     }
 
     private void toggleLoadingDesc(boolean loading){

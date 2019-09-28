@@ -14,7 +14,13 @@ public interface ComicCollectionDao {
     List<ComicCollectionEntity> getAll();
 
     @Query("SELECT * FROM ComicCollection WHERE name = :name")
+    List<ComicCollectionEntity> getAllByName(String name);
+
+    @Query("SELECT * FROM ComicCollection WHERE name = :name")
     ComicCollectionEntity findByName(String name);
+
+    @Query("SELECT count(*) == 0 FROM ComicCollection Where id = :id AND name = :collectionName")
+    boolean notExist(String collectionName, int id);
 
     @Insert
     void insertAll(ComicCollectionEntity... comicCollection);

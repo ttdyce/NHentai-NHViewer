@@ -20,11 +20,12 @@
     </fragment>
     <fragment
         android:id="@+id/comicCollectionFragment"
-        android:name="com.github.ttdyce.nhviewer.ComicCollectionFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicCollectionFragment"
         android:label="fragment_comic_collection"
         tools:layout="@layout/fragment_comic_collection">
         <action
             android:id="@+id/action_comicCollectionFragment_to_comicListFragment"
+
             app:destination="@id/comicListFragment" />
     </fragment>
     <argument android:defaultValue=" "

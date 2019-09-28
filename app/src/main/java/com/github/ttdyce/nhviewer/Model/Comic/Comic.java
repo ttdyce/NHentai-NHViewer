@@ -28,6 +28,18 @@ public class Comic {
     public Comic() {
     }
 
+    public Comic(int id) {
+        this.id = id;
+    }
+
+    public Comic(int id, String mid, Title title, int numOfPages, String[] pageTypes) {
+        this.id = id;
+        this.mid = mid;
+        this.title = title;
+        this.numOfPages = numOfPages;
+        this.setPageTypes(pageTypes);
+    }
+
     public int getId() {
         return id;
     }
@@ -71,11 +83,30 @@ public class Comic {
         return types;
     }
 
+    public void setPageTypes(String [] pageTypes) {
+        if(getImages() == null)
+            images = new Images();
+
+        Images images = getImages();
+        Image[] pages = images.getPages();
+        Image thumbnail = images.getThumbnail();
+
+        for (int i = 0; i < pageTypes.length; i++) {
+            pages[i].type = pageTypes[i];
+        }
+        // TODO: 2019/9/28 Hardcoded thumbnail type, using first page of inner page type
+        thumbnail.type = pageTypes[0];
+    }
+
     /*Inner classes*/
 
     //Comic Title
-    public class Title {
+    public static class Title {
         String english, japanese, pretty;
+
+        public Title(String english) {
+            this.english = english;
+        }
 
         @NonNull
         @Override
@@ -88,6 +119,15 @@ public class Comic {
         Image[] pages;
         Image cover;
         Image thumbnail;
+
+        public Images() {
+            pages = new Image[numOfPages];
+            for (int i = 0; i < pages.length; i++)
+                pages[i] = new Image();
+
+            cover = new Image();
+            thumbnail = new Image();
+        }
 
         public Image[] getPages() {
             return pages;
@@ -115,6 +155,10 @@ public class Comic {
             this.type = type;
             this.width = width;
             this.height = height;
+        }
+
+        public Image() {
+
         }
 
         public String getType() {

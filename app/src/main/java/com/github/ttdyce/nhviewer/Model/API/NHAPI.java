@@ -9,7 +9,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.Locale;
@@ -46,7 +45,6 @@ public class NHAPI {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
                         JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
                         callback.onReponse(result.toString());
                     }
