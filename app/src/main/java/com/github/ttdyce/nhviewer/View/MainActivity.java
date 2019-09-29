@@ -16,6 +16,8 @@ import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionEntity;
 import com.github.ttdyce.nhviewer.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     private static AppDatabase appDatabase;
     private static NavController navController;
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_HISTORY, -1));
-                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_FAVORITE, -1));
-                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_NEXT, -1));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_HISTORY, -1, new Date()));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_FAVORITE, -1, new Date()));
+                        dao.insert(ComicCollectionEntity.create(AppDatabase.COL_COLLECTION_NEXT, -1, new Date()));
                         for (ComicCollectionEntity entity :
                                 dao.getAll()) {
                             Log.i("InsideThread", "Found entity: " + entity.getName());

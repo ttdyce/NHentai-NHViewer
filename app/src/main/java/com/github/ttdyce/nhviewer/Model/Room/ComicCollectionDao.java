@@ -9,14 +9,15 @@ import java.util.List;
 
 @Dao
 public interface ComicCollectionDao {
+    String ORDER_BY_DEFAULT = "dateCreated DESC";
 
-    @Query("SELECT * FROM ComicCollection")
+    @Query("SELECT * FROM ComicCollection ORDER BY " + ORDER_BY_DEFAULT)
     List<ComicCollectionEntity> getAll();
 
-    @Query("SELECT * FROM ComicCollection WHERE name = :name")
+    @Query("SELECT * FROM ComicCollection WHERE name = :name ORDER BY " + ORDER_BY_DEFAULT)
     List<ComicCollectionEntity> getAllByName(String name);
 
-    @Query("SELECT * FROM ComicCollection WHERE name = :name")
+    @Query("SELECT * FROM ComicCollection WHERE name = :name ORDER BY " + ORDER_BY_DEFAULT)
     ComicCollectionEntity findByName(String name);
 
     @Query("SELECT count(*) == 0 FROM ComicCollection Where id = :id AND name = :collectionName")

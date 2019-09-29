@@ -3,7 +3,9 @@ package com.github.ttdyce.nhviewer.Model.Room;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
-@Entity(tableName = "ComicCollection", primaryKeys = {"name","id"})
+import java.util.Date;
+
+@Entity(tableName = "ComicCollection", primaryKeys = {"name", "id"})
 public class ComicCollectionEntity {
     @NonNull
     private String name;
@@ -11,13 +13,18 @@ public class ComicCollectionEntity {
     @NonNull
     private int id;
 
-    public ComicCollectionEntity(@NonNull String name, @NonNull int id) {
+    @NonNull
+    private Date dateCreated;
+
+    public ComicCollectionEntity(@NonNull String name, @NonNull int id, @NonNull Date dateCreated) {
         this.name = name;
         this.id = id;
+        this.dateCreated = dateCreated;
     }
+
     // Room uses this factory method to create ComicCollectionEntity objects.
-    public static ComicCollectionEntity create(String name, int id) {
-        return new ComicCollectionEntity(name, id);
+    public static ComicCollectionEntity create(String name, int id, Date dateCreated) {
+        return new ComicCollectionEntity(name, id, dateCreated);
     }
 
     @NonNull
@@ -36,5 +43,14 @@ public class ComicCollectionEntity {
 
     public void setId(@NonNull int id) {
         this.id = id;
+    }
+
+    @NonNull
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(@NonNull Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }

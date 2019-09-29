@@ -71,7 +71,7 @@ public class ComicCollectionPresenter {
             final int numOfComics = cc.getComicCount();
 
             if(numOfComics != 0){
-                Comic latestComic = cc.getComicList().get(cc.getComicCount() - 1);
+                Comic latestComic = cc.getComicList().get(0);
                 NHAPI nhapi = new NHAPI(comicCollectionView.getContext());
                 ResponseCallback callback = new ResponseCallback() {
                     @Override

@@ -30,6 +30,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ComicListPresenter {
     private ComicFactory comicFactory;
@@ -232,7 +233,7 @@ public class ComicListPresenter {
 
                 //insert to collection
                 if (collectionDao.notExist(collectionName, id)) {
-                    collectionDao.insert(ComicCollectionEntity.create(collectionName, id));
+                    collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
                     comicExist = false;
                 }
             }
