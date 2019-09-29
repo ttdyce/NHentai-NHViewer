@@ -17,11 +17,13 @@ import com.github.ttdyce.nhviewer.R;
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
     public static final String ARG_ID = "id";
     public static final String ARG_MID = "mid";
+    public static final String ARG_TITLE = "title";
     public static final String ARG_NUM_OF_PAGES = "numOfPages";
     public static final String ARG_PAGE_TYPES = "pageTypes";
 
     private int id;
     private String mid;
+    private String title;
     private int numOfPages;
     private String[] pageTypes;
     private ComicPresenter presenter;
@@ -44,13 +46,14 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         Bundle extras = getIntent().getExtras();
         id = extras.getInt(ARG_ID);
         mid = extras.getString(ARG_MID);
+        title = extras.getString(ARG_TITLE);
         numOfPages = extras.getInt(ARG_NUM_OF_PAGES);
         pageTypes = extras.getStringArray(ARG_PAGE_TYPES);
 
         rvComic = findViewById(R.id.rvComic);
         pbComic = findViewById(R.id.pbComic);
 
-        presenter = new ComicPresenter(this, mid, pageTypes, numOfPages);
+        presenter = new ComicPresenter(this, id, mid, title, numOfPages, pageTypes);
         layoutManager = new LinearLayoutManager(this);
         RecyclerView rvComic = findViewById(R.id.rvComic);
 

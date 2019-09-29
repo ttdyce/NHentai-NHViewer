@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ttdyce.nhviewer.Model.API.NHAPI;
@@ -33,11 +34,13 @@ public class ComicCollectionPresenter {
     private ComicCollectionView comicCollectionView;
     private AppDatabase db;
     private ComicCollectionAdapter adapter;
+    private NavController navController;
 
-    public ComicCollectionPresenter(ComicCollectionView view) {
+    public ComicCollectionPresenter(ComicCollectionView view, NavController navController) {
         this.comicCollectionView = view;
         this.db = MainActivity.getAppDatabase();
         this.adapter = new ComicCollectionAdapter();
+        this.navController = navController;
 
         new LoadComicCollectionTask(db, view, adapter).execute();
 
@@ -52,7 +55,8 @@ public class ComicCollectionPresenter {
 
         Bundle bundle = new Bundle();
         bundle.putString("collectionName", collectionName);
-        MainActivity.getNavController().navigate(R.id.comicListFragment, bundle);
+
+        navController.navigate(R.id.comicListFragment, bundle);
     }
 
     private class ComicCollectionAdapter extends RecyclerView.Adapter<ComicCollectionViewHolder> {
@@ -70,7 +74,7 @@ public class ComicCollectionPresenter {
             final String name = cc.getName();
             final int numOfComics = cc.getComicCount();
 
-            if(numOfComics != 0){
+            if (numOfComics != 0) {
                 Comic latestComic = cc.getComicList().get(0);
                 NHAPI nhapi = new NHAPI(comicCollectionView.getContext());
                 ResponseCallback callback = new ResponseCallback() {

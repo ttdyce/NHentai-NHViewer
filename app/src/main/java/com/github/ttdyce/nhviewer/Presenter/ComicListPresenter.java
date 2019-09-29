@@ -59,14 +59,13 @@ public class ComicListPresenter {
 
                 if (array.size() == 0)
                     hasNextPage = false;
-                else if(array.size() < 25){
+                else if (array.size() < 25) {
                     hasNextPage = false;
                     for (JsonElement jsonElement : array) {
                         Comic c = gson.fromJson(jsonElement, Comic.class);
                         adapter.addComic(c);
                     }
-                }
-                else{
+                } else {
                     hasNextPage = true;
                     for (JsonElement jsonElement : array) {
                         Comic c = gson.fromJson(jsonElement, Comic.class);
@@ -103,6 +102,7 @@ public class ComicListPresenter {
 
         intent.putExtra(ComicActivity.ARG_ID, c.getId());
         intent.putExtra(ComicActivity.ARG_MID, c.getMid());
+        intent.putExtra(ComicActivity.ARG_TITLE, c.getTitle().toString());
         intent.putExtra(ComicActivity.ARG_NUM_OF_PAGES, c.getNumOfPages());
         intent.putExtra(ComicActivity.ARG_PAGE_TYPES, c.getPageTypes());
 
@@ -113,13 +113,13 @@ public class ComicListPresenter {
         Comic c = adapter.comics.get(position);
 
         // TODO: 2019/9/26 Add to Collection "Next", hardcoded
-        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_NEXT, c).execute(c.getId());
+        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_NEXT, c).execute();
     }
 
     public void onFavoriteClick(int position) {
         Comic c = adapter.comics.get(position);
 
-        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_FAVORITE, c).execute(c.getId());
+        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_FAVORITE, c).execute();
     }
 
     public void onSortClick() {
@@ -139,7 +139,7 @@ public class ComicListPresenter {
 
     public void loadNextPage() {
         setPageNow(pageNow + 1);
-        if(hasNextPage)
+        if (hasNextPage)
             refreshComicList();
     }
 
@@ -172,7 +172,7 @@ public class ComicListPresenter {
             String thumbUrl = NHAPI.URLs.getThumbnail(c.getMid(), c.getImages().getThumbnail().getType());
             int numOfPages = c.getNumOfPages();
 
-            if(c.getId() != -1)//id -1 is for empty comic collection
+            if (c.getId() != -1)//id -1 is for empty comic collection
                 comicListView.onBindViewHolder(holder, position, title, thumbUrl, numOfPages);
         }
 
@@ -204,11 +204,17 @@ public class ComicListPresenter {
 
     }
 
-    private static class AddToCollectionTask extends AsyncTask<Integer, Integer, Boolean> {
+    public static class AddToCollectionTask extends AsyncTask<Void, Integer, Boolean> {
         private AppDatabase db;
         private ComicListView view;
         private String collectionName;
         private Comic comic;
+
+        public AddToCollectionTask(AppDatabase db, String collectionName, Comic c) {
+            this.db = db;
+            this.collectionName = collectionName;
+            this.comic = c;
+        }
 
         public AddToCollectionTask(AppDatabase db, ComicListView view, String collectionName, Comic c) {
             this.db = db;
@@ -217,25 +223,22 @@ public class ComicListPresenter {
             this.comic = c;
         }
 
-        protected Boolean doInBackground(Integer... ids) {
+        protected Boolean doInBackground(Void... value) {
             ComicCachedDao cachedDao = db.comicCachedDao();
             ComicCollectionDao collectionDao = db.comicCollectionDao();
             boolean comicExist = true;
             String mid = comic.getMid(), title = comic.getTitle().toString(), pageTypesStr = TextUtils.join("", comic.getPageTypes());
-            int numOfPages = comic.getNumOfPages();
+            int id = comic.getId(), numOfPages = comic.getNumOfPages();
+//cache comic
+            if (cachedDao.notExist(id)) {
+                cachedDao.insert(ComicCachedEntity.create(id, mid, title, pageTypesStr, numOfPages));
+                comicExist = false;
+            }
 
-            for (int id : ids) {
-                //cache comic
-                if (cachedDao.notExist(id)) {
-                    cachedDao.insert(ComicCachedEntity.create(id, mid, title, pageTypesStr, numOfPages));
-                    comicExist = false;
-                }
-
-                //insert to collection
-                if (collectionDao.notExist(collectionName, id)) {
-                    collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
-                    comicExist = false;
-                }
+            //insert to collection
+            if (collectionDao.notExist(collectionName, id)) {
+                collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
+                comicExist = false;
             }
 
             return comicExist;
@@ -243,7 +246,8 @@ public class ComicListPresenter {
 
         protected void onPostExecute(Boolean comicExist) {
             boolean isAdded = !comicExist;
-            view.showAdded(isAdded, collectionName);
+            if (view != null)//null if called from ComicPresenter
+                view.showAdded(isAdded, collectionName);
         }
     }
 

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +48,7 @@ public class ComicCollectionFragment extends Fragment implements ComicCollection
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new ComicCollectionPresenter(this);
+        presenter = new ComicCollectionPresenter(this, Navigation.findNavController(view));
         GridLayoutManager layoutManager = new GridLayoutManager(requireActivity(), 3);
         rvComicList = view.findViewById(R.id.rvComicList);
         pbComicList = view.findViewById(R.id.pbComicList);

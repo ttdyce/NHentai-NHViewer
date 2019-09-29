@@ -16,7 +16,8 @@
         app:defaultNavHost="true"
         android:layout_gravity="bottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:navGraph="@navigation/nav_app" />
+        app:navGraph="@navigation/nav_app"
+        />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -38,6 +39,7 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:labelVisibilityMode="labeled"
         android:layout_gravity="bottom"
         app:layout_anchorGravity="bottom"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
