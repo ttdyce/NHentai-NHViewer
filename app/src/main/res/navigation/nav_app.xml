@@ -50,7 +50,7 @@
         android:id="@+id/comicCollectionFragment"
         android:name="com.github.ttdyce.nhviewer.View.ComicCollectionFragment"
         android:label="fragment_comic_collection"
-        tools:layout="@layout/fragment_comic_collection">
+        tools:layout="@layout/fragment_comic_list">
         <action
             android:id="@+id/action_comicCollectionFragment_to_comicListFragment"
 
