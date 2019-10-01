@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface ComicCollectionDao {
     @Delete
     void delete(ComicCollectionEntity comicCollection);
 
+    @Update
+    void update(ComicCollectionEntity comicCollection);
 }

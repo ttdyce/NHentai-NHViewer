@@ -239,6 +239,8 @@ public class ComicListPresenter {
             if (collectionDao.notExist(collectionName, id)) {
                 collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
                 comicExist = false;
+            } else if (collectionName.equals(AppDatabase.COL_COLLECTION_HISTORY)) {
+                collectionDao.update(ComicCollectionEntity.create(collectionName, id, new Date()));
             }
 
             return comicExist;
