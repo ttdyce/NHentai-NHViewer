@@ -101,13 +101,26 @@ public class DBComicFactory implements ComicFactory {
             for (ComicCollectionEntity entity:collectionDao.getAllByName(collectionName))
                 ids.add(entity.getId());
 
-            for (ComicCachedEntity entity: cachedDao.findById(ids)) {
-                int id = entity.getId(), numOfPages = entity.getNumOfPages();
+            for (int id : ids) {
+                ComicCachedEntity entity = cachedDao.findById(id);
+                if(entity == null)
+                    continue;
+                int numOfPages = entity.getNumOfPages();
                 String mid = entity.getMid();
                 Comic.Title title = new Comic.Title(entity.getTitle());
                 String[] pageTypes = entity.getPageTypes().split("(?!^)");
                 comics.add(new Comic(id, mid, title, numOfPages, pageTypes));
             }
+            // TODO: 2019/10/1 Do much more query now for sorting by date created, replaced by above
+//            for (ComicCachedEntity entity: cachedDao.findById(ids)) {
+//                int id = entity.getId(), numOfPages = entity.getNumOfPages();
+//                String mid = entity.getMid();
+//                Comic.Title title = new Comic.Title(entity.getTitle());
+//                String[] pageTypes = entity.getPageTypes().split("(?!^)");
+//                comics.add(new Comic(id, mid, title, numOfPages, pageTypes));
+//            }
+
+
             //create api-like json object
             Gson gson = new Gson();
 
