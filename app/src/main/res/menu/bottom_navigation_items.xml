@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/comicListFragment"
+        android:id="@+id/indexFragment"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home" />
+        android:title="Index" />
     <item
         android:id="@+id/comicCollectionFragment"
         android:icon="@drawable/ic_folder_black_24dp"
@@ -12,9 +12,11 @@
         android:id="@+id/action_tag"
         android:title="Tag" />
     <item
-        android:id="@+id/action_favorite"
+        android:id="@+id/favoriteFragment"
+        android:icon="@drawable/ic_favorite_black_24dp"
         android:title="Favorite" />
     <item
-        android:id="@+id/action_setting"
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:title="Setting" />
 </menu>

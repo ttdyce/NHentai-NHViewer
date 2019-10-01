@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_app"
-    app:startDestination="@id/comicListFragment">
+    app:startDestination="@id/indexFragment">
     <fragment
         android:id="@+id/comicListFragment"
         android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
@@ -11,7 +11,35 @@
         tools:layout="@layout/fragment_comic_list">
         <argument
             android:name="collectionName"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
+        android:id="@+id/indexFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
             android:defaultValue="index"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue="Favorite"
             app:argType="string" />
         <argument
             android:name="query"
