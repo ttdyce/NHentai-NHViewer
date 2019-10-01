@@ -75,6 +75,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   * [NHBooks](https://github.com/NHMoeDev/NHentai-android)
   * [EhViewer](https://github.com/seven332/EhViewer)
 * Dependencies
+  * [Gson](https://github.com/google/gson)
   * [jsoup](https://jsoup.org/download)
   * [Glide](http://bumptech.github.io/glide/doc/download-setup.html)
   * [Volley](https://developer.android.com/training/volley)

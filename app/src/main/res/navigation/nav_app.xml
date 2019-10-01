@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_app"
+    app:startDestination="@id/indexFragment">
+    <fragment
+        android:id="@+id/comicListFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
+        android:id="@+id/indexFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue="index"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue="Favorite"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
+        android:id="@+id/comicCollectionFragment"
+        android:name="com.github.ttdyce.nhviewer.View.ComicCollectionFragment"
+        android:label="fragment_comic_collection"
+        tools:layout="@layout/fragment_comic_list">
+        <action
+            android:id="@+id/action_comicCollectionFragment_to_comicListFragment"
+
+            app:destination="@id/comicListFragment" />
+    </fragment>
+    <argument android:defaultValue=" "
+        android:name="query" />
+</navigation>
