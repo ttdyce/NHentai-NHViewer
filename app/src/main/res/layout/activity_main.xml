@@ -30,8 +30,8 @@
             android:layout_height="match_parent"
             android:elevation="4dp"
             android:theme="@style/AppTheme"
-            app:layout_scrollFlags="snap|scroll|enterAlways"
-            app:titleTextColor="#ffffff" />
+            app:layout_scrollFlags="snap|enterAlways|scroll"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

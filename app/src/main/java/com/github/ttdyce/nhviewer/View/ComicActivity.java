@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +41,12 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         init();
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void init() {
         if (getIntent().getExtras() == null)
             return;
@@ -56,10 +63,14 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         presenter = new ComicPresenter(this, id, mid, title, numOfPages, pageTypes);
         layoutManager = new LinearLayoutManager(this);
         RecyclerView rvComic = findViewById(R.id.rvComic);
-
         rvComic.setHasFixedSize(true);
         rvComic.setAdapter(presenter.getAdapter());
         rvComic.setLayoutManager(layoutManager);
+        //set appbar
+        Toolbar toolbar = findViewById(R.id.toolbar_comic);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
