@@ -59,7 +59,7 @@ public class ComicListPresenter {
 
                 if (array.size() == 0)
                     hasNextPage = false;
-                else if (array.size() < 25) {
+                else if (array.size() != 25) {
                     hasNextPage = false;
                     for (JsonElement jsonElement : array) {
                         Comic c = gson.fromJson(jsonElement, Comic.class);
@@ -72,6 +72,13 @@ public class ComicListPresenter {
                         adapter.addComic(c);
                     }
 
+                }
+
+                // TODO: 2019/10/1 hardcoded to stop loading if incoming comics[0] == current[0]
+                if (pageNow > 1 &&
+                        hasNextPage &&
+                        array.get(0).getAsJsonObject().get("id").getAsString().equals(String.valueOf(adapter.comics.get(0).getId()))) {
+                    hasNextPage = false;
                 }
 
                 comicListView.updateList(false);
