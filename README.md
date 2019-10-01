@@ -16,7 +16,7 @@ note: The signed apk is recommended.
 
 *Version 2 will update the code, layout, and performance! (2019-09-19)*
 
-## Screenshots
+## Screenshots (Not up-to-date)
 
 <img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/favorite_list.png" alt="Comic display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/collection_list.png" alt="Collection display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/navigation_view.png" alt="Navigation" width="280">
 
