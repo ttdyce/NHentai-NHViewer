@@ -1,6 +1,7 @@
 package com.github.ttdyce.nhviewer.Model.API;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -8,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ttdyce.nhviewer.View.MainActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
@@ -20,25 +22,28 @@ public class NHAPI {
         this.context = context;
     }
 
-    public void getComicList(String query, final ResponseCallback callback) {
-        getComicList(query, 1, false, callback);
+    public void getComicList(String query, final ResponseCallback callback, SharedPreferences pref) {
+        getComicList(query, 1, false, callback, pref);
     }
 
-    public void getComicList(String query, int page, final ResponseCallback callback) {
-        getComicList(query, page, false, callback);
+    public void getComicList(String query, int page, final ResponseCallback callback, SharedPreferences pref) {
+        getComicList(query, page, false, callback, pref);
     }
 
-    public void getComicList(String query, boolean sortedPopular, final ResponseCallback callback) {
-        getComicList(query, 1, sortedPopular, callback);
+    public void getComicList(String query, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
+        getComicList(query, 1, sortedPopular, callback, pref);
     }
 
     /*
-    * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
-    * */
-    public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback) {
+     * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
+     * */
+    public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
+        String language = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, "");
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = URLs.search("language:chinese " + query, page, sortedPopular);// TODO: 2019/9/22 hardcoded language:chinese
+        String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
+        if(language.equals("All") || language.equals("not set"))// TODO: 2019/10/1 Function is limited if language = all
+            url = URLs.getIndex(page);
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -98,25 +103,30 @@ public class NHAPI {
                 return searchPrefix + query + "&page=" + page;
         }
 
-        public static String getComic(int id){
+        public static String getComic(int id) {
             return getComicPrefix + id;
         }
 
-        public static String getThumbnail(String mid, String type){
-            for (String t:types) {
-                if(t.charAt(0) == type.charAt(0))
+        public static String getThumbnail(String mid, String type) {
+            for (String t : types) {
+                if (t.charAt(0) == type.charAt(0))
                     return String.format(Locale.ENGLISH, "https://t.nhentai.net/galleries/%s/thumb.%s", mid, t);
             }
 
             return "";//should be not needed
         }
-        public static String getPage(String mid, int page, String type){
-            for (String t:types) {
-                if(t.charAt(0) == type.charAt(0))
+
+        public static String getPage(String mid, int page, String type) {
+            for (String t : types) {
+                if (t.charAt(0) == type.charAt(0))
                     return String.format(Locale.ENGLISH, "https://i.nhentai.net/galleries/%s/%d.%s", mid, page, t);
             }
 
             return "";//should be not needed
+        }
+
+        public static String getIndex(int page) {
+            return "https://nhentai.net/api/galleries/all?page=" + page;
         }
     }
 }

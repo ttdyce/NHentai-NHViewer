@@ -1,5 +1,7 @@
 package com.github.ttdyce.nhviewer.Model.Comic.Factory;
 
+import android.content.SharedPreferences;
+
 import com.github.ttdyce.nhviewer.Model.API.NHAPI;
 import com.github.ttdyce.nhviewer.Model.API.ResponseCallback;
 
@@ -12,18 +14,20 @@ public class NHApiComicFactory implements ComicFactory {
     private int page;
     private boolean sortedPopular;
     private ResponseCallback callback;
+    private final SharedPreferences pref;
 
-    public NHApiComicFactory(NHAPI nhapi, String query, int page, boolean sortedPopular, ResponseCallback callback) {
+    public NHApiComicFactory(NHAPI nhapi, String query, int page, boolean sortedPopular, ResponseCallback callback, SharedPreferences pref) {
         this.nhapi = nhapi;
         this.query = query;
         this.page = page;
         this.sortedPopular = sortedPopular;
         this.callback = callback;
+        this.pref = pref;
     }
 
     @Override
     public void requestComicList() {
-        nhapi.getComicList(query, page, sortedPopular, callback);
+        nhapi.getComicList(query, page, sortedPopular, callback, pref);
 
     }
 

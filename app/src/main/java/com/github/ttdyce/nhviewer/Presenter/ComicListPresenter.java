@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.ViewGroup;
 
@@ -85,7 +86,7 @@ public class ComicListPresenter {
             }
         };
         if (collectionName.equals("index"))
-            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getContext()), query, pageNow, sortedPopularNow, callback);
+            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getContext()), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getContext()));
         else
             comicFactory = new DBComicFactory(collectionName, db, pageNow, sortedPopularNow, callback);
 
