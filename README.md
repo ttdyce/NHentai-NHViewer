@@ -2,65 +2,81 @@
 
 [![Build Status](https://travis-ci.com/ttdyce/NHentaiViewer.svg?branch=master)](https://travis-ci.com/ttdyce/NHentaiViewer)
 
-Third-party application for browsing [nhentai.net](https://nhentai.net). 
+Third-party application for browsing [nhentai.net](https://nhentai.net).
 
-This application aims to provide different reading experience on android and to build further functions on top of the site. 
+This application is developed to provide a better user experience for mobile device (Android) browsing the site and to build further functions on top of the site.
+
+## Recent changes
+
+### Version 2 overview
+
+- Refactor the UI ([Material Design](https://material.io/design/introduction/#principles)) and code architecture ([M-V-P](https://stackoverflow.com/questions/2056/what-are-mvp-and-mvc-and-what-is-the-difference))
+- Retrieve data from [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) (it's official? I guess)
+- Migrate to AndroidX
+- Use some of the [Android Jetpack Components](https://developer.android.com/jetpack)
+- More features are in development
+
+---
 
 ## Download
 
-note: The signed apk is recommended. 
+### Important note
 
-[Released apk](https://github.com/ttdyce/nhviewer/releases)
+- The nhviewer-x.x.x-signed.apk is recommended.
+- **Star the repository** may speed up patch release... (¬‿¬ )
 
-*Star the project may speed up patch release (¬‿¬ )*
+[Download](https://github.com/ttdyce/nhviewer/releases)
 
-*Version 2 will update the code, layout, and performance! (2019-09-19)*
+## Screenshots
 
-## Screenshots (Not up-to-date)
-
-<img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/favorite_list.png" alt="Comic display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/collection_list.png" alt="Collection display demo" width="280"><img src="https://github.com/ttdyce/NHentaiViewer/raw/development/screenshots/navigation_view.png" alt="Navigation" width="280">
+<img src="./screenshots/index.png" alt="Index page demo" width="280">
+<img src="./screenshots/collection.png" alt="Collection display demo" width="280">
+<img src="./screenshots/favorite.png" alt="Favorite display demo" width="280">
 
 ## Features
 
-- General
-  - Displaying scroll-able comic list
-  - Displaying vertically-scrolling comic content
-  - Sorting comic list by popularity
-  - Searching (With custom tags and language)
-  - Page skipping
-
 - Collection system
-  - add / remove collection list
   - add / remove comic into collection list
-  - backup collection content to desktop (using another Java program)
+  - add / remove collection list
+  - backup collection content to desktop (Java program, pending to release)
+
+- General
+  - Vertical scrolling comic inner page
+  - Scrollable comic list
+  - Comic list sorting, by popularity/date uploaded
+  - Search with custom tags and language
+  - Page jumping
+
+---
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to run the app in debug mode.
+The application is using the [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) and parse the response data into Java class from version 2.
 
-By the way, the application is currently fetching the HTML page instead of using the JSON API as the API was down during my development.
+For more information about coding, see [the wiki](https://github.com/ttdyce/NHentaiViewer/wiki) (which is not yet ready '_' please come back later).
 
 ## Deployment
 
-Build and run the project inside Android Studio. 
+Build and run the project inside Android Studio.
 
 ## Built With
 
-* [Android Studio](https://developer.android.com/studio)
-* An Android device (on Android 8.0 Oreo)
+- [Android Studio](https://developer.android.com/studio)
+- An Android device (on Android 8.0 Oreo)
 
-*ps: I am using Android Studio 3.4, any version after 3.4 should be fine*
+PS: Any version after Android Studio 3.5 should be fine
+
+---
 
 ## Versioning
 
-* [SemVer](http://semver.org/)
+- [SemVer](http://semver.org/)
 
 For the versions available, see the [tags on this repository](https://github.com/ttdyce/nhviewer/tags)
 
 ## Authors
 
-* **ttdyce** - *Initial work* - [github](https://github.com/ttdyce)
-
+- **ttdyce** - *Initial work and maintenance* - [github](https://github.com/ttdyce)
 
 ## License
 
@@ -68,16 +84,15 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Thanks for
-  * Chinese translate from [neslxzhen](https://github.com/neslxzhen)
-* Inspired by
-  * [nhentai.net](https://nhentai.net)
-  * [NHBooks](https://github.com/NHMoeDev/NHentai-android)
-  * [EhViewer](https://github.com/seven332/EhViewer)
-* Dependencies
-  * [Gson](https://github.com/google/gson)
-  * [jsoup](https://jsoup.org/download)
-  * [Glide](http://bumptech.github.io/glide/doc/download-setup.html)
-  * [Volley](https://developer.android.com/training/volley)
-
-  and some Android support libraries
+- Thanks for
+  - Chinese translate from [neslxzhen](https://github.com/neslxzhen)
+- Inspired by
+  - [nhentai.net](https://nhentai.net)
+  - [NHBooks](https://github.com/NHMoeDev/NHentai-android)
+  - [EhViewer](https://github.com/seven332/EhViewer)
+- Dependencies
+  - [Gson](https://github.com/google/gson)
+  - [jsoup](https://jsoup.org/download)
+  - [Glide](http://bumptech.github.io/glide/doc/download-setup.html)
+  - [Volley](https://developer.android.com/training/volley)
+  - AndroidX libraries
