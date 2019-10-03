@@ -1,6 +1,9 @@
 # NHentaiViewer
 
 [![Build Status](https://travis-ci.com/ttdyce/NHentaiViewer.svg?branch=master)](https://travis-ci.com/ttdyce/NHentaiViewer)
+[![Github version](https://img.shields.io/github/v/tag/ttdyce/NHentaiViewer.svg?label=version&color=brightgreen&sort=semver)](https://github.com/ttdyce/nhviewer/releases)
+[![Github all releases](https://img.shields.io/github/downloads/ttdyce/nhentaiviewer/total.svg)](https://github.com/ttdyce/nhviewer/releases)
+[![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
 
 Third-party application for browsing [nhentai.net](https://nhentai.net).
 
@@ -84,6 +87,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 - Thanks for
   - Chinese translate from [neslxzhen](https://github.com/neslxzhen)
+  - Beautiful badges displaying Github data from [Shields.io](https://github.com/badges/shields)
+  
 - Inspired by
   - [nhentai.net](https://nhentai.net)
   - [NHBooks](https://github.com/NHMoeDev/NHentai-android)
@@ -93,4 +98,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   - [jsoup](https://jsoup.org/download)
   - [Glide](http://bumptech.github.io/glide/doc/download-setup.html)
   - [Volley](https://developer.android.com/training/volley)
+  - [Travis CI](https://travis-ci.com/)
   - AndroidX libraries
