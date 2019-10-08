@@ -32,7 +32,7 @@ public class ComicPresenter {
     }
 
     private void addToHistory() {
-        new ComicListPresenter.AddToCollectionTask(db, AppDatabase.COL_COLLECTION_HISTORY, comic).execute();
+        new ComicListPresenter.EditCollectionComicTask(db, AppDatabase.COL_COLLECTION_HISTORY, comic).execute();
     }
 
     public RecyclerView.Adapter getAdapter() {

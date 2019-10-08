@@ -1,6 +1,5 @@
 package com.github.ttdyce.nhviewer.View;
 
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -11,12 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -91,22 +92,21 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.app_bar_items, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        if (!presenter.inSelectionMode())
+            inflater.inflate(R.menu.app_bar_items, menu);
+        else
+            inflater.inflate(R.menu.app_bar_selection_mode, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sort:
-                presenter.onSortClick();
-                return true;
-            case R.id.action_jumpToPage:
-                presenter.onJumpToPageClick();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        if(presenter.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -117,38 +117,14 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     }
 
     @Override
-    public void onBindViewHolder(ComicListViewHolder holder, final int position, String title, String thumbUrl, int numOfPages) {
-        //endless scroll
-        if (position == rvComicList.getAdapter().getItemCount() - 1) {
-            presenter.loadNextPage();
-        }
-
+    public void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages) {
         holder.tvTitle.setText(title);
-        holder.tvNumOfPages.setText(String.format(Locale.ENGLISH,"%dp", numOfPages));
+        holder.tvNumOfPages.setText(String.format(Locale.ENGLISH, "%dp", numOfPages));
 
         Glide.with(requireContext())
                 .load(thumbUrl)
                 .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.colorSecondary)))
                 .into(holder.ivThumb);
-
-        holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onComicItemClick(position);
-            }
-        });
-        holder.ibCollect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onCollectClick(position);
-            }
-        });
-        holder.ibFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onFavoriteClick(position);
-            }
-        });
 
     }
 
@@ -160,28 +136,39 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         toggleLoadingDesc(isLoading);
     }
 
-    private void toggleLoadingDesc(boolean loading){
-        if(loading){
+    private void toggleLoadingDesc(boolean loading) {
+        if (loading) {
             pbComicList.show();
             tvComicListDesc.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             pbComicList.hide();
             tvComicListDesc.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
-    public Context getContext() {
+    public FragmentActivity getRequiredActivity() {
         return requireActivity();
     }
 
     @Override
     public void showAdded(boolean isAdded, String collectionName) {
-
-        if(isAdded)
-            Snackbar.make(requireActivity().findViewById(R.id.rootMain), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
+        View root = requireActivity().findViewById(R.id.rootMain);
+        if (isAdded)
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
         else
-            Snackbar.make(requireActivity().findViewById(R.id.rootMain), Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDeleted(Boolean isDone, String title, String collectionName) {
+        View root = requireActivity().findViewById(R.id.rootMain);
+
+        if (isDone)
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Deleted from <font color=\"yellow\">%s</font>, named %s", collectionName, title)), Snackbar.LENGTH_LONG).show();
+        else
+            Toast.makeText(requireContext(), String.format(Locale.ENGLISH, "Error when deleting comic named %s", title), Toast.LENGTH_SHORT).show();
+
     }
 
 }

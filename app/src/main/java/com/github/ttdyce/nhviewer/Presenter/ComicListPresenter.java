@@ -6,9 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ttdyce.nhviewer.Model.API.NHAPI;
@@ -22,6 +25,7 @@ import com.github.ttdyce.nhviewer.Model.Room.ComicCachedDao;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCachedEntity;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionEntity;
+import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.View.ComicActivity;
 import com.github.ttdyce.nhviewer.View.ComicListViewHolder;
 import com.github.ttdyce.nhviewer.View.MainActivity;
@@ -34,21 +38,21 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ComicListPresenter {
-    private ComicFactory comicFactory;
-    private DBComicFactory dbcomicFactory;
-    private AppDatabase db;
-    private ComicListView comicListView;
     private String collectionName, query;
     private boolean sortedPopularNow = false, hasNextPage = true;
     private int pageNow = 1;
+    private boolean selectionMode = false;
 
+    private ComicFactory comicFactory;
+    private AppDatabase db;
+    private ComicListView comicListView;
     private ComicListAdapter adapter;
     private ResponseCallback callback;
+    private ArrayList<Comic> selectedComics = new ArrayList<>();
 
     public ComicListPresenter(final ComicListView comicListView, String collectionName, String query) {
         this.collectionName = collectionName;
         this.query = query;
-
         this.db = MainActivity.getAppDatabase();
         this.comicListView = comicListView;
         this.adapter = new ComicListAdapter();
@@ -86,7 +90,7 @@ public class ComicListPresenter {
             }
         };
         if (collectionName.equals("index"))
-            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getContext()), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getContext()));
+            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity()), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
         else
             comicFactory = new DBComicFactory(collectionName, db, pageNow, sortedPopularNow, callback);
 
@@ -99,50 +103,78 @@ public class ComicListPresenter {
 
     private void refreshComicList() {
         comicFactory.requestComicList();
-
     }
 
-    public void onComicItemClick(int position) {
-        Context activity = comicListView.getContext();
-        Intent intent = new Intent(activity, ComicActivity.class);
+    private void onComicItemClick(int position) {
         Comic c = adapter.comics.get(position);
-        Bundle args = new Bundle();
 
-        intent.putExtra(ComicActivity.ARG_ID, c.getId());
-        intent.putExtra(ComicActivity.ARG_MID, c.getMid());
-        intent.putExtra(ComicActivity.ARG_TITLE, c.getTitle().toString());
-        intent.putExtra(ComicActivity.ARG_NUM_OF_PAGES, c.getNumOfPages());
-        intent.putExtra(ComicActivity.ARG_PAGE_TYPES, c.getPageTypes());
+        if (selectionMode) {
+            selectedComics.add(c);
+        } else {
+            //enter comic
+            Context activity = comicListView.getRequiredActivity();
+            Intent intent = new Intent(activity, ComicActivity.class);
+            Bundle args = new Bundle();
 
-        activity.startActivity(intent, args);
+            intent.putExtra(ComicActivity.ARG_ID, c.getId());
+            intent.putExtra(ComicActivity.ARG_MID, c.getMid());
+            intent.putExtra(ComicActivity.ARG_TITLE, c.getTitle().toString());
+            intent.putExtra(ComicActivity.ARG_NUM_OF_PAGES, c.getNumOfPages());
+            intent.putExtra(ComicActivity.ARG_PAGE_TYPES, c.getPageTypes());
+
+            activity.startActivity(intent, args);
+        }
     }
 
-    public void onCollectClick(int position) {
+    private void onCollectClick(int position) {
         Comic c = adapter.comics.get(position);
 
         // TODO: 2019/9/26 Add to Collection "Next", hardcoded
-        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_NEXT, c).execute();
+        new EditCollectionComicTask(db, comicListView, AppDatabase.COL_COLLECTION_NEXT, c).execute();
     }
 
-    public void onFavoriteClick(int position) {
+    private void onFavoriteClick(int position) {
         Comic c = adapter.comics.get(position);
 
-        new AddToCollectionTask(db, comicListView, AppDatabase.COL_COLLECTION_FAVORITE, c).execute();
+        new EditCollectionComicTask(db, comicListView, AppDatabase.COL_COLLECTION_FAVORITE, c).execute();
     }
 
-    public void onSortClick() {
+    private void onSortClick() {
         //toggle sort by popular
         setPageNow(1);
         setSortedPopularNow(!sortedPopularNow);
 
         adapter.clear();
-        comicListView.updateList(true);
 
+        comicListView.updateList(true);
         refreshComicList();
     }
 
-    public void onJumpToPageClick() {
+    private void onJumpToPageClick() {
 
+    }
+
+    private void onSelectionClick() {
+        //toggle selection mode
+        selectionMode = true;
+
+        comicListView.getRequiredActivity().invalidateOptionsMenu();
+
+    }
+
+    private void onDeleteClick() {
+        if (selectedComics.size() != 0 && !collectionName.equals("index"))
+            for (Comic c : selectedComics) {
+                new EditCollectionComicTask(db, comicListView, collectionName, c, EditCollectionComicTask.Action.delete, this).execute();
+            }
+
+    }
+
+    private void onDoneClick() {
+        selectionMode = false;
+
+        comicListView.getRequiredActivity().invalidateOptionsMenu();
+        selectedComics.clear();
     }
 
     public void loadNextPage() {
@@ -164,6 +196,33 @@ public class ComicListPresenter {
         comicFactory.setPage(pageNow);
     }
 
+    public boolean inSelectionMode() {
+        return selectionMode;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort:
+                onSortClick();
+                return true;
+            case R.id.action_jumpToPage:
+                onJumpToPageClick();
+                return true;
+            case R.id.action_selection:
+                onSelectionClick();
+                return true;
+            case R.id.action_delete:
+                onDeleteClick();
+                onDoneClick();
+                return true;
+            case R.id.action_done:
+                onDoneClick();
+                return true;
+        }
+        return false;
+    }
+
+
     private class ComicListAdapter extends RecyclerView.Adapter<ComicListViewHolder> {
         private ArrayList<Comic> comics = new ArrayList<>();
 
@@ -174,14 +233,39 @@ public class ComicListPresenter {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ComicListViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ComicListViewHolder holder, final int position) {
             Comic c = comics.get(position);
             String title = c.getTitle().toString();
             String thumbUrl = NHAPI.URLs.getThumbnail(c.getMid(), c.getImages().getThumbnail().getType());
             int numOfPages = c.getNumOfPages();
 
+            //bind view
             if (c.getId() != -1)//id -1 is for empty comic collection
                 comicListView.onBindViewHolder(holder, position, title, thumbUrl, numOfPages);
+
+            //endless scroll
+            if (position == adapter.getItemCount() - 1) {
+                loadNextPage();
+            }
+
+            holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onComicItemClick(position);
+                }
+            });
+            holder.ibCollect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCollectClick(position);
+                }
+            });
+            holder.ibFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFavoriteClick(position);
+                }
+            });
         }
 
         @Override
@@ -206,29 +290,47 @@ public class ComicListPresenter {
 
         void updateList(Boolean isLoading);
 
-        Context getContext();
+        FragmentActivity getRequiredActivity();
 
         void showAdded(boolean isAdded, String collectionName);
 
+        void showDeleted(Boolean isDone, String title, String collectionName);
     }
 
-    public static class AddToCollectionTask extends AsyncTask<Void, Integer, Boolean> {
+    public static class EditCollectionComicTask extends AsyncTask<Void, Integer, Boolean> {
+
+        public enum Action {insert, delete}
+
+        private ComicListPresenter presenter;
         private AppDatabase db;
         private ComicListView view;
         private String collectionName;
         private Comic comic;
+        private Action action;
 
-        public AddToCollectionTask(AppDatabase db, String collectionName, Comic c) {
+        //for comic presenter
+        public EditCollectionComicTask(AppDatabase db, String collectionName, Comic c) {
             this.db = db;
             this.collectionName = collectionName;
             this.comic = c;
+            this.action = Action.insert;
         }
 
-        public AddToCollectionTask(AppDatabase db, ComicListView view, String collectionName, Comic c) {
+        public EditCollectionComicTask(AppDatabase db, ComicListView view, String collectionName, Comic c, Action action, ComicListPresenter presenter) {
             this.db = db;
             this.view = view;
             this.collectionName = collectionName;
             this.comic = c;
+            this.action = action;
+            this.presenter = presenter;
+        }
+
+        public EditCollectionComicTask(AppDatabase db, ComicListView view, String collectionName, Comic c) {
+            this.db = db;
+            this.view = view;
+            this.collectionName = collectionName;
+            this.comic = c;
+            this.action = Action.insert;
         }
 
         protected Boolean doInBackground(Void... value) {
@@ -237,27 +339,44 @@ public class ComicListPresenter {
             boolean comicExist = true;
             String mid = comic.getMid(), title = comic.getTitle().toString(), pageTypesStr = TextUtils.join("", comic.getPageTypes());
             int id = comic.getId(), numOfPages = comic.getNumOfPages();
-//cache comic
+            //cache comic
             if (cachedDao.notExist(id)) {
                 cachedDao.insert(ComicCachedEntity.create(id, mid, title, pageTypesStr, numOfPages));
                 comicExist = false;
             }
 
-            //insert to collection
-            if (collectionDao.notExist(collectionName, id)) {
-                collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
-                comicExist = false;
-            } else if (collectionName.equals(AppDatabase.COL_COLLECTION_HISTORY)) {
-                collectionDao.update(ComicCollectionEntity.create(collectionName, id, new Date()));
+            if (action == Action.insert) {
+                //insert to collection
+                if (collectionDao.notExist(collectionName, id)) {
+                    collectionDao.insert(ComicCollectionEntity.create(collectionName, id, new Date()));
+                    comicExist = false;
+                } else if (collectionName.equals(AppDatabase.COL_COLLECTION_HISTORY)) {
+                    collectionDao.update(ComicCollectionEntity.create(collectionName, id, new Date()));
+                }
+
+                return !comicExist;
+
+            } else if (action == Action.delete) {
+                //delete from collection
+                boolean deleted = false;
+                collectionDao.delete(ComicCollectionEntity.create(collectionName, id, new Date()));
+
+                if (collectionDao.notExist(collectionName, id))
+                    deleted = true;
+                return deleted;
             }
 
-            return comicExist;
+            return false;
         }
 
-        protected void onPostExecute(Boolean comicExist) {
-            boolean isAdded = !comicExist;
-            if (view != null)//null if called from ComicPresenter
-                view.showAdded(isAdded, collectionName);
+        protected void onPostExecute(Boolean isDone) {
+            if (action == Action.insert && view != null)//null if called from ComicPresenter
+                view.showAdded(isDone, collectionName);
+            else if (action == Action.delete) {
+                view.showDeleted(isDone, comic.getTitle().toString(), collectionName);
+                presenter.adapter.clear();// TODO: 2019/10/8 consider control the adding of comics, not clearing all comics
+                presenter.refreshComicList();
+            }
         }
     }
 
