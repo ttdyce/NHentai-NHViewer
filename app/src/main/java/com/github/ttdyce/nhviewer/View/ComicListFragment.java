@@ -99,6 +99,9 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         else
             inflater.inflate(R.menu.app_bar_selection_mode, menu);
 
+        if(presenter.cannotDelete())
+            menu.removeItem(R.id.action_delete);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

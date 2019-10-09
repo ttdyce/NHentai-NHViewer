@@ -171,7 +171,7 @@ public class ComicListPresenter {
 
     public void setSelectionMode(boolean value) {
         selectionMode = value;
-        comicListView.getRequiredActivity().invalidateOptionsMenu();// TODO: 2019/10/9 update appbar inside View class
+        comicListView.getRequiredActivity().invalidateOptionsMenu();
     }
 
     private void onDeleteClick() {
@@ -232,6 +232,12 @@ public class ComicListPresenter {
                 onSelectionDone();
                 return true;
         }
+        return false;
+    }
+
+    public boolean cannotDelete() {
+        if (collectionName.equals("index"))
+            return true;
         return false;
     }
 
@@ -338,6 +344,7 @@ public class ComicListPresenter {
         void onComicItemClick(View v, boolean isSelected, ArrayList<View> selectors);
 
         void onSelectionDone(ArrayList<View> selectedSelectors);
+
     }
 
     public static class EditCollectionComicTask extends AsyncTask<Void, Integer, Boolean> {
