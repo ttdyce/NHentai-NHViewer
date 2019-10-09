@@ -267,19 +267,18 @@ public class ComicListPresenter {
                 loadNextPage();
             }
 
-
-            holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+            holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onComicItemClick(position);
                     comicListView.onComicItemClick(v, selectedComics.contains(c), selectedSelectors);
                 }
             });
-            holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
+            holder.tvTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onComicItemClick(position);
-                    comicListView.onComicItemClick(v, selectedComics.contains(c), selectedSelectors);
+                    comicListView.onComicItemClick(holder.cvComicItem, selectedComics.contains(c), selectedSelectors);
                 }
             });
             holder.ibCollect.setOnClickListener(new View.OnClickListener() {
