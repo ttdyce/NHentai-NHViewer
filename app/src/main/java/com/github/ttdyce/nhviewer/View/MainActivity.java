@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,13 +19,17 @@ import com.github.ttdyce.nhviewer.Model.Room.AppDatabase;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionEntity;
 import com.github.ttdyce.nhviewer.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "default_language";
     private static AppDatabase appDatabase;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.firebase_default_config);
+        final FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfig.fetch(5) // TODO: 2019/10/10 fetching each 5 seconds for debug
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "remote config is fetched.");
+                            firebaseRemoteConfig.activateFetched();
+                        }
+                    }
+                });
+
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
                 .fallbackToDestructiveMigration().build();

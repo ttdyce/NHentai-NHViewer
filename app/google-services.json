@@ -8,25 +8,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1020157334621:android:6060ae71c339e592f6a9b4",
+        "mobilesdk_app_id": "1:1020157334621:android:1e3152ecdfe8bed6f6a9b4",
         "android_client_info": {
-          "package_name": "github.ttdyce.nhviewer"
+          "package_name": "com.github.ttdyce.nhviewer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1020157334621-5fcef2o9daq5cnbctqrb4jmsqqc9ijtd.apps.googleusercontent.com",
+          "client_id": "1020157334621-rrjtsfqns9a0tnf135fh9k7idoc9c8rm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "github.ttdyce.nhviewer",
+            "package_name": "com.github.ttdyce.nhviewer",
             "certificate_hash": "b48d3e0173c8ca231bd5f8c1ae762c2b591c7c5b"
           }
         },
         {
-          "client_id": "1020157334621-ld14dfku9ih17l7i76djfa6le0g90u7f.apps.googleusercontent.com",
+          "client_id": "1020157334621-b02s95h7tasv016986fnai7rn66jub0r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "github.ttdyce.nhviewer",
+            "package_name": "com.github.ttdyce.nhviewer",
             "certificate_hash": "eadf500bd08c21fe39e4e3e5b2b1d3c360748e55"
           }
         },

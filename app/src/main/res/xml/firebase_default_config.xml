@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>updateRequired</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>currentVersion</key>
+        <value>2.0.0</value>
+    </entry>
+    <entry>
+        <key>updateUrl</key>
+        <value>https://github.com/ttdyce/NHentaiViewer/releases/download/2.0.0/nhviewer-2.0.0-signed.apk</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->
