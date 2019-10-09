@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.github.ttdyce.nhviewer.Presenter.ComicListPresenter;
 import com.github.ttdyce.nhviewer.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class ComicListFragment extends Fragment implements ComicListPresenter.ComicListView {
@@ -102,7 +104,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(presenter.onOptionsItemSelected(item))
+        if (presenter.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);
@@ -168,6 +170,28 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
             Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Deleted from <font color=\"yellow\">%s</font>, named %s", collectionName, title)), Snackbar.LENGTH_LONG).show();
         else
             Toast.makeText(requireContext(), String.format(Locale.ENGLISH, "Error when deleting comic named %s", title), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onComicItemClick(View v, boolean isSelected, ArrayList<View> selectors) {
+        ImageView ivSelector = v.findViewById(R.id.ivComicListSelector);
+        if (!isSelected) {
+            ivSelector.setVisibility(View.INVISIBLE);
+            selectors.remove(ivSelector);
+        } else if (presenter.inSelectionMode()) {
+            ivSelector.setVisibility(View.VISIBLE);
+            selectors.add(ivSelector);
+        }
+
+    }
+
+    @Override
+    public void onSelectionDone(ArrayList<View> selectors) {
+        for (View selector :
+                selectors) {
+            selector.setVisibility(View.INVISIBLE);
+        }
 
     }
 

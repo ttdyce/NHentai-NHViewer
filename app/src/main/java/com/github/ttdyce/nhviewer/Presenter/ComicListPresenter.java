@@ -49,6 +49,7 @@ public class ComicListPresenter {
     private ComicListAdapter adapter;
     private ResponseCallback callback;
     private ArrayList<Comic> selectedComics = new ArrayList<>();
+    private ArrayList<View> selectedSelectors = new ArrayList<>();
 
     public ComicListPresenter(final ComicListView comicListView, String collectionName, String query) {
         this.collectionName = collectionName;
@@ -109,7 +110,15 @@ public class ComicListPresenter {
         Comic c = adapter.comics.get(position);
 
         if (selectionMode) {
-            selectedComics.add(c);
+            //toggle select comic
+            if (!selectedComics.contains(c))
+                selectedComics.add(c);
+            else
+                selectedComics.remove(c);
+
+            //exit selection mode if selected comics is empty
+            if (selectedComics.size() == 0)
+                onSelectionDone();
         } else {
             //enter comic
             Context activity = comicListView.getRequiredActivity();
@@ -156,10 +165,13 @@ public class ComicListPresenter {
 
     private void onSelectionClick() {
         //toggle selection mode
-        selectionMode = true;
+        setSelectionMode(true);
 
-        comicListView.getRequiredActivity().invalidateOptionsMenu();
+    }
 
+    public void setSelectionMode(boolean value) {
+        selectionMode = value;
+        comicListView.getRequiredActivity().invalidateOptionsMenu();// TODO: 2019/10/9 update appbar inside View class
     }
 
     private void onDeleteClick() {
@@ -170,10 +182,11 @@ public class ComicListPresenter {
 
     }
 
-    private void onDoneClick() {
-        selectionMode = false;
+    private void onSelectionDone() {
+        comicListView.onSelectionDone(selectedSelectors);
 
-        comicListView.getRequiredActivity().invalidateOptionsMenu();
+        setSelectionMode(false);
+        selectedSelectors.clear();
         selectedComics.clear();
     }
 
@@ -213,10 +226,10 @@ public class ComicListPresenter {
                 return true;
             case R.id.action_delete:
                 onDeleteClick();
-                onDoneClick();
+                onSelectionDone();
                 return true;
             case R.id.action_done:
-                onDoneClick();
+                onSelectionDone();
                 return true;
         }
         return false;
@@ -233,8 +246,8 @@ public class ComicListPresenter {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ComicListViewHolder holder, final int position) {
-            Comic c = comics.get(position);
+        public void onBindViewHolder(@NonNull final ComicListViewHolder holder, final int position) {
+            final Comic c = comics.get(position);
             String title = c.getTitle().toString();
             String thumbUrl = NHAPI.URLs.getThumbnail(c.getMid(), c.getImages().getThumbnail().getType());
             int numOfPages = c.getNumOfPages();
@@ -248,10 +261,19 @@ public class ComicListPresenter {
                 loadNextPage();
             }
 
+
+            holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onComicItemClick(position);
+                    comicListView.onComicItemClick(v, selectedComics.contains(c), selectedSelectors);
+                }
+            });
             holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onComicItemClick(position);
+                    comicListView.onComicItemClick(v, selectedComics.contains(c), selectedSelectors);
                 }
             });
             holder.ibCollect.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +286,23 @@ public class ComicListPresenter {
                 @Override
                 public void onClick(View v) {
                     onFavoriteClick(position);
+                }
+            });
+
+            //long press
+            holder.cvComicItem.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    setSelectionMode(!selectionMode);
+                    if (inSelectionMode()) {
+                        onComicItemClick(position);
+                        comicListView.onComicItemClick(v, selectedComics.contains(c), selectedSelectors);
+
+                    } else {
+                        onSelectionDone();
+                    }
+
+                    return true;
                 }
             });
         }
@@ -295,6 +334,10 @@ public class ComicListPresenter {
         void showAdded(boolean isAdded, String collectionName);
 
         void showDeleted(Boolean isDone, String title, String collectionName);
+
+        void onComicItemClick(View v, boolean isSelected, ArrayList<View> selectors);
+
+        void onSelectionDone(ArrayList<View> selectedSelectors);
     }
 
     public static class EditCollectionComicTask extends AsyncTask<Void, Integer, Boolean> {
