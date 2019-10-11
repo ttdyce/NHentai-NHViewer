@@ -128,7 +128,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
         Glide.with(requireContext())
                 .load(thumbUrl)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.colorSecondary)))
+                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
                 .into(holder.ivThumb);
 
     }
