@@ -5,30 +5,43 @@
     android:layout_height="264dp"
     android:orientation="vertical">
 
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:id="@+id/cvComicListItem"-->
-    <!--        card_view:cardCornerRadius="4dp"-->
-    <!--        android:layout_margin="2dp"-->
-    <!--        android:longClickable="true"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent">-->
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvComicListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:longClickable="true"
-        card_view:cardElevation="4dp"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp">
 
-        <ImageView
-            android:id="@+id/ivComicListItem"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="184dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:contentDescription="Comic thumbnail" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivComicListItem"
+                android:layout_width="match_parent"
+                android:layout_height="184dp"
+                android:contentDescription="Comic thumbnail" />
+
+            <ImageView
+                android:id="@+id/ivComicListSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|top"
+                android:layout_margin="4dp"
+                android:contentDescription="Comic selector"
+                android:src="@drawable/ic_check_box_black_24dp"
+                android:tint="@color/primaryColor"
+                android:visibility="invisible" />
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -41,8 +54,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/ibCollect"
@@ -58,9 +70,8 @@
             android:id="@+id/tvNumOfPages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_centerVertical="true" />
 
         <ImageButton
             android:id="@+id/ibFavorite"

@@ -75,7 +75,7 @@ public class ComicCollectionFragment extends Fragment implements ComicCollection
 
         Glide.with(requireContext())
                 .load(thumbUrl)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.colorSecondary)))
+                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
                 .into(holder.ivThumb);
 
         holder.cvComicItem.setOnClickListener(new View.OnClickListener() {

@@ -1,10 +1,16 @@
 package com.github.ttdyce.nhviewer.View;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
+import com.github.ttdyce.nhviewer.Model.Firebase.Updater;
 import com.github.ttdyce.nhviewer.Model.Room.AppDatabase;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.Model.Room.ComicCollectionEntity;
@@ -21,9 +28,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
+
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "default_language";
     private static AppDatabase appDatabase;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        Updater.with(this).onUpdateNeeded(this).check();
+
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
                 .fallbackToDestructiveMigration().build();
@@ -61,6 +72,29 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
 
         NavigationUI.setupWithNavController(bottomNavigation, Navigation.findNavController(this, R.id.fragmentNavHost));
+    }
+
+    @Override
+    public void onUpdateNeeded(final String updateUrl) {
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
+                .setTitle("New version available")
+                .setMessage("Check out my coolest update on Github!")
+                .setPositiveButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton(" No, thanks",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+        dialog.show();
     }
 
     // TODO: 2019/10/1 askForLanguage() seems too dirty
@@ -108,6 +142,22 @@ public class MainActivity extends AppCompatActivity {
 
             builder.show();
         }
+    }
+
+    private String getAppVersion(Context context) {
+        String result = "";
+
+        try {
+            result = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0)
+                    .versionName;
+            result = result.replaceAll("[a-zA-Z]|-", "");
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, e.getMessage());
+            Toast.makeText(this, "Cannot update application: version name not found", Toast.LENGTH_SHORT).show();
+        }
+
+        return result;
     }
 
     //Singleton database
