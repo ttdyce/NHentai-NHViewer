@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                     getApplicationContext(),
                     android.R.layout.simple_list_item_1,
                     languageArray);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
 
             builder.setTitle("Set your default language");
 

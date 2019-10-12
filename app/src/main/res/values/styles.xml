@@ -11,7 +11,7 @@
 
     </style>
 
-    <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+    <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
 
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
