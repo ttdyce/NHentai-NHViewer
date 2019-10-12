@@ -19,6 +19,8 @@ This application is developed to provide a better user experience for mobile dev
 - Use some of the [Android Jetpack Components](https://developer.android.com/jetpack)
 - More features are in development
 
+[Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)😕
+
 ---
 
 ## Download
