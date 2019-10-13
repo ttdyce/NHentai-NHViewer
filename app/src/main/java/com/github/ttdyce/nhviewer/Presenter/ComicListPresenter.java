@@ -188,6 +188,7 @@ public class ComicListPresenter {
         setSelectionMode(false);
         selectedSelectors.clear();
         selectedComics.clear();
+        adapter.notifyDataSetChanged();//update selector display
     }
 
     public void loadNextPage() {
@@ -260,13 +261,14 @@ public class ComicListPresenter {
 
             //bind view
             if (c.getId() != -1)//id -1 is for empty comic collection
-                comicListView.onBindViewHolder(holder, position, title, thumbUrl, numOfPages);
+                comicListView.onBindViewHolder(holder, position, title, thumbUrl, numOfPages, selectedComics.contains(c), holder.cvComicItem);
 
             //endless scroll
             if (position == adapter.getItemCount() - 1) {
                 loadNextPage();
             }
 
+            //on click
             holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -275,6 +277,7 @@ public class ComicListPresenter {
                 }
             });
             holder.tvTitle.setOnClickListener(new View.OnClickListener() {
+                //let click on title = click on thumbnail
                 @Override
                 public void onClick(View v) {
                     onComicItemClick(position);
@@ -310,6 +313,22 @@ public class ComicListPresenter {
                     return true;
                 }
             });
+            holder.tvTitle.setOnLongClickListener(new View.OnLongClickListener() {
+                //let long press on title = long press on thumbnail
+                @Override
+                public boolean onLongClick(View v) {
+                    setSelectionMode(!selectionMode);
+                    if (inSelectionMode()) {
+                        onComicItemClick(position);
+                        comicListView.onComicItemClick(holder.cvComicItem, selectedComics.contains(c), selectedSelectors);
+
+                    } else {
+                        onSelectionDone();
+                    }
+
+                    return true;
+                }
+            });
         }
 
         @Override
@@ -330,7 +349,7 @@ public class ComicListPresenter {
 
         ComicListViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
 
-        void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages);
+        void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages, Boolean isSelected, View v);
 
         void updateList(Boolean isLoading);
 
