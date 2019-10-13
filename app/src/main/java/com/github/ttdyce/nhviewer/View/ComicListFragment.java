@@ -122,7 +122,9 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     }
 
     @Override
-    public void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages) {
+    public void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages, Boolean isSelected, View v) {
+        View ivSelector = v.findViewById(R.id.ivComicListSelector);
+
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH, "%dp", numOfPages));
 
@@ -131,6 +133,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
                 .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
                 .into(holder.ivThumb);
 
+        showSelector(isSelected, ivSelector);
     }
 
     @Override
@@ -180,13 +183,27 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     public void onComicItemClick(View v, boolean isSelected, ArrayList<View> selectors) {
         ImageView ivSelector = v.findViewById(R.id.ivComicListSelector);
         if (!isSelected) {
+            showSelector(isSelected, selectors, ivSelector);
+        } else if (presenter.inSelectionMode()) {
+            showSelector(isSelected, selectors, ivSelector);
+        }
+
+    }
+
+    private void showSelector(boolean isSelected, View ivSelector) {
+        if (!isSelected)
+            ivSelector.setVisibility(View.INVISIBLE);
+        else
+            ivSelector.setVisibility(View.VISIBLE);
+    }
+    private void showSelector(boolean isSelected, ArrayList<View> selectors, View ivSelector) {
+        if (!isSelected) {
             ivSelector.setVisibility(View.INVISIBLE);
             selectors.remove(ivSelector);
-        } else if (presenter.inSelectionMode()) {
+        }else{
             ivSelector.setVisibility(View.VISIBLE);
             selectors.add(ivSelector);
         }
-
     }
 
     @Override
