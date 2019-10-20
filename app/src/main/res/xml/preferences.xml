@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference
+        android:key="pref_sync"
+        android:title="box"
+        android:summary="sum"
+        android:defaultValue="true" />
+    <ListPreference
+        android:key="key_default_language"
+        android:title="language"
+        app:useSimpleSummaryProvider="true"
+        android:entries="@array/languages"
+        android:entryValues="@array/languages"
+
+        />
+</PreferenceScreen>

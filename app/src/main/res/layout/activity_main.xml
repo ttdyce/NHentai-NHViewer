@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:elevation="4dp"
             android:theme="@style/AppTheme"
+            app:titleTextColor="@color/secondaryTextColor"
             app:layout_scrollFlags="snap|enterAlways|scroll"
             />
 

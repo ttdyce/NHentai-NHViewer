@@ -6,8 +6,8 @@
     <color name="secondaryColor">#b0bec5</color>
     <color name="secondaryLightColor">#e2f1f8</color>
     <color name="secondaryDarkColor">#808e95</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="primaryTextColor">#000</color>
+    <color name="secondaryTextColor">#fff</color>
 
 <!--    <color name="colorAccent">#F8BBD0</color>-->
 <!--    <color name="colorPrimary">#D62A4A</color>-->
