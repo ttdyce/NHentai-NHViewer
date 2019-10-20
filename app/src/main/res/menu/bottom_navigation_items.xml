@@ -9,14 +9,15 @@
         android:icon="@drawable/ic_folder_black_24dp"
         android:title="Collection" />
     <item
-        android:id="@+id/action_tag"
-        android:title="Tag" />
+        android:id="@+id/searchingFragment"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search" />
     <item
         android:id="@+id/favoriteFragment"
         android:icon="@drawable/ic_favorite_black_24dp"
         android:title="Favorite" />
     <item
-        android:id="@+id/settingFragment"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Setting" />
 </menu>

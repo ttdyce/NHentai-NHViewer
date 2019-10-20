@@ -1,11 +1,9 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.Comic.Comic;
+import com.github.ttdyce.nhviewer.model.comic.Comic;
 import com.google.gson.Gson;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertNotNull;
 
 public class ComicUnitTest {
     @Test
