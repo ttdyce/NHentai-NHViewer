@@ -6,7 +6,7 @@
     app:startDestination="@id/indexFragment">
     <fragment
         android:id="@+id/comicListFragment"
-        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
         android:label="fragment_comic_list"
         tools:layout="@layout/fragment_comic_list">
         <argument
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/indexFragment"
-        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
         android:label="fragment_comic_list"
         tools:layout="@layout/fragment_comic_list">
         <argument
@@ -33,8 +33,22 @@
             android:defaultValue=" " />
     </fragment>
     <fragment
+        android:id="@+id/searchingFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
+        android:label="fragment_comic_list"
+        tools:layout="@layout/fragment_comic_list">
+        <argument
+            android:name="collectionName"
+            android:defaultValue="searching"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.github.ttdyce.nhviewer.View.ComicListFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
         android:label="fragment_comic_list"
         tools:layout="@layout/fragment_comic_list">
         <argument
@@ -48,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/comicCollectionFragment"
-        android:name="com.github.ttdyce.nhviewer.View.ComicCollectionFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ComicCollectionFragment"
         android:label="fragment_comic_collection"
         tools:layout="@layout/fragment_comic_list">
         <action
@@ -56,6 +70,13 @@
 
             app:destination="@id/comicListFragment" />
     </fragment>
-    <argument android:defaultValue=" "
-        android:name="query" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.github.ttdyce.nhviewer.view.SettingsFragment"
+        android:label="fragment_settings"
+        >
+        <action
+            android:id="@+id/action_settingsFragment_to_indexFragment"
+            app:destination="@id/indexFragment" />
+    </fragment>
 </navigation>

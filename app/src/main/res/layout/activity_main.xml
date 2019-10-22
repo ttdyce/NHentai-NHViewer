@@ -6,7 +6,7 @@
     android:id="@+id/rootMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.MainActivity">
+    tools:context=".view.MainActivity">
 
     <fragment
         android:id="@+id/fragmentNavHost"
@@ -16,7 +16,6 @@
         app:defaultNavHost="true"
         android:layout_gravity="bottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:navGraph="@navigation/nav_app"
         />
 
     <com.google.android.material.appbar.AppBarLayout
@@ -30,6 +29,7 @@
             android:layout_height="match_parent"
             android:elevation="4dp"
             android:theme="@style/AppTheme"
+            app:titleTextColor="@color/secondaryTextColor"
             app:layout_scrollFlags="snap|enterAlways|scroll"
             />
 

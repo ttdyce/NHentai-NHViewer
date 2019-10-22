@@ -1,10 +1,10 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.API.NHAPI;
+import com.github.ttdyce.nhviewer.model.api.NHAPI;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class APIUnitTest {
     private final String mid = "1438192";

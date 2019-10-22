@@ -1,13 +1,11 @@
 package com.github.ttdyce.nhviewer;
 
-import com.github.ttdyce.nhviewer.Model.Comic.Comic;
+import com.github.ttdyce.nhviewer.model.comic.Comic;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
 
 public class ComicCollectionUnitTest {
     @Test
