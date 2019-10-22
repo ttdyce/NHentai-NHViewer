@@ -38,7 +38,7 @@ public class NHAPI {
      * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
      * */
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
-        String language = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, "");
+        String language = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, "not set");
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);

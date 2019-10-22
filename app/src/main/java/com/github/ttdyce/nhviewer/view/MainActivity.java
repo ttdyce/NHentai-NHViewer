@@ -1,20 +1,17 @@
 package com.github.ttdyce.nhviewer.view;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
@@ -29,17 +26,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
-
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
-    private static AppDatabase appDatabase;
     private static final String TAG = "MainActivity";
+    private static AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        askForLanguage();
+        tryAskForLanguage();
         init();
     }
 
@@ -68,10 +64,16 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         Toolbar myToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(myToolbar);
 
-        //Link bottom navigation view with jetpack navigation
-        BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
+//        initNavigation();
+    }
 
-        NavigationUI.setupWithNavController(bottomNavigation, Navigation.findNavController(this, R.id.fragmentNavHost));
+    //Link bottom navigation view with jetpack navigation
+    private void initNavigation() {
+        NavController navController = Navigation.findNavController(this, R.id.fragmentNavHost);
+        navController.setGraph(R.navigation.nav_app);
+        BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
+        NavigationUI.setupWithNavController(bottomNavigation, navController);
+//        Navigation.findNavController(this, R.id.fragmentNavHost)
     }
 
     @Override
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
                 .setTitle("New version available")
                 .setMessage("Check out my coolest update on Github!")
-                .setPositiveButton("Update",
+                .setPositiveButton("Download (Github)",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
-                        }).setNegativeButton(" No, thanks",
+                        }).setNegativeButton("No, thanks",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -97,67 +99,51 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         dialog.show();
     }
 
-    // TODO: 2019/10/1 askForLanguage() seems too dirty
-    private void askForLanguage() {
+    private void tryAskForLanguage() {
         String languageNotSet = "not set";
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        pref.edit().clear().commit();// TODO: 2019/10/1 default language is always clearing
         String storedLanguage = pref.getString(KEY_PREF_DEFAULT_LANGUAGE, languageNotSet);
-
-        if (storedLanguage.equals(languageNotSet)) {
-            //pop up dialog for setting default language
-            final String[] languageArray = getResources().getStringArray(R.array.languages);
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                    getApplicationContext(),
-                    android.R.layout.simple_list_item_1,
-                    languageArray);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
-
-            builder.setTitle("Set your default language");
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString(KEY_PREF_DEFAULT_LANGUAGE, "All");
-                    editor.apply();
-
-                    dialog.dismiss();
-
-                    Navigation.findNavController(MainActivity.this, R.id.fragmentNavHost).navigate(R.id.indexFragment);
-//                    refreshRecyclerView(1);
-                }
-            });
-            builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString(KEY_PREF_DEFAULT_LANGUAGE, languageArray[which]);
-                    editor.apply();
-
-                    Navigation.findNavController(MainActivity.this, R.id.fragmentNavHost).navigate(R.id.indexFragment);
-//                    refreshRecyclerView(1);
-                }
-            });
-
-            builder.show();
-        }
-    }
-
-    private String getAppVersion(Context context) {
-        String result = "";
-
-        try {
-            result = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0)
-                    .versionName;
-            result = result.replaceAll("[a-zA-Z]|-", "");
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, e.getMessage());
-            Toast.makeText(this, "Cannot update application: version name not found", Toast.LENGTH_SHORT).show();
+        if (!languageNotSet.equals(storedLanguage)) {
+            initNavigation();
+            return;
         }
 
-        return result;
+        //pop up dialog for setting default language
+        final String[] languageArray = getResources().getStringArray(R.array.languages);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                languageArray);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+
+        builder.setTitle("Set your default language");
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, "All");
+                editor.apply();
+
+            }
+        });
+        builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, languageArray[which]);
+                editor.apply();
+
+            }
+        });
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                initNavigation();
+            }
+        });
+        builder.show();
     }
 
     //Singleton database
