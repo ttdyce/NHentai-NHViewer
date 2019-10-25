@@ -3,6 +3,7 @@ package com.github.ttdyce.nhviewer.view;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,9 +32,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class ComicListFragment extends Fragment implements ComicListPresenter.ComicListView {
-    private static final String ARG_COLLECTION_NAME = "collectionName";
-    private static final String ARG_QUERY = "query";
+    public static final String ARG_COLLECTION_NAME = "collectionName";
+    public static final String ARG_QUERY = "query";
 
+    private static final String TAG = "ComicListFragment";
     private String collectionName;
     private String query;
 
@@ -71,7 +73,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
         collectionName = getArguments().getString(ARG_COLLECTION_NAME);
         query = getArguments().getString(ARG_QUERY);
-
+        Log.d(TAG, "onCreate: received query=" + query);
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (!presenter.inSelectionMode())
-            inflater.inflate(R.menu.app_bar_items, menu);
+            inflater.inflate(R.menu.app_bar_items_main, menu);
         else
             inflater.inflate(R.menu.app_bar_selection_mode, menu);
 

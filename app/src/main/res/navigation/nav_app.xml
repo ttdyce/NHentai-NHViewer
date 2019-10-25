@@ -79,4 +79,12 @@
             android:id="@+id/action_settingsFragment_to_indexFragment"
             app:destination="@id/indexFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchingFragment"
+        android:name="com.github.ttdyce.nhviewer.view.SearchingFragment"
+        android:label="fragment_searching"
+        tools:layout="@layout/fragment_comic_list">
+    </fragment>
+    <argument android:defaultValue=" "
+        android:name="query" />
 </navigation>

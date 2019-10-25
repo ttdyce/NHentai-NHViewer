@@ -90,7 +90,7 @@ public class ComicListPresenter {
                 comicListView.updateList(false);
             }
         };
-        if (collectionName.equals("index"))
+        if (collectionName.equals("index") || collectionName.equals("result"))// TODO: 2019/10/25 improve collection name checking
             comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity()), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
         else
             comicFactory = new DBComicFactory(collectionName, db, pageNow, sortedPopularNow, callback);
