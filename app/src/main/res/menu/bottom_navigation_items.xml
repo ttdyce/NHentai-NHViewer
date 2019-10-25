@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_folder_black_24dp"
         android:title="Collection" />
     <item
-        android:id="@+id/action_tag"
+        android:id="@+id/searchingFragment"
         android:title="Tag" />
     <item
         android:id="@+id/favoriteFragment"

@@ -2,6 +2,7 @@ package com.github.ttdyce.nhviewer.Model.API;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,6 +17,7 @@ import com.google.gson.JsonParser;
 import java.util.Locale;
 
 public class NHAPI {
+    private static final String TAG = "NHAPI";
     private Context context;
 
     public NHAPI(Context context) {
@@ -42,6 +44,7 @@ public class NHAPI {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
+        Log.d(TAG, "getComicList: loading from url " + url);
         if(language.equals("All") || language.equals("not set"))// TODO: 2019/10/1 Function is limited if language = all
             url = URLs.getIndex(page);
 

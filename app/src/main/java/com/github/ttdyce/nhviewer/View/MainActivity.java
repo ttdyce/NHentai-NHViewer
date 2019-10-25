@@ -1,16 +1,12 @@
 package com.github.ttdyce.nhviewer.View;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -142,22 +138,6 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
             builder.show();
         }
-    }
-
-    private String getAppVersion(Context context) {
-        String result = "";
-
-        try {
-            result = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0)
-                    .versionName;
-            result = result.replaceAll("[a-zA-Z]|-", "");
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, e.getMessage());
-            Toast.makeText(this, "Cannot update application: version name not found", Toast.LENGTH_SHORT).show();
-        }
-
-        return result;
     }
 
     //Singleton database

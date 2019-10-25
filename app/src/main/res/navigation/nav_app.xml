@@ -56,6 +56,12 @@
 
             app:destination="@id/comicListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchingFragment"
+        android:name="com.github.ttdyce.nhviewer.View.SearchingFragment"
+        android:label="fragment_searching"
+        tools:layout="@layout/fragment_comic_list">
+    </fragment>
     <argument android:defaultValue=" "
         android:name="query" />
 </navigation>
