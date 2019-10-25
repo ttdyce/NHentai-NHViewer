@@ -33,20 +33,6 @@
             android:defaultValue=" " />
     </fragment>
     <fragment
-        android:id="@+id/searchingFragment"
-        android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
-        android:label="fragment_comic_list"
-        tools:layout="@layout/fragment_comic_list">
-        <argument
-            android:name="collectionName"
-            android:defaultValue="searching"
-            app:argType="string" />
-        <argument
-            android:name="query"
-            app:argType="string"
-            android:defaultValue=" " />
-    </fragment>
-    <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.github.ttdyce.nhviewer.view.ComicListFragment"
         android:label="fragment_comic_list"
