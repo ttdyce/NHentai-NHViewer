@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
 import com.github.ttdyce.nhviewer.R;
@@ -32,6 +33,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
     private RecyclerView rvComic;
     private ProgressBar pbComic;
     private LinearLayoutManager layoutManager;
+    private CircularProgressDrawable circularProgressDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         rvComic.setHasFixedSize(true);
         rvComic.setAdapter(presenter.getAdapter());
         rvComic.setLayoutManager(layoutManager);
+
         //set appbar
         Toolbar toolbar = findViewById(R.id.toolbar_comic);
         setSupportActionBar(toolbar);
@@ -82,9 +85,14 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
 
     @Override
     public void onBindViewHolder(ComicViewHolder holder, int position, String url) {
-        //.placeholder(new ColorDrawable(ContextCompat.getColor(this, R.color.colorSecondary)))
+        circularProgressDrawable = new CircularProgressDrawable(this);// TODO: 2019/10/27 many drawable object is created, may hurt performance & loading speed
+        circularProgressDrawable.setStrokeWidth(10f);
+        circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.start();
+
         Glide.with(this)
                 .load(url)
+                .placeholder(circularProgressDrawable)
                 .into(holder.ivComicPage);
 
         holder.tvComicPage.setText(String.valueOf(position + 1));
