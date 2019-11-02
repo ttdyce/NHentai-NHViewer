@@ -3,6 +3,8 @@ package com.github.ttdyce.nhviewer.model.room;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
+import com.google.gson.Gson;
+
 import java.util.Date;
 
 @Entity(tableName = "ComicCollection", primaryKeys = {"name", "id"})
@@ -52,5 +54,10 @@ public class ComicCollectionEntity {
 
     public void setDateCreated(@NonNull Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String toJson(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

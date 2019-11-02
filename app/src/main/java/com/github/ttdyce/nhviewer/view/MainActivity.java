@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,11 +20,17 @@ import androidx.room.Room;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.firebase.Updater;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
+import com.github.ttdyce.nhviewer.model.room.ComicCachedEntity;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
@@ -37,6 +44,71 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
         tryAskForLanguage();
         init();
+        tryBackup();
+    }
+
+    private void tryBackup() {
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<ComicCollectionEntity> collectionEntities = appDatabase.comicCollectionDao().getAll();
+                List<ComicCachedEntity> comicCachedEntities = appDatabase.comicCachedDao().getAll();
+
+                Socket socket;
+                String host = "192.168.128.57";
+                int port = 3333;
+
+                try {
+                    socket = new Socket(host, port);
+                    Log.d(TAG, "tryBackup: connected to " + host);
+//                    Toast.makeText(MainActivity.this, "tryBackup: connected to " + host, Toast.LENGTH_SHORT).show();
+
+                    // get the output stream from the socket.
+                    OutputStream outputStream = socket.getOutputStream();
+                    // create a data output stream from the output stream so we can send data through it
+                    DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+
+                    Log.d(TAG, "Sending table ComicCollection");
+                    dataOutputStream.write("Table name".getBytes());
+                    dataOutputStream.write("ComicCollection".getBytes());
+                    socket.getInputStream().read();
+
+                    for (ComicCollectionEntity e :collectionEntities){
+                        dataOutputStream.write(e.toJson().getBytes());
+                        socket.getInputStream().read();
+                    }
+                    dataOutputStream.write("EOF".getBytes());
+                    socket.getInputStream().read();
+
+
+                    Log.d(TAG, "Sending table ComicCached");
+                    dataOutputStream.write("Table name".getBytes());
+                    dataOutputStream.write("ComicCached".getBytes());
+                    socket.getInputStream().read();
+
+                    for (ComicCachedEntity e :comicCachedEntities){
+                        dataOutputStream.write(e.toJson().getBytes());
+                        socket.getInputStream().read();
+                    }
+                    dataOutputStream.write("EOF".getBytes());
+                    socket.getInputStream().read();
+
+                    dataOutputStream.write("END".getBytes());
+                    dataOutputStream.flush();
+                    dataOutputStream.close();
+
+                    Log.d(TAG, "Closing socket and terminating program.");
+                    socket.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Backup failed");
+//                    Toast.makeText(this, "Backup failed", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     private void init() {
