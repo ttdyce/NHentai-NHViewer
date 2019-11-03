@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ListPreference
-        android:key="key_default_language"
-        android:title="language"
-        app:useSimpleSummaryProvider="true"
-        android:entries="@array/languages"
-        android:entryValues="@array/languages"
-        />
+
+    <PreferenceCategory android:title="General">
+        <ListPreference
+            android:entries="@array/languages"
+            android:entryValues="@array/languages"
+            android:key="key_default_language"
+            android:title="Language"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Backup">
+        <Preference android:title="Scan QR code (Connect to server)">
+
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.github.ttdyce.nhviewer.view.BackupActivity"
+                android:targetPackage="com.github.ttdyce.nhviewer" />
+        </Preference>
+    </PreferenceCategory>
 </PreferenceScreen>
