@@ -32,6 +32,8 @@ This application is developed to provide a better user experience for mobile dev
 
 [Download](https://github.com/ttdyce/nhviewer/releases)
 
+[Backup server(Python3)](https://github.com/ttdyce/NHV-Backup-Server)
+
 ## Screenshots
 
 <img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280">
@@ -96,6 +98,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   - [NHBooks](https://github.com/NHMoeDev/NHentai-android)
   - [EhViewer](https://github.com/seven332/EhViewer)
 - Dependencies
+  - [QRCodeReaderView](https://github.com/dlazaro66/QRCodeReaderView) from [dlazaro66](https://github.com/dlazaro66)
   - [Gson](https://github.com/google/gson)
   - [jsoup](https://jsoup.org/download)
   - [Glide](http://bumptech.github.io/glide/doc/download-setup.html)

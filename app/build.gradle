@@ -38,6 +38,8 @@ dependencies {
     def room_version = "2.2.0-rc01"
     def preference_version = "1.1.0"
 
+    //QRCode scanner
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     //Firebase
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-config:19.0.2'

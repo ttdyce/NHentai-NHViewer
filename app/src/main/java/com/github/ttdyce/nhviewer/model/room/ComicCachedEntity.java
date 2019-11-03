@@ -3,6 +3,8 @@ package com.github.ttdyce.nhviewer.model.room;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
+import com.google.gson.Gson;
+
 @Entity(tableName = "ComicCached", primaryKeys = {"id"})
 public class ComicCachedEntity {
     @NonNull
@@ -70,5 +72,10 @@ public class ComicCachedEntity {
 
     public void setNumOfPages(int numOfPages) {
         this.numOfPages = numOfPages;
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }
