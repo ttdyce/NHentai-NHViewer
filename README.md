@@ -32,6 +32,8 @@ This application is developed to provide a better user experience for mobile dev
 
 [Download](https://github.com/ttdyce/nhviewer/releases)
 
+[Backup server(Python3)](https://github.com/ttdyce/NHV-Backup-Server)
+
 ## Screenshots
 
 <img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280">

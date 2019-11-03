@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +20,7 @@ import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.util.List;
 import java.util.Locale;
@@ -27,7 +28,6 @@ import java.util.Locale;
 public class BackupActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
     private static final String TAG = "BackupActivity";
 
-    private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
 
     @Override
@@ -45,36 +45,6 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         // Use this function to set back camera preview
         qrCodeReaderView.setBackCamera();
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                String ip = getIPAddress();
-//                if (ip == null) {
-//                    // TODO: 2019/11/3 cannot toast in a thread
-//                    Toast.makeText(BackupActivity.this, "Error: cannot find local ip address, backup has stopped", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                int port = 3333;
-//                Socket socket;
-//                ArrayList<String> data = new ArrayList<>();
-//                ip = ip.substring(0, ip.length() - 3);
-//
-//                //only support subnet mask 255.255.255.0, e.g. 192.168.128.1 ~ 192.168.128.254
-//                for (int i = 1; i < 255; i++) {
-//                    String testHost = ip + i;
-//                    Log.i(TAG, "Testing host: "+testHost);
-//                    try (Socket s = new Socket(testHost, port)) {
-//                        data.add(ip + i);
-//
-//                    } catch (IOException ex) {
-//                        /* ignore */
-//                    }
-//
-//                }
-//
-//            }
-//        }).start();
     }
 
     // Called when a QR is decoded
@@ -82,7 +52,7 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
     // "points" : points where QR control points are placed in View
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
-        Log.i(TAG, "onQRCodeRead: "+text);
+        Log.i(TAG, "onQRCodeRead: " + text);
         // Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 400 milliseconds
@@ -105,24 +75,23 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         qrCodeReaderView.stopCamera();
     }
 
-    // TODO: 2019/11/3 package below's method to a class
-
+    // TODO: 2019/11/3 package below's method to a class/presenter
     private static class BackupTask extends AsyncTask<Void, Void, Void> {
         String ip;
         int port;
-        Context context;
+        WeakReference<AppCompatActivity> activityRef;
         ProgressDialog dialog;
 
-        public BackupTask(Context context, String data) {
+        public BackupTask(AppCompatActivity activity, String data) {
             String[] split = data.split(":");
             ip = split[0];
             port = Integer.parseInt(split[1]);
-            this.context = context;
+            this.activityRef = new WeakReference<>(activity);
         }
 
         @Override
         protected void onPreExecute() {
-            dialog = ProgressDialog.show(context, "Found QR code",
+            dialog = ProgressDialog.show(activityRef.get(), "Found QR code",
                     String.format(Locale.ENGLISH, "Connecting to %s:%d...", ip, port), true);
         }
 
@@ -135,6 +104,8 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         @Override
         protected void onPostExecute(Void aVoid) {
             dialog.dismiss();
+            Toast.makeText(activityRef.get(), "Backup finished", Toast.LENGTH_SHORT).show();
+            activityRef.get().finish();
         }
 
 
@@ -160,7 +131,7 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
                 dataOutputStream.write("ComicCollection".getBytes());
                 socket.getInputStream().read();
 
-                for (ComicCollectionEntity e :collectionEntities){
+                for (ComicCollectionEntity e : collectionEntities) {
                     dataOutputStream.write(e.toJson().getBytes());
                     socket.getInputStream().read();
                 }
@@ -173,7 +144,7 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
                 dataOutputStream.write("ComicCached".getBytes());
                 socket.getInputStream().read();
 
-                for (ComicCachedEntity e :comicCachedEntities){
+                for (ComicCachedEntity e : comicCachedEntities) {
                     dataOutputStream.write(e.toJson().getBytes());
                     socket.getInputStream().read();
                 }
