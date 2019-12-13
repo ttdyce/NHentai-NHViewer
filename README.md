@@ -1,6 +1,6 @@
-# NHentaiViewer
+# NHViewer
 
-[![Build Status](https://travis-ci.com/ttdyce/NHentaiViewer.svg?branch=master)](https://travis-ci.com/ttdyce/NHentaiViewer)
+[![Build Status](https://travis-ci.com/ttdyce/NHentai-NHViewer.svg?branch=master)](https://travis-ci.com/ttdyce/NHentai-NHViewer)
 [![Github version](https://img.shields.io/github/v/tag/ttdyce/NHentaiViewer.svg?label=version&color=brightgreen&sort=semver)](https://github.com/ttdyce/nhviewer/releases)
 [![Github all releases](https://img.shields.io/github/downloads/ttdyce/nhentaiviewer/total.svg)](https://github.com/ttdyce/nhviewer/releases)
 [![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
