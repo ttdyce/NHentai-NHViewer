@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);//replacing the SplashTheme
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
