@@ -1,6 +1,7 @@
 package com.github.ttdyce.nhviewer.view;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -21,8 +22,12 @@ public class SplashActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.splash_loading);
         splashLoading.startAnimation(animation);
 
-        //Start MainActivity
-//        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//        finish();
+        // TODO: 12/15/2019 hard coded SplashActivity wait for 1.5 second
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                finish();
+            }
+        }, 1500);   //1.5 seconds
     }
 }

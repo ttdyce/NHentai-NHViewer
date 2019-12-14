@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);//replacing the SplashTheme
+        //Open SplashActivity
+        startActivity(new Intent(this, SplashActivity.class));// TODO: 12/15/2019 Open SplashActivity from MainActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     }
 
     private void init() {
+
         Updater.with(this).onUpdateNeeded(this).check();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),

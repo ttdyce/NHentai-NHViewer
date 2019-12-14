@@ -101,7 +101,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         else
             inflater.inflate(R.menu.app_bar_selection_mode, menu);
 
-        if(presenter.cannotDelete())
+        if (presenter.cannotDelete())
             menu.removeItem(R.id.action_delete);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -198,11 +198,12 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         else
             ivSelector.setVisibility(View.VISIBLE);
     }
+
     private void showSelector(boolean isSelected, ArrayList<View> selectors, View ivSelector) {
         if (!isSelected) {
             ivSelector.setVisibility(View.INVISIBLE);
             selectors.remove(ivSelector);
-        }else{
+        } else {
             ivSelector.setVisibility(View.VISIBLE);
             selectors.add(ivSelector);
         }
