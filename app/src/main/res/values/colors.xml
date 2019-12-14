@@ -8,6 +8,8 @@
     <color name="secondaryDarkColor">#808e95</color>
     <color name="primaryTextColor">#000</color>
     <color name="secondaryTextColor">#fff</color>
+    <color name="splashBackground">#202a34</color>
+
 
 <!--    <color name="colorAccent">#F8BBD0</color>-->
 <!--    <color name="colorPrimary">#D62A4A</color>-->

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.github.ttdyce.nhviewer">
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -16,9 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.BackupActivity"
-            >
+        <activity android:name=".view.SplashActivity"
+            android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".view.BackupActivity"></activity>
         <activity
             android:name=".view.ComicActivity"
             android:screenOrientation="portrait" />

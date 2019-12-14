@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">NHViewer</string>
+    <string name="initial_author">github.com/ttdyce</string>
 
 </resources>
