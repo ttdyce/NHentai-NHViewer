@@ -1,4 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: "org.ajoberstar.grgit"
+
+import org.ajoberstar.grgit.Grgit
+
+ext {
+    //Git tag as version name, using org.ajoberstar.grgit.Grgit
+    git = Grgit.open()
+    tags = git.tag.list()
+    gitVersionCode = tags.size()
+    gitVersionName = tags[tags.size()-1].getName()
+}
 
 android {
     compileSdkVersion 28
@@ -7,8 +18,8 @@ android {
         applicationId "com.github.ttdyce.nhviewer"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.3.0"
+        versionCode gitVersionCode
+        versionName gitVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
