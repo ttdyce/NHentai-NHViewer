@@ -11,13 +11,13 @@ This application is developed to provide a better user experience for mobile dev
 
 ## Recent changes
 
-### Version 2 overview
+### Icon & Splash screen
 
-- Refactor the UI ([Material Design](https://material.io/design/introduction/#principles)) and code architecture ([M-V-P](https://stackoverflow.com/questions/2056/what-are-mvp-and-mvc-and-what-is-the-difference))
-- Retrieve data from [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) (it's official? I guess)
-- Migrate to AndroidX
-- Use some of the [Android Jetpack Components](https://developer.android.com/jetpack)
-- More features are in development
+I would like to include NHentai’s icon and slogan in this project since it is an application about their site. 
+
+I have sent them an email to ask for permission but there is still no reply yet. 
+
+Please contact me if there are any issue, thanks. 
 
 [Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)😕
 
@@ -51,6 +51,14 @@ This application is developed to provide a better user experience for mobile dev
   - Comic list sorting, by popularity/date uploaded
   - Search with custom tags and language
   - Page jumping
+
+### Version 2 overview
+
+- Refactor the UI ([Material Design](https://material.io/design/introduction/#principles)) and code architecture ([M-V-P](https://stackoverflow.com/questions/2056/what-are-mvp-and-mvc-and-what-is-the-difference))
+- Retrieve data from [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) (it's official? I guess)
+- Migrate to AndroidX
+- Use some of the [Android Jetpack Components](https://developer.android.com/jetpack)
+- More features are in development
 
 ---
 
@@ -97,7 +105,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   - [nhentai.net](https://nhentai.net)
   - [NHBooks](https://github.com/NHMoeDev/NHentai-android)
   - [EhViewer](https://github.com/seven332/EhViewer)
+  
 - Dependencies
+  - Image blur, [glide-transformations](https://github.com/wasabeef/glide-transformations), from [wasabeef](https://github.com/wasabeef)
   - [QRCodeReaderView](https://github.com/dlazaro66/QRCodeReaderView) from [dlazaro66](https://github.com/dlazaro66)
   - [Gson](https://github.com/google/gson)
   - [jsoup](https://jsoup.org/download)
