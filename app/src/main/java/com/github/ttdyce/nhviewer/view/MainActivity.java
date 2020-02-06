@@ -27,6 +27,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
+    public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
 

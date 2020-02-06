@@ -1,6 +1,8 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
+
+import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
 
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
     public static final String ARG_ID = "id";
@@ -85,15 +90,26 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
 
     @Override
     public void onBindViewHolder(ComicViewHolder holder, int position, String url) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
         circularProgressDrawable = new CircularProgressDrawable(this);// TODO: 2019/10/27 many drawable object is created, may hurt performance & loading speed
         circularProgressDrawable.setStrokeWidth(10f);
         circularProgressDrawable.setCenterRadius(30f);
         circularProgressDrawable.start();
 
-        Glide.with(this)
-                .load(url)
-                .placeholder(circularProgressDrawable)
-                .into(holder.ivComicPage);
+        //determine blur image or not
+        if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
+            Glide.with(this)
+                    .load(url)
+                    .placeholder(circularProgressDrawable)
+                    .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
+                    .into(holder.ivComicPage);
+        else
+            Glide.with(this)
+                    .load(url)
+                    .placeholder(circularProgressDrawable)
+                    .into(holder.ivComicPage);
 
         holder.tvComicPage.setText(String.valueOf(position + 1));
 

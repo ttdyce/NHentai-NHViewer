@@ -21,6 +21,10 @@ android {
         versionCode gitVersionCode
         versionName gitVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //for blur
+        renderscriptTargetApi 28
+        renderscriptSupportModeEnabled true
     }
     signingConfigs {
         release

@@ -1,7 +1,9 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +19,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.presenter.ComicCollectionPresenter;
 
 import java.util.Locale;
+
+import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
 
 
 public class ComicCollectionFragment extends Fragment implements ComicCollectionPresenter.ComicCollectionView {
@@ -70,13 +75,23 @@ public class ComicCollectionFragment extends Fragment implements ComicCollection
 
     @Override
     public void onBindViewHolder(ComicCollectionViewHolder holder, final int position, String name, String thumbUrl, int numOfPages) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(requireContext());
+
         holder.tvNumOfComics.setText(String.format(Locale.ENGLISH, "%d collected", numOfPages));
         holder.tvTitle.setText(name);
 
-        Glide.with(requireContext())
-                .load(thumbUrl)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
-                .into(holder.ivThumb);
+        //determine blur image or not
+        if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
+            Glide.with(requireContext())
+                    .load(thumbUrl)
+                    .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
+                    .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
+                    .into(holder.ivThumb);
+        else
+            Glide.with(requireContext())
+                    .load(thumbUrl)
+                    .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
+                    .into(holder.ivThumb);
 
         holder.cvComicItem.setOnClickListener(new View.OnClickListener() {
             @Override

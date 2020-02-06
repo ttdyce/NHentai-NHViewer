@@ -10,6 +10,13 @@
             android:title="Language"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreference
+            android:key="key_demo_mode"
+            android:title="Demo mode"
+            android:defaultValue="false"
+            android:summary="Blur all images"
+            />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="Backup">
         <Preference android:title="Scan QR code (Connect to server)">
