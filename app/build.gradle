@@ -21,6 +21,10 @@ android {
         versionCode gitVersionCode
         versionName gitVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //for blur
+        renderscriptTargetApi 28
+        renderscriptSupportModeEnabled true
     }
     signingConfigs {
         release
@@ -49,6 +53,8 @@ dependencies {
     def room_version = "2.2.0-rc01"
     def preference_version = "1.1.0"
 
+    //image transformations for Glide (for blur image)
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
     //QRCode scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     //Firebase

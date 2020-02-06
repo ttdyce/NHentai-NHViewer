@@ -1,7 +1,9 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +26,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.presenter.ComicListPresenter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
 
 public class ComicListFragment extends Fragment implements ComicListPresenter.ComicListView {
     public static final String ARG_COLLECTION_NAME = "collectionName";
@@ -125,15 +130,24 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
 
     @Override
     public void onBindViewHolder(ComicListViewHolder holder, int position, String title, String thumbUrl, int numOfPages, Boolean isSelected, View v) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(requireContext());
         View ivSelector = v.findViewById(R.id.ivComicListSelector);
 
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH, "%dp", numOfPages));
 
-        Glide.with(requireContext())
-                .load(thumbUrl)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
-                .into(holder.ivThumb);
+        //determine blur image or not
+        if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
+            Glide.with(requireContext())
+                    .load(thumbUrl)
+                    .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
+                    .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
+                    .into(holder.ivThumb);
+        else
+            Glide.with(requireContext())
+                    .load(thumbUrl)
+                    .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
+                    .into(holder.ivThumb);
 
         showSelector(isSelected, ivSelector);
     }
