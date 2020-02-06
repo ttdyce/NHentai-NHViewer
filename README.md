@@ -34,9 +34,9 @@ Please contact me if there are any issue, thanks.
 
 [Backup server(Python3)](https://github.com/ttdyce/NHV-Backup-Server)
 
-## Screenshots
+## Screenshots (In demo mode( •̀ ω •́ )y)
 
-<img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280">
+<img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/search.png" alt="Search result display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280"><img src="./screenshots/comic.png" alt="Comic inner page demo" width="280"><img src="./screenshots/setting.png" alt="Setting demo" width="280">
 
 ## Features
 
@@ -107,7 +107,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
   - [EhViewer](https://github.com/seven332/EhViewer)
   
 - Dependencies
-  - Image blur, [glide-transformations](https://github.com/wasabeef/glide-transformations), from [wasabeef](https://github.com/wasabeef)
+  - Image blur: [glide-transformations](https://github.com/wasabeef/glide-transformations) from [wasabeef](https://github.com/wasabeef)
   - [QRCodeReaderView](https://github.com/dlazaro66/QRCodeReaderView) from [dlazaro66](https://github.com/dlazaro66)
   - [Gson](https://github.com/google/gson)
   - [jsoup](https://jsoup.org/download)
