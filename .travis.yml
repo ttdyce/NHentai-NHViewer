@@ -38,5 +38,5 @@ deploy:
     - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
     - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
   on:
-    repo: ttdyce/NHentaiViewer
+    repo: ttdyce/NHentai-NHViewer
     tags: true
