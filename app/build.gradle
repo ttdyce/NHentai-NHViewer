@@ -5,7 +5,7 @@ import org.ajoberstar.grgit.Grgit
 
 ext {
     //Git tag as version name, using org.ajoberstar.grgit.Grgit
-    git = Grgit.open()
+    git = Grgit.open(currentDir: project.rootDir)
     tags = git.tag.list()
     gitVersionCode = tags.size()
     gitVersionName = tags[tags.size()-1].getName()
@@ -25,6 +25,12 @@ android {
         //for blur
         renderscriptTargetApi 28
         renderscriptSupportModeEnabled true
+        //export AppDatabase (Room database) to /schemas/*.json
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     signingConfigs {
         release
