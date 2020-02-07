@@ -5,7 +5,7 @@ import org.ajoberstar.grgit.Grgit
 
 ext {
     //Git tag as version name, using org.ajoberstar.grgit.Grgit
-    git = Grgit.open()
+    git = Grgit.open(currentDir: project.rootDir)
     tags = git.tag.list()
     gitVersionCode = tags.size()
     gitVersionName = tags[tags.size()-1].getName()
