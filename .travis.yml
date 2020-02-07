@@ -35,7 +35,7 @@ before_deploy:
   - ls -l app/build/outputs/apk/release
 deploy:
   provider: releases
-  cleanup: false
+  skip_cleanup: true
   overwrite: true
   draft: true
   api_key:
