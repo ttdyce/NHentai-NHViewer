@@ -1,42 +1,62 @@
 language: android
-jdk: oraclejdk8
+dist: trusty
+os: linux
 env:
   global:
+    - BUILD_TOOL_VERSION=29.0.2
     - ANDROID_API=28
     - secure: jqQJ3WXC94shPZSwQX6SnLMGoMGt7xZfUcSV2KgQ648R47kaSMnwt7kyh1X7wXX2ttL1BG4Mkii4JSsEzehzLfA0AJN9hRwdY7EctMPE3QTPfHXKL/CSQBc+2vh2OPpP0iw3FNHxL6uS/TT3zydy6m8aRxwvXPoZ4d7r0l6TnQG2MVzC4eufyZj7Ms2cXY57aZDDbramTFIIYzLGtCX+aGgCdFGQ/fWbNnVBprHdNbeRq0VqlhUl2Cc+GCZEVYzjbwIhRq3SEdmV5W0uHZR6+2kqf6pigyVdDvxcigKF/jzRzwkADzn/nTpBcBHcQ03sxtCBs2mBF0YDd0fNMzyX9i7SZliiGIzJo08zWqRoqipWd29fGHiJoM4VeSEparY/G+EPNzuA0IdnCgKzG8e6BLpo0cJ16CxVrj28lUel10VKihbJcvgyS0OaUpba57/5hplEw49Ldvj9jIf8nICSXLftrn25uDkhorOFnztAUo/R8F6QA5zzv+dska58y+jriAM/rhEA5xLzpLWmcJcph5abRvurhceAVI/s6gaj7MOJCjwTrJNyizQo3tof/wZlI4iXfBEbOuB3jo1rkxrrMHtRXLwewjpezm7GWiDcGBD49tgigV2B0VfCYjIM0MEm9oucLpB8Dp2e4VbFRxRuM6TkxfC5iZIVX1SL4jk2TlY=
 android:
   components:
+    - build-tools-${BUILD_TOOL_VERSION}
+    - android-${ANDROID_API}
     - tools
     - platform-tools
-    - build-tools-29.0.2
-    - android-${ANDROID_API}
-    - extra-android-m2repository
-  licenses:
-    - android-sdk-license-.+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
 before_install:
   - openssl aes-256-cbc -k "$keystore_d" -in app/myapps.jks.enc -out app/myapps.jks -d
   - chmod +x gradlew
-before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
-cache:
-  directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
-    - "$HOME/.android/build-cache"
-before_deploy:
-  - mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk
-  - mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk
 script:
   - "./gradlew assembleDebug"
   - "./gradlew assembleRelease"
+before_deploy:
+  - mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk
+  - mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk
 deploy:
   provider: releases
   cleanup: false
   overwrite: true
+  draft: true
   api_key:
     secure: V4d6VAD4MBk3Uk9DlizxOCXEFgJGtsSMuTOddtJAT/ETByCfrk09u3FjRCPPzRipfnPwrtIbNtVOLI7/joR6amErxoyPg0kLeARFDIh8lcRhbELv+ybuDNRM/FvRlSc0+RtXZ5XYlU+cVAtUH3gnnv3smxFTZvLHM4ZD4f5ND6Q4AlemWqy7gpqYobxw8bFEhOTWKB+HUeBsNBdqPCSjWrmcvTWYdE0WNb8h5N03ncnJ1PySu4FM+UD1bOGvSgE/ACRcNG0ASCNwChrhokz/RnVfhujIhgL4G3bK5unJqTqgHeE76R9zV4pKdsHsiy0B1S/6IkAyiDFDgRtU9qfPWD1tc9d9E+xsoMiyX0h9B9EK+aoTu2wnZqwHVa5gk63eO0kPDjlU3SY/zeJ5DTMUTOdJVkvDPJrApsDs4H4yGQmCXuaG6i6kqICGjFLfB2bLIaKNbobIyxd5g2B9CqHn2eHNXT9LDUVUXDIT38LNvDf9a+2o9feRX5hwkj1FHEAXD/R67AljrLKsDWHgZJLi6xP9wjD2qFHsCZKIBrvw/+R3xoZkql37WS1QI6TjpcvaJ02dJJuOGoLs4L+SYb5tLS5eXGFb2L0ezzUOeutvzYtxT+rswmrY7rdqeJV1UZtLWvy6f+CiH4i1+YzT/qcDrSEM3Ly/AyzpT6oXLdpj7aw=
   file:
-    - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
-    - "/home/travis/build/ttdyce/NHentaiViewer/app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
+    - "app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
+    - "app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
   on:
     repo: ttdyce/NHentai-NHViewer
     tags: true
+
+# jdk: oraclejdk8
+# android:
+#   components:
+#     - tools
+#     - platform-tools
+#     - build-tools-29.0.2
+#     - android-${ANDROID_API}
+#     - extra-android-m2repository
+#   licenses:
+#     - android-sdk-license-.+
+
+# before_cache: "-rm -f $HOME/.gradle/caches/modules-2/modules-2.lock -rm -fr $HOME/.gradle/caches/*/plugin-resolution/"
+# cache:
+#   directories:
+#     - "$HOME/.gradle/caches/"
+#     - "$HOME/.gradle/wrapper/"
+#     - "$HOME/.android/build-cache"
