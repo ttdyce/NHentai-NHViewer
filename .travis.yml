@@ -37,8 +37,8 @@ deploy:
   api_key:
     secure: V4d6VAD4MBk3Uk9DlizxOCXEFgJGtsSMuTOddtJAT/ETByCfrk09u3FjRCPPzRipfnPwrtIbNtVOLI7/joR6amErxoyPg0kLeARFDIh8lcRhbELv+ybuDNRM/FvRlSc0+RtXZ5XYlU+cVAtUH3gnnv3smxFTZvLHM4ZD4f5ND6Q4AlemWqy7gpqYobxw8bFEhOTWKB+HUeBsNBdqPCSjWrmcvTWYdE0WNb8h5N03ncnJ1PySu4FM+UD1bOGvSgE/ACRcNG0ASCNwChrhokz/RnVfhujIhgL4G3bK5unJqTqgHeE76R9zV4pKdsHsiy0B1S/6IkAyiDFDgRtU9qfPWD1tc9d9E+xsoMiyX0h9B9EK+aoTu2wnZqwHVa5gk63eO0kPDjlU3SY/zeJ5DTMUTOdJVkvDPJrApsDs4H4yGQmCXuaG6i6kqICGjFLfB2bLIaKNbobIyxd5g2B9CqHn2eHNXT9LDUVUXDIT38LNvDf9a+2o9feRX5hwkj1FHEAXD/R67AljrLKsDWHgZJLi6xP9wjD2qFHsCZKIBrvw/+R3xoZkql37WS1QI6TjpcvaJ02dJJuOGoLs4L+SYb5tLS5eXGFb2L0ezzUOeutvzYtxT+rswmrY7rdqeJV1UZtLWvy6f+CiH4i1+YzT/qcDrSEM3Ly/AyzpT6oXLdpj7aw=
   file:
-    - "app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
-    - "app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
+    - "/home/travis/build/ttdyce/NHentai-NHViewer/app/build/outputs/apk/debug/nhviewer-${TRAVIS_TAG}.apk"
+    - "/home/travis/build/ttdyce/NHentai-NHViewer/app/build/outputs/apk/release/nhviewer-${TRAVIS_TAG}-signed.apk"
   on:
     repo: ttdyce/NHentai-NHViewer
     tags: true
