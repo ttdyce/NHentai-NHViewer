@@ -11,6 +11,18 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
+            android:key="key_enable_splash"
+            android:title="Enable splash screen"
+            android:defaultValue="true"
+            android:summary="Show the opening screen on start"
+            />
+        <SwitchPreference
+            android:key="key_check_update"
+            android:title="Check update"
+            android:defaultValue="true"
+            android:summary="Show the dialog when there is an update"
+            />
+        <SwitchPreference
             android:key="key_demo_mode"
             android:title="Demo mode"
             android:defaultValue="false"

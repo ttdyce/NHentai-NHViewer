@@ -28,6 +28,8 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
+    public static final String KEY_PREF_ENABLE_SPLASH = "key_enable_splash";
+    public static final String KEY_PREF_CHECK_UPDATE = "key_check_update";
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
 
@@ -35,7 +37,10 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);//replacing the SplashTheme
         //Open SplashActivity
-        startActivity(new Intent(this, SplashActivity.class));// TODO: 12/15/2019 Open SplashActivity from MainActivity
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean enabledSplash = pref.getBoolean(KEY_PREF_ENABLE_SPLASH, true);
+        if (enabledSplash)
+            startActivity(new Intent(this, SplashActivity.class));// TODO: 12/15/2019 Open SplashActivity from MainActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -46,7 +51,10 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
     private void init() {
 
-        Updater.with(this).onUpdateNeeded(this).check();
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
+        if (enabledCheckUpdate)
+            Updater.with(this).onUpdateNeeded(this).check();
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
