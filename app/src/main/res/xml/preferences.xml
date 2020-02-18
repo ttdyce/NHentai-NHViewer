@@ -39,4 +39,16 @@
                 android:targetPackage="com.github.ttdyce.nhviewer" />
         </Preference>
     </PreferenceCategory>
+    <PreferenceCategory android:title="About">
+
+        <PreferenceScreen
+            android:title="Maintained by"
+            android:summary="@string/initial_author">
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:title="Version"
+            android:key="key_version"
+            app:useSimpleSummaryProvider="true" >
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

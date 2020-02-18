@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
     public static final String KEY_PREF_ENABLE_SPLASH = "key_enable_splash";
     public static final String KEY_PREF_CHECK_UPDATE = "key_check_update";
+    public static final CharSequence KEY_PREF_VERSION = "key_version";
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
 
