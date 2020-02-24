@@ -1,6 +1,7 @@
 package com.github.ttdyce.nhviewer.view;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -22,12 +23,6 @@ import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
 import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
 
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
-    public static final String ARG_ID = "id";
-    public static final String ARG_MID = "mid";
-    public static final String ARG_TITLE = "title";
-    public static final String ARG_NUM_OF_PAGES = "numOfPages";
-    public static final String ARG_PAGE_TYPES = "pageTypes";
-
     private int id;
     private String mid;
     private String title;
@@ -54,25 +49,32 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         return true;
     }
 
+    private int getComicIdFromBrowser() {
+        int comicid = -1;
+        Uri browserData = getIntent().getData();//data from browser, contains only comicid (from url)
+
+        if (browserData != null && browserData.isHierarchical()) {//using id from browser
+            comicid = Integer.parseInt(browserData.getLastPathSegment());
+        }
+
+        return comicid;
+    }
+
+
     private void init() {
         if (getIntent().getExtras() == null)
             return;
-        Bundle extras = getIntent().getExtras();
-        id = extras.getInt(ARG_ID);
-        mid = extras.getString(ARG_MID);
-        title = extras.getString(ARG_TITLE);
-        numOfPages = extras.getInt(ARG_NUM_OF_PAGES);
-        pageTypes = extras.getStringArray(ARG_PAGE_TYPES);
-
+        final Bundle extras = getIntent().getExtras();
+        final int idFromBrowser = getComicIdFromBrowser();
         rvComic = findViewById(R.id.rvComic);
         pbComic = findViewById(R.id.pbComic);
 
-        presenter = new ComicPresenter(this, id, mid, title, numOfPages, pageTypes);
         layoutManager = new LinearLayoutManager(this);
-        RecyclerView rvComic = findViewById(R.id.rvComic);
+        final RecyclerView rvComic = findViewById(R.id.rvComic);
         rvComic.setHasFixedSize(true);
-        rvComic.setAdapter(presenter.getAdapter());
         rvComic.setLayoutManager(layoutManager);
+
+        presenter = ComicPresenter.factory(this, this, extras, idFromBrowser, rvComic);
 
         //set appbar
         Toolbar toolbar = findViewById(R.id.toolbar_comic);

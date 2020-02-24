@@ -125,11 +125,11 @@ public class ComicListPresenter {
             Intent intent = new Intent(activity, ComicActivity.class);
             Bundle args = new Bundle();
 
-            intent.putExtra(ComicActivity.ARG_ID, c.getId());
-            intent.putExtra(ComicActivity.ARG_MID, c.getMid());
-            intent.putExtra(ComicActivity.ARG_TITLE, c.getTitle().toString());
-            intent.putExtra(ComicActivity.ARG_NUM_OF_PAGES, c.getNumOfPages());
-            intent.putExtra(ComicActivity.ARG_PAGE_TYPES, c.getPageTypes());
+            intent.putExtra(ComicPresenter.ARG_ID, c.getId());
+            intent.putExtra(ComicPresenter.ARG_MID, c.getMid());
+            intent.putExtra(ComicPresenter.ARG_TITLE, c.getTitle().toString());
+            intent.putExtra(ComicPresenter.ARG_NUM_OF_PAGES, c.getNumOfPages());
+            intent.putExtra(ComicPresenter.ARG_PAGE_TYPES, c.getPageTypes());
 
             activity.startActivity(intent, args);
         }

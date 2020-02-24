@@ -16,13 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.SplashActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".view.BackupActivity"></activity>
+        <activity
+            android:name=".view.SplashActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.BackupActivity"/>
         <activity
             android:name=".view.ComicActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <data
+                    android:host="nhentai.net"
+                    android:pathPrefix="/g"
+                    android:scheme="https" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".view.MainActivity"

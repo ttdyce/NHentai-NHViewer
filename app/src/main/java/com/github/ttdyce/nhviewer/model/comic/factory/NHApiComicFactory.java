@@ -43,4 +43,8 @@ public class NHApiComicFactory implements ComicFactory {
         else if(sortBy == SORT_BY_POPULAR)
             sortedPopular = true;
     }
+
+    public static void getComicById(NHAPI api, int id, ResponseCallback callback){
+        api.getComic(id, callback);
+    }
 }
