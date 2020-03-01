@@ -13,106 +13,6 @@
     <!--  Splash screen  -->
     <string name="loading_from_index">Loading from index</string>
 
-    <!-- Initial -->
-    <string name="dialog_permission_title">需要權限</string>
-    <string name="dialog_permission_msg">NHBooks需要在外部儲存器上讀寫的權限才能保存圖片。 沒有它們，這個應用程序無法正常工作.</string>
-    <string name="snack_permission_failed">權限請求被拒絕！</string>
-
-    <string name="tips_network_error">連線到 NHentai 失敗 QQ</string>
-    <string name="snack_action_try_again">再試一次!!</string>
-    <string name="snack_action_get_it">了解</string>
-
-    <!-- Header -->
-    <string name="action_next_page">載入下一頁</string>
-    <string name="action_search">搜尋</string>
-    <string name="sort">分類</string>
-    <string name="action_jumpToPage">跳至</string>
-    <string name="action_backup">備份至電腦</string>
-    <string name="check_database">檢查資料庫</string>
-    <string name="search_here">在這裡搜尋</string>
-    <string name="title_bar_updated_time_just_now">立即更新</string>
-    <string name="title_bar_updated_time_at">更新於 %s</string>
-    <string name="title_bar_updated_time_null">下拉以獲取最新資訊</string>
-
-    <!-- Search -->
-    <string name="tips_search_text_empty">我叫你輸入關鍵字!!</string>
-    <string name="action_clear">清除</string>
-    <string name="action_clear_recents">清除紀錄</string>
-    <string name="activity_search_result">清除結果</string>
-    <string name="title_search_result">搜尋結果: %s</string>
-    <string name="tips_no_result">沒有東西 QQ</string>
-    <string name="tips_no_more_results">這裡是最後一頁.</string>
-
-    <!-- Home -->
-    <string name="item_home">首頁</string>
-    <string name="item_recent">最近</string>
-    <string name="title_page_latest">最新</string>
-    <string name="item_download">下載</string>
-    <string name="item_favorite_books">收藏</string>
-    <string name="item_favorite_categories">收藏的類別</string>
-    <string name="item_tag">標籤</string>
-    <string name="item_character">人物</string>
-    <string name="item_group_other">其他</string>
-    <string name="item_settings">設定</string>
-    <string name="item_open_nhentai">開啟 NHentai.net</string>
-    <string name="item_collections">集合</string>
-    <string name="item_history">歷史</string>
-
-    <!-- Random -->
-    <string name="activity_random">我覺得真幸運~</string>
-    <string name="random_failed_set">無法從NHentai抓到任何東西. 再來一次?</string>
-    <string name="random_no_data">請點擊SHUFFLE按鈕</string>
-
-    <!-- Details -->
-    <string name="activity_details">詳細</string>
-    <string name="tag_type_tag">標籤: </string>
-    <string name="tag_type_parodies">Parodies: </string>
-    <string name="tag_type_language">Language: </string>
-    <string name="tag_type_characters">Characters: </string>
-    <string name="tag_type_artists">Artists: </string>
-    <string name="tag_type_group">Groups: </string>
-    <string name="tag_type_upload_time">更新時間: </string>
-    <string name="action_favorite_false">加入收藏</string>
-    <string name="action_favorite_true">從收藏中移除本子</string>
-    <string name="favorite_add_finished">本子成功加入收藏</string>
-    <string name="favorite_categories_add_finished">類別成功加入收藏</string>
-    <string name="favorite_remove_finished">成功從收藏中移除本子</string>
-    <string name="favorite_categories_remove_finished">成功從收藏中移除類別</string>
-    <string name="action_share">分享....</string>
-    <string name="action_share_send_text">我找到了一本很讚的本子:\"%1$s\" 連結:%2$s (R-18 警告! 分享自 NHBooks：https://github.com/fython/NHentai-android )</string>
-    <string name="action_share_send_category">%1$s 超讚! 連結:%2$s (R-18 警告! 分享自 NHBooks：https://github.com/fython/NHentai-android )</string>
-    <string name="action_download_none">儲存到外部</string>
-    <string name="action_download_okay">刪除</string>
-    <string name="dialog_ask_download_title">你真的想要下載這個本子嗎?</string>
-    <string name="dialog_ask_download_summary">將儲存至 \"%s\".</string>
-    <string name="dialog_ask_delete_title">你真的想要「刪除」這個本子嗎</string>
-    <string name="dialog_ask_delete_summary">警告!刪除後無法取消操作。</string>
-    <string name="dialog_ask_d_or_d_title">這本書還沒有完全下載</string>
-    <string name="dialog_ask_d_or_d_summary">已經成功下載 %1$d 頁在 \"%2$s\".</string>
-    <string name="dialog_ask_d_or_d_delete">刪除</string>
-    <string name="dialog_ask_d_or_d_continue">繼續下載</string>
-
-    <string name="dialog_download_title">下載: </string>
-    <string name="dialog_download_progress">正在下載: </string>
-    <string name="dialog_download_finished">下載完畢!</string>
-    <string name="dialog_download_error"> 下載時出錯!</string>
-
-    <string name="dialog_download_paused">(暫停)</string>
-    <string name="dialog_download_restart">有問題?</string>
-    <string name="dialog_download_notification_title">下載完畢!</string>
-    <string name="dialog_download_pause">暫停/繼續</string>
-    <string name="dialog_download_copying">將圖片複製到外部儲存器....請稍候。</string>
-
-    <string name="title_preview">預覽</string>
-    <string name="title_recommend">推薦的 Book</string>
-
-    <string name="activity_gallery">畫廊</string>
-    <string name="info_total_pages">"%d 頁"</string>
-    <string name="action_save">儲存</string>
-    <string name="action_save_succeed">當前圖片已保存到 \"%s\".</string>
-    <string name="action_save_failed">當前圖片尚未下載完畢，請緩一緩你的雞雞</string>
-    <string name="action_save_unknown">儲存失敗</string>
-
     <!-- Languages -->
     <string-array name="languages">
         <item>All</item>
@@ -132,13 +32,6 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-
-    <!-- Tags -->
-    <string-array name="tags">
-        <item>關注的標籤</item>
-        <item>要過濾的標籤</item>
-    </string-array>
-
 
     <!-- AutoUpdate -->
     <string name="new_version_available">New version available</string>
@@ -168,4 +61,5 @@
     <string name="new_version_desc">Check out my coolest update on Github!</string>
     <string name="new_version_download_github">Download (Github)</string>
     <string name="new_version_cancel">No, thanks</string>
+    <string name="enter_search_query">Enter search query</string>
 </resources>
