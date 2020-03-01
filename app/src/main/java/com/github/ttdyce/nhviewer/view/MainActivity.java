@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.room.Room;
 
+import com.github.ttdyce.nhviewer.BuildConfig;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.firebase.Updater;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
     public static final String KEY_PREF_ENABLE_SPLASH = "key_enable_splash";
     public static final String KEY_PREF_CHECK_UPDATE = "key_check_update";
+    public static final String KEY_PREF_LAST_VERSION_OPENED = "key_last_version_opened";
     public static final CharSequence KEY_PREF_VERSION = "key_version";
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
@@ -47,8 +49,26 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkMigration();
         tryAskForLanguage();
         init();
+    }
+
+    private void checkMigration() {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String currentVersion = BuildConfig.VERSION_NAME;
+        String lastVersion = pref.getString(KEY_PREF_LAST_VERSION_OPENED, "0.0.0");
+        if(!currentVersion.equals(lastVersion)){
+            //it is first time open after update / simply first time open
+
+            if(currentVersion.equals("2.6.0") || lastVersion.equals("0.0.0")){
+                //fix for 2.5.0 -> 2.6.0
+                pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
+            }
+
+        }
+
+        pref.edit().putString(KEY_PREF_LAST_VERSION_OPENED, currentVersion).apply();
     }
 
     private void init() {
@@ -80,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         Toolbar myToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(myToolbar);
 
-//        initNavigation();
     }
 
     //Link bottom navigation view with jetpack navigation
