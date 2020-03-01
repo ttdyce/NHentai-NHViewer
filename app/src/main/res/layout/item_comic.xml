@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:contentDescription="Comic page" />
+        android:contentDescription="@string/comic_inner_page" />
 
     <TextView
         android:id="@+id/tvComicPage"

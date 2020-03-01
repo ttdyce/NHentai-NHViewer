@@ -10,7 +10,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.view.MainActivity;
+import com.github.ttdyce.nhviewer.view.SettingsFragment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
@@ -40,12 +42,18 @@ public class NHAPI {
      * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
      * */
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
-        String language = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, "not set");
+        String languageId = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
+        int languageIdInt = Integer.parseInt(languageId);
+
+        final String[] languageArray = context.getResources().getStringArray(R.array.key_languages);
+        String language = languageArray[languageIdInt];
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
         Log.d(TAG, "getComicList: loading from url " + url);
-        if(language.equals("All") || language.equals("not set"))// TODO: 2019/10/1 Function is limited if language = all
+        Log.d(TAG, "getComicList: language id = " + languageId);
+        if(languageIdInt  == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
             url = URLs.getIndex(page);
 
         // Request a string response from the provided URL.

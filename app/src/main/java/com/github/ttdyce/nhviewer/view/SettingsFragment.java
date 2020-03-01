@@ -10,6 +10,7 @@ import com.github.ttdyce.nhviewer.BuildConfig;
 import com.github.ttdyce.nhviewer.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private void showVersionName(String versionName) {
         PreferenceScreen editTextPreference = findPreference(MainActivity.KEY_PREF_VERSION);
         editTextPreference.setSummary(versionName);
+    }
+
+
+    public enum Language{
+        all(0), chinese(1), english(2), japanese(3), notSet(-1);
+
+        int id;
+
+        Language(int i) {
+            id = i;
+        }
+
+        public int getInt() {
+            return id;
+        }
+
+        public String toString(){
+            return String.valueOf(id);
+        }
+
     }
 
 }

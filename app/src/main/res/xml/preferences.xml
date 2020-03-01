@@ -2,36 +2,33 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/pref_general">
         <ListPreference
             android:entries="@array/languages"
-            android:entryValues="@array/languages"
+            android:entryValues="@array/value_languages"
             android:key="key_default_language"
-            android:title="Language"
-            app:useSimpleSummaryProvider="true" />
+            android:title="@string/pref_language"
+            app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
+            android:defaultValue="true"
             android:key="key_enable_splash"
-            android:title="Enable splash screen"
-            android:defaultValue="true"
             android:summary="Show the opening screen on start"
-            />
+            android:title="@string/pref_enable_splash" />
         <SwitchPreference
-            android:key="key_check_update"
-            android:title="Check update"
             android:defaultValue="true"
+            android:key="key_check_update"
             android:summary="Show the dialog when there is an update"
-            />
+            android:title="@string/pref_check_update" />
         <SwitchPreference
-            android:key="key_demo_mode"
-            android:title="Demo mode"
             android:defaultValue="false"
+            android:key="key_demo_mode"
             android:summary="Blur all images"
-            />
+            android:title="@string/pref_demo_mode" />
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Backup">
-        <Preference android:title="Scan QR code (Connect to server)">
+    <PreferenceCategory android:title="@string/pref_backup">
+        <Preference android:title="@string/pref_scan_qr_code">
 
             <intent
                 android:action="android.intent.action.MAIN"
@@ -39,16 +36,15 @@
                 android:targetPackage="com.github.ttdyce.nhviewer" />
         </Preference>
     </PreferenceCategory>
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory android:title="@string/pref_about">
 
         <PreferenceScreen
-            android:title="Maintained by"
-            android:summary="@string/initial_author">
-        </PreferenceScreen>
+            android:summary="@string/initial_author"
+            android:title="@string/pref_maintained_by" />
+
         <PreferenceScreen
-            android:title="Version"
             android:key="key_version"
-            app:useSimpleSummaryProvider="true" >
-        </PreferenceScreen>
+            android:title="@string/pref_version"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 </PreferenceScreen>

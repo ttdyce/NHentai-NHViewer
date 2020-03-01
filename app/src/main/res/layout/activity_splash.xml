@@ -18,14 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Abandon all hope, ye who enter here "
+        android:text="@string/splash_slogan1"
         android:textColor="#fff" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="ここから入らんとする者は一切の希望を放棄せよ "
+        android:text="@string/splash_slogan2"
         android:textColor="@color/secondaryTextColor" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="80dp"
-        android:text="Loading from index"
+        android:text="@string/loading_from_index"
         android:textColor="@color/secondaryTextColor" />
 
     <LinearLayout

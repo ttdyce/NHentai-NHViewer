@@ -1,17 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Hard coded  -->
-    <string name="app_name" translatable="false">NHViewer</string>
-    <string name="initial_author" translatable="false">github.com/ttdyce</string>
-    <string name="splash_slogan1" translatable="false">Abandon all hope, ye who enter here</string>
-    <string name="splash_slogan2" translatable="false">ここから入らんとする者は一切の希望を放棄せよ</string>
-    <string name="comic_inner_page" translatable="false">Comic inner page</string>
-    <string name="comic_thumbnail" translatable="false">Comic thumbnail</string>
-    <string name="comic_selector" translatable="false">Comic selector</string>
-    <string name="comic_collect_button" translatable="false">Comic collect button</string>
-    <string name="comic_favorite_button" translatable="false">Comic favorite button</string>
 
-    <!--  Splash screen  -->
-    <string name="loading_from_index">Loading from index</string>
+    <string name="loading_from_index">載入首頁中</string>
 
     <!-- Initial -->
     <string name="dialog_permission_title">需要權限</string>
@@ -115,22 +105,10 @@
 
     <!-- Languages -->
     <string-array name="languages">
-        <item>All</item>
-        <item>Chinese</item>
-        <item>English</item>
-        <item>Japanese</item>
-    </string-array>
-    <string-array name="key_languages">
-        <item>All</item>
-        <item>Chinese</item>
-        <item>English</item>
-        <item>Japanese</item>
-    </string-array>
-    <string-array name="value_languages">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>所有</item>
+        <item>中文</item>
+        <item>英文</item>
+        <item>日文</item>
     </string-array>
 
     <!-- Tags -->
@@ -139,33 +117,95 @@
         <item>要過濾的標籤</item>
     </string-array>
 
+    <!-- Settings -->
+    <string name="snackbar_need_restart">你需要重新啟動 NHViewer 來應用設定</string>
+    <string name="snackbar_need_restart_action">現在就重啟</string>
+    <string name="category_options">應用選項</string>
+    <string name="category_about">關於</string>
+    <string name="set_title_app_version">應用版本</string>
+    <string name="settings_license">授權</string>
+    <string name="set_title_google_plus">Google Plus</string>
+    <string name="set_title_google_plus_summary">+Fung Jichun</string>
+    <string name="category_ui">結果</string>
+    <string name="category_list">清單</string>
+    <string name="set_title_hd_image">加載高質量的預覽圖片</string>
+    <string name="set_title_hd_image_summary">允許使用更多的記憶體</string>
+    <string name="set_title_cards_count">橫向卡片的數量</string>
+    <string name="set_title_cards_count_summary">現在的值: %s</string>
+    <string-array name="set_cards_count_options">
+        <item>自動</item>
+        <item>自訂</item>
+    </string-array>
+    <string-array name="set_cards_count_options_value">
+        <item>-1</item>
+        <item>0</item>
+    </string-array>
+    <string name="category_details">資訊</string>
+    <string name="set_title_full_image_in_details">加載高質量的預覽圖片</string>
+    <string name="set_title_full_image_in_details_summary">這將使用更多的記憶體</string>
+    <string name="set_title_allow_standalone_task">允許獨立任務</string>
+    <string name="set_title_allow_standalone_task_desc">每本書都將顯示為獨立任務</string>
+    <string name="set_title_android_too_old_desc">您的Android版本不支持此功能</string>
+    <string name="settings_storage">儲存</string>
+    <string name="category_folder">資料夾</string>
+    <string name="set_title_nomedia">不要在畫廊中顯示已儲存的書</string>
+    <string name="set_title_nomedia_summary">透過創建 \".nomedia\" 來保護你的 ♂祕密花園♂</string>
+
+    <!--User Agent -->
+    <string name="user_agent" translatable="false">NHBooks/Android Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.0.0 Mobile</string>
+    <string name="clear_search_inputs">清除所有搜尋紀錄</string>
+    <string name="clear_search_title">清除搜尋紀錄</string>
+    <string name="search_cleared">清除搜尋紀錄完畢</string>
 
     <!-- AutoUpdate -->
-    <string name="new_version_available">New version available</string>
+    <string name="new_version_available">新版本檢查: </string>
+    <string name="button_update">更新</string>
+    <string name="updated_apk_download_error">下載更新時出錯</string>
+    <string name="updating">下載更新中</string>
+    <string name="update_complete">完成更新下載</string>
+    <string name="checking">檢查更新</string>
+    <string name="no_update">目前已是最新版本</string>
+    <string name="ignore">忽略</string>
+    <string name="close">關閉</string>
+    <string name="clear_cache_title">清除暫存</string>
+    <string name="clear_cache">清除裝置上的暫存</string>
+    <string name="cache_cleared">暫存清除完畢</string>
+    <string name="thumbnail">縮圖</string>
+    <string name="comic_content">漫畫內容</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="navigation_drawer_open">打開導覽列</string>
+    <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">導覽列</string>
+    <string name="areYouSure">你確定?</string>
 
-    <string name="nav_index">Index</string>
-    <string name="nav_collection">Collection</string>
-    <string name="nav_search">Search</string>
-    <string name="nav_favorite">Favorite</string>
-    <string name="nav_setting">Setting</string>
-    <string name="pref_language">Language</string>
-    <string name="pref_enable_splash">Enable splash screen</string>
-    <string name="pref_check_update">Check update</string>
-    <string name="pref_demo_mode">Demo mode</string>
-    <string name="pref_general">General</string>
-    <string name="pref_backup">Backup</string>
-    <string name="pref_scan_qr_code">Scan QR code (Connect to server)</string>
-    <string name="pref_about">About</string>
-    <string name="pref_maintained_by">Maintained by</string>
-    <string name="pref_version">Version</string>
-    <string name="loading_from">Loading from %s …</string>
-    <string name="snackbar_comic_added"><![CDATA[Comic is added to <font color=\"yellow\">%s</font>]]></string>
-    <string name="snackbar_comic_exist"><![CDATA[Comic is already exist in <font color=\"red\">%s</font>]]></string>
-    <string name="snackbar_comic_deleted"><![CDATA[Deleted from <font color=\"yellow\">%s</font>, named %s]]></string>
-    <string name="snackbar_comic_added_error">Error when deleting comic named %s</string>
-    <string name="set_default_language">Set your default language</string>
-    <string name="cancel">Cancel</string>
-    <string name="new_version_desc">Check out my coolest update on Github!</string>
-    <string name="new_version_download_github">Download (Github)</string>
-    <string name="new_version_cancel">No, thanks</string>
+    <!--  Navigation  -->
+    <string name="nav_index">首頁</string>
+    <string name="nav_collection">收藏</string>
+    <string name="nav_search">搜尋</string>
+    <string name="nav_favorite">最愛</string>
+    <string name="nav_setting">設定</string>
+    <!--  Setting page  -->
+    <string name="pref_language">語言</string>
+    <string name="pref_enable_splash">開啟打開動畫</string>
+    <string name="pref_check_update">檢查更新</string>
+    <string name="pref_demo_mode">演示模式</string>
+    <string name="pref_general">通用</string>
+    <string name="pref_backup">備份</string>
+    <string name="pref_scan_qr_code">掃瞄二維碼</string>
+    <string name="pref_about">關於</string>
+    <string name="pref_maintained_by">維護者</string>
+    <string name="pref_version">安裝版本</string>
+    <string name="cancel">取消</string>
+    <string name="loading_from">載入 %s  中</string>
+    <string name="new_version_cancel">不用了</string>
+    <string name="new_version_desc">有新版本可以更新！</string>
+    <string name="new_version_download_github">下載 (Github)</string>
+    <string name="set_default_language">設定漫畫語言</string>
+    <string name="snackbar_comic_added"><![CDATA[已新增至 <font color=\"yellow\">%s</font>]]></string>
+    <string name="snackbar_comic_added_error">刪除漫畫時出錯: %s</string>
+    <string name="snackbar_comic_deleted"><![CDATA[已由  <font color=\"yellow\">%s</font> 中刪除: %s]]></string>
+    <string name="snackbar_comic_exist"><![CDATA[要按壞了！漫畫已存在於 <font color=\"red\">%s</font>]]></string>
+
 </resources>

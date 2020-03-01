@@ -1,5 +1,6 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -94,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     @Override
     public void onUpdateNeeded(final String updateUrl) {
         AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
-                .setTitle("New version available")
-                .setMessage("Check out my coolest update on Github!")
-                .setPositiveButton("Download (Github)",
+                .setTitle(getString(R.string.new_version_available))
+                .setMessage(getString(R.string.new_version_desc))
+                .setPositiveButton(getString(R.string.new_version_download_github),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
-                        }).setNegativeButton("No, thanks",
+                        }).setNegativeButton(getString(R.string.new_version_cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -114,11 +115,18 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         dialog.show();
     }
 
+    @SuppressLint("ApplySharedPref")
     private void tryAskForLanguage() {
-        String languageNotSet = "not set";
+        String comicLanguage = SettingsFragment.Language.notSet.toString();
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String storedLanguage = pref.getString(KEY_PREF_DEFAULT_LANGUAGE, languageNotSet);
-        if (!languageNotSet.equals(storedLanguage)) {
+
+        try {
+            comicLanguage = pref.getString(KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
+        } catch (ClassCastException e) {
+            pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
+        }
+
+        if (!comicLanguage.equals(SettingsFragment.Language.notSet.toString()) ) {
             initNavigation();
             return;
         }
@@ -131,13 +139,13 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                 languageArray);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
 
-        builder.setTitle("Set your default language");
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.set_default_language));
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences.Editor editor = pref.edit();
 
-                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, "All");
+                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.all.toString());
                 editor.apply();
 
             }
@@ -147,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences.Editor editor = pref.edit();
 
-                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, languageArray[which]);
+                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, String.valueOf(which));
                 editor.apply();
 
             }
