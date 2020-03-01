@@ -51,7 +51,7 @@ public class SearchingFragment extends Fragment {
         tvComicListDesc = view.findViewById(R.id.tvComicListDesc);
 
         pbComicList.setVisibility(View.INVISIBLE);
-        tvComicListDesc.setText("Enter search query");
+        tvComicListDesc.setText(getString(R.string.enter_search_query));
     }
 
 

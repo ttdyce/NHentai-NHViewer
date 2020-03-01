@@ -1,5 +1,65 @@
 <resources>
-    <string name="app_name">NHViewer</string>
-    <string name="initial_author">github.com/ttdyce</string>
+    <!--  Hard coded  -->
+    <string name="app_name" translatable="false">NHViewer</string>
+    <string name="initial_author" translatable="false">github.com/ttdyce</string>
+    <string name="splash_slogan1" translatable="false">Abandon all hope, ye who enter here</string>
+    <string name="splash_slogan2" translatable="false">ここから入らんとする者は一切の希望を放棄せよ</string>
+    <string name="comic_inner_page" translatable="false">Comic inner page</string>
+    <string name="comic_thumbnail" translatable="false">Comic thumbnail</string>
+    <string name="comic_selector" translatable="false">Comic selector</string>
+    <string name="comic_collect_button" translatable="false">Comic collect button</string>
+    <string name="comic_favorite_button" translatable="false">Comic favorite button</string>
 
+    <!--  Splash screen  -->
+    <string name="loading_from_index">Loading from index</string>
+
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>All</item>
+        <item>Chinese</item>
+        <item>English</item>
+        <item>Japanese</item>
+    </string-array>
+    <string-array name="key_languages">
+        <item>All</item>
+        <item>Chinese</item>
+        <item>English</item>
+        <item>Japanese</item>
+    </string-array>
+    <string-array name="value_languages">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <!-- AutoUpdate -->
+    <string name="new_version_available">New version available</string>
+
+    <string name="nav_index">Index</string>
+    <string name="nav_collection">Collection</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_setting">Setting</string>
+    <string name="pref_language">Language</string>
+    <string name="pref_enable_splash">Enable splash screen</string>
+    <string name="pref_check_update">Check update</string>
+    <string name="pref_demo_mode">Demo mode</string>
+    <string name="pref_general">General</string>
+    <string name="pref_backup">Backup</string>
+    <string name="pref_scan_qr_code">Scan QR code (Connect to server)</string>
+    <string name="pref_about">About</string>
+    <string name="pref_maintained_by">Maintained by</string>
+    <string name="pref_version">Version</string>
+    <string name="loading_from">Loading from %s …</string>
+    <string name="snackbar_comic_added"><![CDATA[Comic is added to <font color=\"yellow\">%s</font>]]></string>
+    <string name="snackbar_comic_exist"><![CDATA[Comic is already exist in <font color=\"red\">%s</font>]]></string>
+    <string name="snackbar_comic_deleted"><![CDATA[Deleted from <font color=\"yellow\">%s</font>, named %s]]></string>
+    <string name="snackbar_comic_added_error">Error when deleting comic named %s</string>
+    <string name="set_default_language">Set your default language</string>
+    <string name="cancel">Cancel</string>
+    <string name="new_version_desc">Check out my coolest update on Github!</string>
+    <string name="new_version_download_github">Download (Github)</string>
+    <string name="new_version_cancel">No, thanks</string>
+    <string name="enter_search_query">Enter search query</string>
 </resources>

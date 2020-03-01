@@ -20,7 +20,7 @@
             android:layout_height="184dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:contentDescription="Comic thumbnail" />
+            android:contentDescription="@string/comic_thumbnail" />
     </androidx.cardview.widget.CardView>
 
     <TextView

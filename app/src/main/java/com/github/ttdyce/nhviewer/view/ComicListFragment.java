@@ -91,7 +91,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         pbComicList = view.findViewById(R.id.pbComicList);
         tvComicListDesc = view.findViewById(R.id.tvComicListDesc);
 
-        tvComicListDesc.setText("Loading from " + collectionName + "...");
+        tvComicListDesc.setText(String.format(Locale.getDefault(), getString(R.string.loading_from), collectionName));
 
         rvComicList.setHasFixedSize(true);
         rvComicList.setAdapter(presenter.getAdapter());
@@ -179,9 +179,9 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     public void showAdded(boolean isAdded, String collectionName) {
         View root = requireActivity().findViewById(R.id.rootMain);
         if (isAdded)
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Comic is added to <font color=\"yellow\">%s</font>", collectionName)), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.getDefault(), getString(R.string.snackbar_comic_added), collectionName)), Snackbar.LENGTH_LONG).show();
         else
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Comic is already exist in <font color=\"red\">%s</font>", collectionName)), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.getDefault(), getString(R.string.snackbar_comic_exist), collectionName)), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -189,9 +189,9 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         View root = requireActivity().findViewById(R.id.rootMain);
 
         if (isDone)
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, "Deleted from <font color=\"yellow\">%s</font>, named %s", collectionName, title)), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_deleted), collectionName, title)), Snackbar.LENGTH_LONG).show();
         else
-            Toast.makeText(requireContext(), String.format(Locale.ENGLISH, "Error when deleting comic named %s", title), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_added_error), title), Toast.LENGTH_SHORT).show();
 
     }
 
