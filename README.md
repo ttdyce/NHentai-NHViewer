@@ -36,7 +36,7 @@ Please contact me if there are any issue, thanks.
 
 ## Screenshots (In demo mode( •̀ ω •́ )y)
 
-<img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/search.png" alt="Search result display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280"><img src="./screenshots/comic.png" alt="Comic inner page demo" width="280"><img src="./screenshots/setting.png" alt="Setting demo" width="280">
+<img src="./screenshots/index.png" alt="Index page demo" width="280"><img src="./screenshots/collection.png" alt="Collection display demo" width="280"><img src="./screenshots/search.png" alt="Search result display demo" width="280"><img src="./screenshots/favorite.png" alt="Favorite display demo" width="280"><img src="./screenshots/setting.png" alt="Setting demo" width="280">
 
 ## Features
 
