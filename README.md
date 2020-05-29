@@ -13,10 +13,8 @@ This application is developed to provide a better user experience for mobile dev
 
 ### Icon & Splash screen
 
-I would like to include NHentai’s icon and slogan in this project since it is an application about their site. 
-
-I have sent them an email to ask for permission but there is still no reply yet. 
-
+I would like to include NHentai’s icon and slogan in this project since it is an application about their site.  
+I have sent them an email to ask for permission but there is still no reply yet.  
 Please contact me if there are any issue, thanks. 
 
 [Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)😕
@@ -64,8 +62,7 @@ Please contact me if there are any issue, thanks.
 
 ## Getting Started
 
-The application is using the [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) and parse the response data into Java class from version 2.
-
+The application is using the [JSON API](https://github.com/NHMoeDev/NHentai-android/issues/27) and parse the response data into Java class from version 2.  
 For more information about coding, see [the wiki](https://github.com/ttdyce/NHentaiViewer/wiki) (which is not yet ready '_' please come back later).
 
 ## Deployment
