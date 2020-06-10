@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -178,21 +177,30 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
     @Override
     public void showAdded(boolean isAdded, String collectionName) {
         View root = requireActivity().findViewById(R.id.rootMain);
+        View bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
+        String alertText = "empty";
         if (isAdded)
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.getDefault(), getString(R.string.snackbar_comic_added), collectionName)), Snackbar.LENGTH_LONG).show();
+            alertText = getString(R.string.snackbar_comic_added);
         else
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.getDefault(), getString(R.string.snackbar_comic_exist), collectionName)), Snackbar.LENGTH_SHORT).show();
+            alertText = getString(R.string.snackbar_comic_exist);
+        Snackbar snackbar = Snackbar.make(root, Html.fromHtml(String.format(Locale.getDefault(), alertText, collectionName)), Snackbar.LENGTH_SHORT);
+        snackbar.setAnchorView(bottomNav);
+        snackbar.show();
     }
 
     @Override
     public void showDeleted(Boolean isDone, String title, String collectionName) {
         View root = requireActivity().findViewById(R.id.rootMain);
-
+        View bottomNav = requireActivity().findViewById(R.id.bottomNavigation);
+        CharSequence alertText = "empty";
         if (isDone)
-            Snackbar.make(root, Html.fromHtml(String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_deleted), collectionName, title)), Snackbar.LENGTH_LONG).show();
+            alertText = Html.fromHtml(String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_deleted), collectionName, title));
         else
-            Toast.makeText(requireContext(), String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_added_error), title), Toast.LENGTH_SHORT).show();
+            alertText = Html.fromHtml(String.format(Locale.ENGLISH, getString(R.string.snackbar_comic_delete_error), title));
 
+        Snackbar snackbar = Snackbar.make(root, alertText, Snackbar.LENGTH_LONG);
+        snackbar.setAnchorView(bottomNav);
+        snackbar.show();
     }
 
     @Override

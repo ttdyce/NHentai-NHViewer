@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     private void initNavigation() {
         NavController navController = Navigation.findNavController(this, R.id.fragmentNavHost);
         navController.setGraph(R.navigation.nav_app);
-        BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottomNavigation);
         NavigationUI.setupWithNavController(bottomNavigation, navController);
 //        Navigation.findNavController(this, R.id.fragmentNavHost)
     }
