@@ -24,6 +24,7 @@ import com.github.ttdyce.nhviewer.model.room.AppDatabase;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Date;
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         checkMigration();
         tryAskForLanguage();
         init();
+        onUpdateNeeded("");
     }
 
     private void checkMigration() {
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
     @Override
     public void onUpdateNeeded(final String updateUrl) {
-        AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
+        AlertDialog alert = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
                 .setTitle(getString(R.string.new_version_available))
                 .setMessage(getString(R.string.new_version_desc))
                 .setPositiveButton(getString(R.string.new_version_download_github),
@@ -131,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                                 dialog.dismiss();
                             }
                         }).create();
-        dialog.show();
+
+        alert.show();
     }
 
     @SuppressLint("ApplySharedPref")
