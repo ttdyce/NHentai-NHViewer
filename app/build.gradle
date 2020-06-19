@@ -25,6 +25,7 @@ android {
         //for blur
         renderscriptTargetApi 28
         renderscriptSupportModeEnabled true
+        signingConfig signingConfigs.debug
         //export AppDatabase (Room database) to /schemas/*.json
         javaCompileOptions {
             annotationProcessorOptions {
@@ -33,9 +34,13 @@ android {
         }
     }
     signingConfigs {
+        config
         release
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -43,8 +48,8 @@ android {
         }
     }
 
+    //signing with travis config for release
     def isRunningOnTravis = System.getenv("CI") == "true"
-
     if (isRunningOnTravis) {
         // configure keystore
         signingConfigs.release.storeFile = file("myapps.jks")
@@ -52,12 +57,30 @@ android {
         signingConfigs.release.keyAlias = System.getenv("keystore_alias")
         signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
     }
+
+    //signing with {project_root}/keystore.properties if exists
+    def ksFile = rootProject.file('keystore.properties')
+    def props = new Properties()
+    if (ksFile.canRead()) {
+        props.load(new FileInputStream(ksFile))
+
+        if (props != null) {
+            android.signingConfigs.config.storeFile file(props['KEYSTORE_FILE'])
+            android.signingConfigs.config.storePassword props['KEYSTORE_PASSWORD']
+            android.signingConfigs.config.keyAlias props['KEYSTORE_ALIAS']
+            android.signingConfigs.config.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+        } else {
+            println 'some entries in \'keystore.properties\' not found!'
+        }
+    } else {
+        println '\'keystore.properties\' not found! Using default signing config'
+    }
 }
 
 dependencies {
-    def nav_version = "2.1.0"
-    def room_version = "2.2.0-rc01"
-    def preference_version = "1.1.0"
+    def nav_version = '2.2.2'
+    def room_version = '2.3.0-alpha01'
+    def preference_version = '1.1.1'
 
     implementation 'com.google.android.material:material:1.1.0'
     //image transformations for Glide (for blur image)
@@ -65,27 +88,27 @@ dependencies {
     //QRCode scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
-    implementation 'com.google.firebase:firebase-config:19.0.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-config:19.1.4'
     //ROOM
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //preferenceFragment
     implementation "androidx.preference:preference:$preference_version"
     //for Jetpack navigation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'org.json:json:20190722'//for unit test using json
+    testImplementation 'org.json:json:20200518'//for unit test using json
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
