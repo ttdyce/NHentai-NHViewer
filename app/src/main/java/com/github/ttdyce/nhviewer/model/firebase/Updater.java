@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -52,13 +53,20 @@ public class Updater {
 
                             if (remoteConfig.getBoolean(KEY_UPDATE_REQUIRED)) {
                                 String currentVersion = remoteConfig.getString(KEY_CURRENT_VERSION);
-                                String appVersion = getAppVersion(context);
+                                String localVersion = getAppVersion(context);
                                 String updateUrl = remoteConfig.getString(KEY_UPDATE_URL);
 
-                                if (!TextUtils.equals(currentVersion, appVersion)
-                                        && onUpdateNeededListener != null) {
-                                    onUpdateNeededListener.onUpdateNeeded(updateUrl);
+                                if (onUpdateNeededListener != null) {
+                                    if (TextUtils.equals(currentVersion, localVersion)) {
+                                        // no need update
+                                        Toast.makeText(context, String.format("No update found, latest version is %s", currentVersion), Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        // update needed
+                                        onUpdateNeededListener.onUpdateNeeded(updateUrl);
+                                    }
+
                                 }
+
                             }
                         }
                     }
