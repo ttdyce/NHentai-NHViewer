@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         checkMigration();
         tryAskForLanguage();
         init();
-        onUpdateNeeded("");
     }
 
     private void checkMigration() {
