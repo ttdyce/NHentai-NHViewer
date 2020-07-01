@@ -80,6 +80,11 @@ android {
     } else {
         println '\'keystore.properties\' not found! Using default signing config'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
