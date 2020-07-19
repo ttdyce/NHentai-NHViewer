@@ -34,6 +34,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
     private ProgressBar pbComic;
     private LinearLayoutManager layoutManager;
     private CircularProgressDrawable circularProgressDrawable;
+    private int lastVisibleItemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,15 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
 
         init();
     }
+
+    @Override
+    protected void onStop() {
+        //save this comic to history
+        presenter.onStop();
+
+        super.onStop();
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -73,6 +83,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         final RecyclerView rvComic = findViewById(R.id.rvComic);
         rvComic.setHasFixedSize(true);
         rvComic.setLayoutManager(layoutManager);
+        initOnScrollListener();
 
         presenter = ComicPresenter.factory(this, this, extras, idFromBrowser, rvComic);
 
@@ -81,6 +92,24 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initOnScrollListener() {
+        //Remember Last page
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) rvComic.getLayoutManager();
+        rvComic.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {//dy > 0 = move down, dy < 0 = move up
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (layoutManager.findFirstCompletelyVisibleItemPosition() == -1)
+                    return;
+
+                lastVisibleItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition() + 1;
+                int itemCount = layoutManager.getItemCount() - 1;
+
+            }
+        });
     }
 
     @Override
@@ -117,5 +146,20 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
 
         int pos = layoutManager.findLastVisibleItemPosition();
         pbComic.setProgress(100 * pos / layoutManager.getItemCount());
+    }
+
+    @Override
+    public int getLastVisibleItemPosition() {
+        return lastVisibleItemPosition;
+    }
+
+    @Override
+    public View getRootView() {
+        return rvComic.getRootView();
+    }
+
+    @Override
+    public RecyclerView getRVComic() {
+        return rvComic;
     }
 }

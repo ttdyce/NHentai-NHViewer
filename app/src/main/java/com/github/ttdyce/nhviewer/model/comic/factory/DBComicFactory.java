@@ -36,36 +36,6 @@ public class DBComicFactory implements ComicFactory {
     @Override
     public void requestComicList() {
         new DisplayCollectionTask(db, collectionName, callback).execute();
-
-        // TODO: 2019/9/28 replaced by asyncTask
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ComicCachedDao cachedDao = db.comicCachedDao();
-//                ComicCollectionDao collectionDao = db.comicCollectionDao();
-//                List<Integer> ids = new ArrayList<>();
-//                List<Comic> comics = new ArrayList<>();
-//
-//                for (ComicCollectionEntity entity:collectionDao.getAllByName(collectionName))
-//                    ids.add(entity.getId());
-//
-//                for (ComicCachedEntity entity: cachedDao.findById(ids)) {
-//                    int id = entity.getId(), numOfPages = entity.getNumOfPages();
-//                    String mid = entity.getMid();
-//                    Comic.Title title = new Comic.Title(entity.getTitle());
-//                    String[] pageTypes = entity.getPageTypes().split("(?!^)");
-//                    comics.add(new Comic(id, mid, title, numOfPages, pageTypes));
-//                }
-//                //create api-like json object
-//                Gson gson = new Gson();
-//                JsonObject jsonObject = new JsonObject();
-//                jsonObject.add("results", new JsonParser().parse(gson.toJson(comics)).getAsJsonArray());
-//
-//                callback.onReponse(gson.toJson(comics));
-//
-//            }
-//        }).start();
-
     }
 
     @Override
@@ -111,15 +81,6 @@ public class DBComicFactory implements ComicFactory {
                 String[] pageTypes = entity.getPageTypes().split("(?!^)");
                 comics.add(new Comic(id, mid, title, numOfPages, pageTypes));
             }
-            // TODO: 2019/10/1 Do much more query now for sorting by date created, replaced by above
-//            for (ComicCachedEntity entity: cachedDao.findById(ids)) {
-//                int id = entity.getId(), numOfPages = entity.getNumOfPages();
-//                String mid = entity.getMid();
-//                Comic.Title title = new Comic.Title(entity.getTitle());
-//                String[] pageTypes = entity.getPageTypes().split("(?!^)");
-//                comics.add(new Comic(id, mid, title, numOfPages, pageTypes));
-//            }
-
 
             //create api-like json object
             Gson gson = new Gson();

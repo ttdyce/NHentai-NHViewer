@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
-                .fallbackToDestructiveMigration().build();
+                .addMigrations(AppDatabase.MIGRATION_1_2).build();
 
 //        deleteDatabase(AppDatabase.DB_NAME);
         //init Collections
