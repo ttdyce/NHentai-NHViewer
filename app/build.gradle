@@ -52,34 +52,31 @@ android {
     def isRunningOnTravis = System.getenv("CI") == "true"
     if (isRunningOnTravis) {
         // configure keystore
-        signingConfigs.release.storeFile = file("myapps.jks")
-        signingConfigs.release.storePassword = System.getenv("keystore_password")
-        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
-        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+        signingConfigs.release.storeFile = signingConfigs.config.storeFile = file("myapps.jks")
+        signingConfigs.release.storePassword = signingConfigs.config.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = signingConfigs.config.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = signingConfigs.config.keyPassword = System.getenv("keystore_alias_password")
+    }else{
+        //signing with {project_root}/keystore.properties if exists
+        def ksFile = rootProject.file('keystore.properties')
+        def props = new Properties()
 
-        signingConfigs.config.storePassword = System.getenv("keystore_password")
-        signingConfigs.config.keyAlias = System.getenv("keystore_alias")
-        signingConfigs.config.keyPassword = System.getenv("keystore_alias_password")
-    }
+        if (ksFile.canRead()) {
+            props.load(new FileInputStream(ksFile))
 
-    //signing with {project_root}/keystore.properties if exists
-    def ksFile = rootProject.file('keystore.properties')
-    def props = new Properties()
-
-    if (ksFile.canRead()) {
-        props.load(new FileInputStream(ksFile))
-
-        if (props != null) {
-            android.signingConfigs.config.storeFile file(props['KEYSTORE_FILE'])
-            android.signingConfigs.config.storePassword props['KEYSTORE_PASSWORD']
-            android.signingConfigs.config.keyAlias props['KEYSTORE_ALIAS']
-            android.signingConfigs.config.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+            if (props != null) {
+                android.signingConfigs.config.storeFile file(props['KEYSTORE_FILE'])
+                android.signingConfigs.config.storePassword props['KEYSTORE_PASSWORD']
+                android.signingConfigs.config.keyAlias props['KEYSTORE_ALIAS']
+                android.signingConfigs.config.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+            } else {
+                println 'some entries in \'keystore.properties\' not found!'
+            }
         } else {
-            println 'some entries in \'keystore.properties\' not found!'
+            println '\'keystore.properties\' not found! Using default signing config'
         }
-    } else {
-        println '\'keystore.properties\' not found! Using default signing config'
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
