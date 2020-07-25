@@ -5,10 +5,12 @@ import androidx.room.Entity;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity(tableName = "ComicCollection", primaryKeys = {"name", "id"})
-public class ComicCollectionEntity {
+public class ComicCollectionEntity implements Serializable {
+    private static final long serialVersionUID = 3001880502226771220L;
     @NonNull
     private String name;
 

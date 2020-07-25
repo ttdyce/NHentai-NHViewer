@@ -17,8 +17,10 @@ import com.github.ttdyce.nhviewer.model.room.AppDatabase;
 import com.github.ttdyce.nhviewer.model.room.ComicCachedEntity;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
@@ -56,7 +58,8 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         // Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 400 milliseconds
-        v.vibrate(250);
+        if (v != null)
+            v.vibrate(250);
         qrCodeReaderView.setQRDecodingEnabled(false);
         qrCodeReaderView.stopCamera();
 
@@ -76,7 +79,7 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
     }
 
     // TODO: 2019/11/3 package below's method to a class/presenter
-    private static class BackupTask extends AsyncTask<Void, Void, Void> {
+    private static class BackupTask extends AsyncTask<Void, Void, Boolean> {
         String ip;
         int port;
         WeakReference<AppCompatActivity> activityRef;
@@ -96,20 +99,22 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            tryBackup();
-            return null;
+        protected Boolean doInBackground(Void... voids) {
+            return tryBackup();
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Boolean success) {
             dialog.dismiss();
-            Toast.makeText(activityRef.get(), "Backup finished", Toast.LENGTH_SHORT).show();
+            if (success)
+                Toast.makeText(activityRef.get(), "Backup finished! ", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(activityRef.get(), "Backup failed :(", Toast.LENGTH_SHORT).show();
             activityRef.get().finish();
         }
 
 
-        private void tryBackup() {
+        private boolean tryBackup() {
             AppDatabase appDatabase = MainActivity.getAppDatabase();
             List<ComicCollectionEntity> collectionEntities = appDatabase.comicCollectionDao().getAll();
             List<ComicCachedEntity> comicCachedEntities = appDatabase.comicCachedDao().getAll();
@@ -118,50 +123,71 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
 
             try {
                 socket = new Socket(ip, port);
-                Log.d(TAG, "tryBackup: connected to " + ip);
-//                    Toast.makeText(MainActivity.this, "tryBackup: connected to " + host, Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "tryBackup: connected to " + ip);
 
-                // get the output stream from the socket.
                 OutputStream outputStream = socket.getOutputStream();
-                // create a data output stream from the output stream so we can send data through it
-                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+                InputStream inputStream = socket.getInputStream();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                Log.d(TAG, "Sending table ComicCollection");
-                dataOutputStream.write("Table name".getBytes());
-                dataOutputStream.write("ComicCollection".getBytes());
-                socket.getInputStream().read();
+                /* NHV-Backup-Protocol
+                 * send numOfTables
+                 * read ACK
+                 * for numOfTables
+                 *   send table name
+                 *   read ACK
+                 *   send entities
+                 *   read ACK
+                 *
+                 * send FIN
+                 * read ACK
+                 * read FIN
+                 * send ACK
+                 * close()
+                 * */
+                Log.i(TAG, "Sending table ComicCollection");
+                int numOfTables = 2;
+                objectOutputStream.writeInt(numOfTables);
+                objectOutputStream.flush();
+                String response = objectInputStream.readUTF();
 
-                for (ComicCollectionEntity e : collectionEntities) {
-                    dataOutputStream.write(e.toJson().getBytes());
-                    socket.getInputStream().read();
-                }
-                dataOutputStream.write("EOF".getBytes());
-                socket.getInputStream().read();
+                objectOutputStream.writeUTF("ComicCollection");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
+                objectOutputStream.writeObject(collectionEntities);
+//                objectOutputStream.flush(); // may not needed
+                response = objectInputStream.readUTF();
 
-                Log.d(TAG, "Sending table ComicCached");
-                dataOutputStream.write("Table name".getBytes());
-                dataOutputStream.write("ComicCached".getBytes());
-                socket.getInputStream().read();
+                Log.i(TAG, "Sending table ComicCached");
+                objectOutputStream.writeUTF("ComicCached");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
-                for (ComicCachedEntity e : comicCachedEntities) {
-                    dataOutputStream.write(e.toJson().getBytes());
-                    socket.getInputStream().read();
-                }
-                dataOutputStream.write("EOF".getBytes());
-                socket.getInputStream().read();
+                objectOutputStream.writeObject(comicCachedEntities);
+//                objectOutputStream.flush(); // may not needed
+                response = objectInputStream.readUTF();
 
-                dataOutputStream.write("END".getBytes());
-                dataOutputStream.flush();
-                dataOutputStream.close();
+                objectOutputStream.writeUTF("FIN");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
-                Log.d(TAG, "Closing socket and terminating program.");
+                response = objectInputStream.readUTF();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                objectOutputStream.close();
+
+                Log.i(TAG, "Closing socket and terminating backup.");
                 socket.close();
+
+                return true;
             } catch (IOException e) {
                 Log.e(TAG, "Backup failed");
-//                    Toast.makeText(this, "Backup failed", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
+
+            return false;
         }
     }
 }
