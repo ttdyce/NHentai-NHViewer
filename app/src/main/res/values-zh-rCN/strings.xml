@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="loading_from_index">首页加载中</string>
+
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>所有</item>
+        <item>中文</item>
+        <item>英文</item>
+        <item>日文</item>
+    </string-array>
+
+    <!-- AutoUpdate -->
+    <string name="new_version_available">有新版本了: </string>
+
+    <!--  Navigation  -->
+    <string name="nav_index">首页</string>
+    <string name="nav_collection">收藏</string>
+    <string name="nav_search">搜索</string>
+    <string name="nav_favorite">最爱</string>
+    <string name="nav_setting">设置</string>
+    <!--  Setting page  -->
+    <string name="pref_language">语言</string>
+    <string name="pref_enable_splash">启用开屏动画</string>
+    <string name="pref_check_update">检查更新</string>
+    <string name="pref_demo_mode">显示模式</string>
+    <string name="pref_general">通用</string>
+    <string name="pref_backup">备份</string>
+    <string name="pref_scan_qr_code">扫描二维码</string>
+    <string name="pref_about">关于</string>
+    <string name="pref_maintained_by">作者</string>
+    <string name="pref_version">版本号</string>
+    <string name="cancel">取消</string>
+    <string name="loading_from">载入 %s  中</string>
+    <string name="new_version_cancel">不用了</string>
+    <string name="new_version_desc">有新版本可以更新！</string>
+    <string name="new_version_download_github">下载 (Github)</string>
+    <string name="set_default_language">设置漫画语言</string>
+    <string name="snackbar_comic_added"><![CDATA[已新增至 <font color=\"yellow\">%s</font>]]></string>
+    <string name="snackbar_comic_delete_error">删除漫画时出错: %s</string>
+    <string name="snackbar_comic_deleted"><![CDATA[已从  <font color=\"yellow\">%s</font> 中删除: %s]]></string>
+    <string name="snackbar_comic_exist"><![CDATA[要按坏了！漫画已存在于 <font color=\"red\">%s</font>]]></string>
+    <string name="enter_search_query">搜索</string>
+
+</resources>

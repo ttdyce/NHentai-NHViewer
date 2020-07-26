@@ -74,6 +74,10 @@ android {
             }
         } else {
             println '\'keystore.properties\' not found! Using default signing config'
+            android.signingConfigs.config.storeFile android.signingConfigs.debug.storeFile
+            android.signingConfigs.config.storePassword android.signingConfigs.debug.storePassword
+            android.signingConfigs.config.keyAlias android.signingConfigs.debug.keyAlias
+            android.signingConfigs.config.keyPassword android.signingConfigs.debug.keyPassword
         }
     }
 
