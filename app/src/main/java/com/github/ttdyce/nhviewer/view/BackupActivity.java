@@ -14,11 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
+import com.github.ttdyce.nhviewer.model.room.ComicCachedDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCachedEntity;
+import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
+import com.google.gson.Gson;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.net.Socket;
@@ -56,7 +61,8 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         // Get instance of Vibrator from current Context
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 400 milliseconds
-        v.vibrate(250);
+        if (v != null)
+            v.vibrate(250);
         qrCodeReaderView.setQRDecodingEnabled(false);
         qrCodeReaderView.stopCamera();
 
@@ -76,40 +82,46 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
     }
 
     // TODO: 2019/11/3 package below's method to a class/presenter
-    private static class BackupTask extends AsyncTask<Void, Void, Void> {
-        String ip;
-        int port;
+    private static class BackupTask extends AsyncTask<Void, Void, Boolean> {
+        QRData qrData;
         WeakReference<AppCompatActivity> activityRef;
         ProgressDialog dialog;
 
-        public BackupTask(AppCompatActivity activity, String data) {
-            String[] split = data.split(":");
-            ip = split[0];
-            port = Integer.parseInt(split[1]);
+        public BackupTask(AppCompatActivity activity, String json) {
+            Gson gson = new Gson();
+            qrData = gson.fromJson(json, QRData.class);
+
             this.activityRef = new WeakReference<>(activity);
         }
 
         @Override
         protected void onPreExecute() {
             dialog = ProgressDialog.show(activityRef.get(), "Found QR code",
-                    String.format(Locale.ENGLISH, "Connecting to %s:%d...", ip, port), true);
+                    String.format(Locale.ENGLISH, "Connecting to %s:%s... for %s", qrData.ip, qrData.port, qrData.action), true);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            tryBackup();
-            return null;
+        protected Boolean doInBackground(Void... voids) {
+            if (qrData.action.equals("restore"))
+                return tryRestore();
+            else //qrData.action.equals("backup")
+                return tryBackup();
+
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Boolean success) {
             dialog.dismiss();
-            Toast.makeText(activityRef.get(), "Backup finished", Toast.LENGTH_SHORT).show();
+            String actionCapital = qrData.action.substring(0, 1).toUpperCase() + qrData.action.substring(1);
+            if (success)
+                Toast.makeText(activityRef.get(), actionCapital + " finished! ", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(activityRef.get(), actionCapital + " failed :(", Toast.LENGTH_SHORT).show();
             activityRef.get().finish();
         }
 
 
-        private void tryBackup() {
+        private boolean tryBackup() {
             AppDatabase appDatabase = MainActivity.getAppDatabase();
             List<ComicCollectionEntity> collectionEntities = appDatabase.comicCollectionDao().getAll();
             List<ComicCachedEntity> comicCachedEntities = appDatabase.comicCachedDao().getAll();
@@ -117,51 +129,141 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
             Socket socket;
 
             try {
-                socket = new Socket(ip, port);
-                Log.d(TAG, "tryBackup: connected to " + ip);
-//                    Toast.makeText(MainActivity.this, "tryBackup: connected to " + host, Toast.LENGTH_SHORT).show();
+                socket = new Socket(qrData.ip, Integer.parseInt(qrData.port));
+                Log.i(TAG, "tryBackup: connected to " + qrData.ip);
 
-                // get the output stream from the socket.
                 OutputStream outputStream = socket.getOutputStream();
-                // create a data output stream from the output stream so we can send data through it
-                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+                InputStream inputStream = socket.getInputStream();
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
 
-                Log.d(TAG, "Sending table ComicCollection");
-                dataOutputStream.write("Table name".getBytes());
-                dataOutputStream.write("ComicCollection".getBytes());
-                socket.getInputStream().read();
+                /* NHV-Backup-Protocol
+                 * send numOfTables
+                 * read ACK
+                 * for numOfTables
+                 *   send table name
+                 *   read ACK
+                 *   send entities
+                 *   read ACK
+                 *
+                 * send FIN
+                 * read ACK
+                 * read FIN
+                 * send ACK
+                 * close()
+                 * */
+                Log.i(TAG, "Sending table ComicCollection");
+                int numOfTables = 2;
+                objectOutputStream.writeInt(numOfTables);
+                objectOutputStream.flush();
+                String response = objectInputStream.readUTF();
 
-                for (ComicCollectionEntity e : collectionEntities) {
-                    dataOutputStream.write(e.toJson().getBytes());
-                    socket.getInputStream().read();
-                }
-                dataOutputStream.write("EOF".getBytes());
-                socket.getInputStream().read();
+                objectOutputStream.writeUTF("ComicCollection");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
+                objectOutputStream.writeObject(collectionEntities);
+//                objectOutputStream.flush(); // may not needed
+                response = objectInputStream.readUTF();
 
-                Log.d(TAG, "Sending table ComicCached");
-                dataOutputStream.write("Table name".getBytes());
-                dataOutputStream.write("ComicCached".getBytes());
-                socket.getInputStream().read();
+                Log.i(TAG, "Sending table ComicCached");
+                objectOutputStream.writeUTF("ComicCached");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
-                for (ComicCachedEntity e : comicCachedEntities) {
-                    dataOutputStream.write(e.toJson().getBytes());
-                    socket.getInputStream().read();
-                }
-                dataOutputStream.write("EOF".getBytes());
-                socket.getInputStream().read();
+                objectOutputStream.writeObject(comicCachedEntities);
+//                objectOutputStream.flush(); // may not needed
+                response = objectInputStream.readUTF();
 
-                dataOutputStream.write("END".getBytes());
-                dataOutputStream.flush();
-                dataOutputStream.close();
+                objectOutputStream.writeUTF("FIN");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
 
-                Log.d(TAG, "Closing socket and terminating program.");
+                response = objectInputStream.readUTF();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                objectOutputStream.close();
+
+                Log.i(TAG, "Closing socket and terminating backup.");
                 socket.close();
+
+                return true;
             } catch (IOException e) {
                 Log.e(TAG, "Backup failed");
-//                    Toast.makeText(this, "Backup failed", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
+
+            return false;
+        }
+
+        private boolean tryRestore() {
+            AppDatabase appDatabase = MainActivity.getAppDatabase();
+            try (
+                    Socket socket = new Socket(qrData.ip, Integer.parseInt(qrData.port));
+
+                    OutputStream outputStream = socket.getOutputStream();
+                    InputStream inputStream = socket.getInputStream();
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                    ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            ) {
+                Log.i(TAG, "tryRestore: connected to " + qrData.ip);
+
+                Log.i(TAG, "Receiving collectionEntities");
+                String response;
+                final List<ComicCollectionEntity> collectionEntities = (List<ComicCollectionEntity>) objectInputStream.readObject();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                Log.i(TAG, "Receiving comicCachedEntities");
+                final List<ComicCachedEntity> comicCachedEntities = (List<ComicCachedEntity>) objectInputStream.readObject();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                Log.i(TAG, "Insert data");
+                // insert the backuped data
+                // TODO initial version, only providing the least backup function. Something like "At least we've got one that works"
+                ComicCollectionDao comicCollectionDao = appDatabase.comicCollectionDao();
+                for (ComicCollectionEntity collection :
+                        collectionEntities) {
+                    if (comicCollectionDao.notExist(collection.getName(), collection.getId()))
+                        comicCollectionDao.insert(collection);
+                }
+                ComicCachedDao comicCachedDao = appDatabase.comicCachedDao();
+                for (ComicCachedEntity comic :
+                        comicCachedEntities) {
+                    if (comicCachedDao.notExist(comic.getId()))
+                        comicCachedDao.insert(comic);
+                }
+
+                // ending
+                objectOutputStream.writeUTF("FIN");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
+
+                response = objectInputStream.readUTF();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                objectOutputStream.close();
+
+                Log.i(TAG, "Closing socket and terminating backup.");
+                return true;
+            } catch (IOException | ClassNotFoundException e) {
+                Log.e(TAG, "Restore failed");
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+    }
+
+    private static class QRData {
+        private String action, ip, port;
+
+        public QRData() {
+            // required empty
         }
     }
 }
+
