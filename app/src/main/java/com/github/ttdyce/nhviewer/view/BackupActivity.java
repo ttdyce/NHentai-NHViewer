@@ -14,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
+import com.github.ttdyce.nhviewer.model.room.ComicCachedDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCachedEntity;
+import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,36 +83,40 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
 
     // TODO: 2019/11/3 package below's method to a class/presenter
     private static class BackupTask extends AsyncTask<Void, Void, Boolean> {
-        String ip;
-        int port;
+        QRData qrData;
         WeakReference<AppCompatActivity> activityRef;
         ProgressDialog dialog;
 
-        public BackupTask(AppCompatActivity activity, String data) {
-            String[] split = data.split(":");
-            ip = split[0];
-            port = Integer.parseInt(split[1]);
+        public BackupTask(AppCompatActivity activity, String json) {
+            Gson gson = new Gson();
+            qrData = gson.fromJson(json, QRData.class);
+
             this.activityRef = new WeakReference<>(activity);
         }
 
         @Override
         protected void onPreExecute() {
             dialog = ProgressDialog.show(activityRef.get(), "Found QR code",
-                    String.format(Locale.ENGLISH, "Connecting to %s:%d...", ip, port), true);
+                    String.format(Locale.ENGLISH, "Connecting to %s:%s... for %s", qrData.ip, qrData.port, qrData.action), true);
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            return tryBackup();
+            if (qrData.action.equals("restore"))
+                return tryRestore();
+            else //qrData.action.equals("backup")
+                return tryBackup();
+
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
             dialog.dismiss();
+            String actionCapital = qrData.action.substring(0, 1).toUpperCase() + qrData.action.substring(1);
             if (success)
-                Toast.makeText(activityRef.get(), "Backup finished! ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityRef.get(), actionCapital + " finished! ", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(activityRef.get(), "Backup failed :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityRef.get(), actionCapital + " failed :(", Toast.LENGTH_SHORT).show();
             activityRef.get().finish();
         }
 
@@ -122,8 +129,8 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
             Socket socket;
 
             try {
-                socket = new Socket(ip, port);
-                Log.i(TAG, "tryBackup: connected to " + ip);
+                socket = new Socket(qrData.ip, Integer.parseInt(qrData.port));
+                Log.i(TAG, "tryBackup: connected to " + qrData.ip);
 
                 OutputStream outputStream = socket.getOutputStream();
                 InputStream inputStream = socket.getInputStream();
@@ -189,5 +196,74 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
 
             return false;
         }
+
+        private boolean tryRestore() {
+            AppDatabase appDatabase = MainActivity.getAppDatabase();
+            try (
+                    Socket socket = new Socket(qrData.ip, Integer.parseInt(qrData.port));
+
+                    OutputStream outputStream = socket.getOutputStream();
+                    InputStream inputStream = socket.getInputStream();
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+                    ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            ) {
+                Log.i(TAG, "tryRestore: connected to " + qrData.ip);
+
+                Log.i(TAG, "Receiving collectionEntities");
+                String response;
+                final List<ComicCollectionEntity> collectionEntities = (List<ComicCollectionEntity>) objectInputStream.readObject();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                Log.i(TAG, "Receiving comicCachedEntities");
+                final List<ComicCachedEntity> comicCachedEntities = (List<ComicCachedEntity>) objectInputStream.readObject();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                Log.i(TAG, "Insert data");
+                // insert the backuped data
+                // TODO initial version, only providing the least backup function. Something like "At least we've got one that works"
+                ComicCollectionDao comicCollectionDao = appDatabase.comicCollectionDao();
+                for (ComicCollectionEntity collection :
+                        collectionEntities) {
+                    if (comicCollectionDao.notExist(collection.getName(), collection.getId()))
+                        comicCollectionDao.insert(collection);
+                }
+                ComicCachedDao comicCachedDao = appDatabase.comicCachedDao();
+                for (ComicCachedEntity comic :
+                        comicCachedEntities) {
+                    if (comicCachedDao.notExist(comic.getId()))
+                        comicCachedDao.insert(comic);
+                }
+
+                // ending
+                objectOutputStream.writeUTF("FIN");
+                objectOutputStream.flush();
+                response = objectInputStream.readUTF();
+
+                response = objectInputStream.readUTF();
+                objectOutputStream.writeUTF("ACK");
+                objectOutputStream.flush();
+
+                objectOutputStream.close();
+
+                Log.i(TAG, "Closing socket and terminating backup.");
+                return true;
+            } catch (IOException | ClassNotFoundException e) {
+                Log.e(TAG, "Restore failed");
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+    }
+
+    private static class QRData {
+        private String action, ip, port;
+
+        public QRData() {
+            // required empty
+        }
     }
 }
+
