@@ -95,7 +95,8 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 - Thanks for
-  - Chinese translate from [neslxzhen](https://github.com/neslxzhen)
+  - Simplified Chinese translate from [History-exe](https://github.com/History-exe)
+  - Traditional Chinese translate from [neslxzhen](https://github.com/neslxzhen)
   - Beautiful badges displaying Github data from [Shields.io](https://github.com/badges/shields)
   
 - Inspired by
