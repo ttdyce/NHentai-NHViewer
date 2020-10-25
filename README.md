@@ -30,7 +30,7 @@ Please contact me if there are any issue, thanks.
 
 [Download](https://github.com/ttdyce/nhviewer/releases)
 
-[Backup server(Python3)](https://github.com/ttdyce/NHV-Backup-Server)
+[NHV-Backup(Java)](https://github.com/ttdyce/NHV-Backup)
 
 ## Screenshots (In demo mode( •̀ ω •́ )y)
 
