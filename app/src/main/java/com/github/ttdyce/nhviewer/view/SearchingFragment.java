@@ -2,6 +2,7 @@ package com.github.ttdyce.nhviewer.view;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.github.ttdyce.nhviewer.R;
+import com.github.ttdyce.nhviewer.model.api.NHAPI;
+import com.github.ttdyce.nhviewer.model.api.ResponseCallback;
+import com.github.ttdyce.nhviewer.model.comic.Comic;
+import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 public class SearchingFragment extends Fragment {
@@ -70,11 +78,41 @@ public class SearchingFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, String.format("onClick: searching %s" , query));
-                Bundle bundle = new Bundle();
-                bundle.putString(ComicListFragment.ARG_COLLECTION_NAME, "result");
-                bundle.putString(ComicListFragment.ARG_QUERY, query);
-                Navigation.findNavController(requireView()).navigate(R.id.comicListFragment, bundle);
+                try {
+                    int id = Integer.parseInt(query); // treat number query as an id
+                    NHAPI nhapi = new NHAPI(requireContext());
+
+                    // FIXME: 10/26/2020 activity is opened twice
+                    nhapi.getComic(id, new ResponseCallback() {
+                        @Override
+                        public void onReponse(String response) {
+                            JsonObject obj = new JsonParser().parse(response).getAsJsonObject();
+                            Gson gson = new Gson();
+                            Comic c = gson.fromJson(obj, Comic.class);
+                            //enter comic
+                            Context activity = getActivity();
+                            Intent intent = new Intent(activity, ComicActivity.class);
+                            Bundle args = new Bundle();
+
+                            intent.putExtra(ComicPresenter.ARG_ID, c.getId());
+                            intent.putExtra(ComicPresenter.ARG_MID, c.getMid());
+                            intent.putExtra(ComicPresenter.ARG_TITLE, c.getTitle().toString());
+                            intent.putExtra(ComicPresenter.ARG_NUM_OF_PAGES, c.getNumOfPages());
+                            intent.putExtra(ComicPresenter.ARG_PAGE_TYPES, c.getPageTypes());
+
+                            activity.startActivity(intent, args);
+                        }
+                    });
+
+                } catch (NumberFormatException _ignored) {
+                    // do searching, not an id
+                    Log.d(TAG, String.format("onClick: searching %s", query));
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ComicListFragment.ARG_COLLECTION_NAME, "result");
+                    bundle.putString(ComicListFragment.ARG_QUERY, query);
+                    Navigation.findNavController(requireView()).navigate(R.id.comicListFragment, bundle);
+                }
+
                 return false;
             }
 

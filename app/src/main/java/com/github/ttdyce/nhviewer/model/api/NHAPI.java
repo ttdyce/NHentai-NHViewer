@@ -77,6 +77,7 @@ public class NHAPI {
     }
 
     public void getComic(int id, final ResponseCallback callback) {
+        Log.d(TAG, "nhapi: getting comic");
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = URLs.getComic(id);
@@ -86,7 +87,8 @@ public class NHAPI {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
+                        Log.d(TAG, "onResponse: got comic");
+
                         callback.onReponse(response);
                     }
                 }, new Response.ErrorListener() {
