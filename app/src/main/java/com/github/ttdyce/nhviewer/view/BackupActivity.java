@@ -1,7 +1,9 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.github.ttdyce.nhviewer.R;
@@ -40,6 +44,16 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup);
 
+        // check/ask for camera permission here
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            // ask for the permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    1);
+        }
+
         qrCodeReaderView = findViewById(R.id.qrdecoderview);
         qrCodeReaderView.setOnQRCodeReadListener(this);
 
@@ -50,6 +64,21 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         // Use this function to set back camera preview
         qrCodeReaderView.setBackCamera();
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == 1 && permissions[0].equals(Manifest.permission.CAMERA)) {
+            if (grantResults[0] == -1) {
+                // permission denied
+                Toast.makeText(this, "Failed to scan QRCode, no permission!", Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                // reload so that camera is usable
+                recreate();
+            }
+        }
     }
 
     // Called when a QR is decoded
