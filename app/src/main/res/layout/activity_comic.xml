@@ -30,7 +30,7 @@
         android:layout_gravity="top" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.github.ttdyce.nhviewer.view.component.ZoomRecyclerView
         android:id="@+id/rvComic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
