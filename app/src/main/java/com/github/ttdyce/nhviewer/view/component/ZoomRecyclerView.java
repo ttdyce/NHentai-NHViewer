@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -29,6 +30,7 @@ import com.github.ttdyce.nhviewer.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -130,6 +132,16 @@ public class ZoomRecyclerView extends RecyclerView {
     mDefaultScaleFactor = DEFAULT_SCALE_FACTOR;
     mScaleFactor = mDefaultScaleFactor;
     mScaleDuration = DEFAULT_SCALE_DURATION;
+
+    // set LayoutManager
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()) {
+      @Override
+      public boolean canScrollVertically() {
+        return !(isScaling && mScaleFactor == mMaxScaleFactor); //todo pause scrolling while end zooming in
+      }
+    };
+    layoutManager.setOrientation(androidx.recyclerview.widget.LinearLayoutManager.VERTICAL); //todo for OnZoomListener, not sure if needed
+    setLayoutManager(layoutManager);
   }
 
   @Override

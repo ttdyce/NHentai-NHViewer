@@ -81,12 +81,10 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         rvComic = findViewById(R.id.rvComic);
         pbComic = findViewById(R.id.pbComic);
 
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = (LinearLayoutManager)rvComic.getLayoutManager();
         final ZoomRecyclerView rvComic = findViewById(R.id.rvComic);
         rvComic.setEnableScale(true);
         rvComic.setHasFixedSize(true);
-        rvComic.setLayoutManager(layoutManager);
-        initOnZoomListener();
         initOnScrollListener();
 
         presenter = ComicPresenter.factory(this, this, extras, idFromBrowser, rvComic);
@@ -96,10 +94,6 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    private void initOnZoomListener() {
-        layoutManager.setOrientation(VERTICAL);
     }
 
     private void initOnScrollListener() {
