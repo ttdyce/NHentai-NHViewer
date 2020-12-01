@@ -19,8 +19,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
+import com.github.ttdyce.nhviewer.view.component.ZoomRecyclerView;
 
 import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
+
+import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
     private int id;
@@ -40,7 +43,6 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comic);
-
         init();
     }
 
@@ -79,10 +81,10 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         rvComic = findViewById(R.id.rvComic);
         pbComic = findViewById(R.id.pbComic);
 
-        layoutManager = new LinearLayoutManager(this);
-        final RecyclerView rvComic = findViewById(R.id.rvComic);
+        layoutManager = (LinearLayoutManager)rvComic.getLayoutManager();
+        final ZoomRecyclerView rvComic = findViewById(R.id.rvComic);
+        rvComic.setEnableScale(true);
         rvComic.setHasFixedSize(true);
-        rvComic.setLayoutManager(layoutManager);
         initOnScrollListener();
 
         presenter = ComicPresenter.factory(this, this, extras, idFromBrowser, rvComic);
