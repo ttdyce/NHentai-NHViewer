@@ -2,13 +2,36 @@ apply plugin: 'com.android.application'
 apply plugin: "org.ajoberstar.grgit"
 
 import org.ajoberstar.grgit.Grgit
+import org.ajoberstar.grgit.Tag
 
 ext {
     //Git tag as version name, using org.ajoberstar.grgit.Grgit
     git = Grgit.open(currentDir: project.rootDir)
     tags = git.tag.list()
+
+    // sort tags in integer way, default in string way
+    // e.g. after sort: (latest)2.10.0 > 2.9.0 > 2.8.0, default: (latest)2.9.0 > ... > 2.2.0 > 2.10.0 😑
+    Collections.sort(tags, new Comparator<Tag>() {
+        @Override
+        int compare(Tag a, Tag b) {
+            ArrayList<Tag> aNames = a.name.split("\\.")
+            ArrayList<Tag> bNames = b.name.split("\\.")
+
+            int bigVersionDiff = Integer.parseInt(aNames[0]) - Integer.parseInt(bNames[0])
+            int featureVersionDiff = Integer.parseInt(aNames[1]) - Integer.parseInt(bNames[1])
+            int bugfixVersionDiff = Integer.parseInt(aNames[2]) - Integer.parseInt(bNames[2])
+
+            return bigVersionDiff * 3 + featureVersionDiff * 2 + bugfixVersionDiff * 1
+        }
+    })
+
     gitVersionCode = tags.size()
     gitVersionName = tags[tags.size()-1].getName()
+
+    println 'gitVersionCode'
+    println 'gitVersionName'
+    println gitVersionCode
+    println gitVersionName
 }
 
 android {
