@@ -49,8 +49,8 @@ android {
     }
 
     //signing with travis config for release
-    def isRunningOnTravis = System.getenv("CI") == "true"
-    if (isRunningOnTravis) {
+    def isAppCenter = System.getenv("isAppCenter") == "true"
+    if (isAppCenter) {
         // configure keystore
         signingConfigs.release.storeFile = signingConfigs.config.storeFile = file("myapps.jks")
         signingConfigs.release.storePassword = signingConfigs.config.storePassword = System.getenv("keystore_password")
