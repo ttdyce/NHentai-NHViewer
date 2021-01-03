@@ -115,6 +115,12 @@ dependencies {
     def nav_version = '2.2.2'
     def room_version = '2.3.0-alpha01'
     def preference_version = '1.1.1'
+    def appCenterSdkVersion = '4.1.0'
+
+    // Visual Studio App Center
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
 
     implementation 'com.google.android.material:material:1.1.0'
     //image transformations for Glide (for blur image)

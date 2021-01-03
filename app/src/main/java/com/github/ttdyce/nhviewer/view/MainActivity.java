@@ -25,6 +25,10 @@ import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.distribute.Distribute;
 
 import java.util.Date;
 
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppCenter.start(getApplication(), "3b65600f-dd4f-415c-8949-e32f594cba0d",
+                Analytics.class, Crashes.class, Distribute.class);
 
         checkMigration();
         tryAskForLanguage();
