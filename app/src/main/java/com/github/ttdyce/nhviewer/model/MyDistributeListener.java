@@ -1,11 +1,11 @@
 package com.github.ttdyce.nhviewer.model;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.widget.Toast;
 
+import com.github.ttdyce.nhviewer.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.microsoft.appcenter.distribute.Distribute;
 import com.microsoft.appcenter.distribute.DistributeListener;
 import com.microsoft.appcenter.distribute.ReleaseDetails;
@@ -18,43 +18,40 @@ public class MyDistributeListener implements DistributeListener {
 
         // Look at releaseDetails public methods to get version information, release notes text or release notes URL
         String versionName = releaseDetails.getShortVersion();
-        int versionCode = releaseDetails.getVersion();
+//        int versionCode = releaseDetails.getVersion();
         String releaseNotes = releaseDetails.getReleaseNotes();
-        Uri releaseNotesUrl = releaseDetails.getReleaseNotesUrl();
+//        Uri releaseNotesUrl = releaseDetails.getReleaseNotesUrl();
 
         // Build our own dialog title and message
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        dialogBuilder.setTitle("Version " + versionName + " available!"); // you should use a string resource instead, this is just a simple example
-        dialogBuilder.setMessage(releaseNotes);
-
-        // Mimic default SDK buttons
-        dialogBuilder.setPositiveButton(com.microsoft.appcenter.distribute.R.string.appcenter_distribute_update_dialog_download, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                // This method is used to tell the SDK what button was clicked
-                Distribute.notifyUpdateAction(UpdateAction.UPDATE);
-            }
-        });
-
-        // We can postpone the release only if the update isn't mandatory
-        if (!releaseDetails.isMandatoryUpdate()) {
-            dialogBuilder.setNegativeButton(com.microsoft.appcenter.distribute.R.string.appcenter_distribute_update_dialog_postpone, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    // This method is used to tell the SDK what button was clicked
-                    Distribute.notifyUpdateAction(UpdateAction.POSTPONE);
-                }
-            });
-        }
-        dialogBuilder.setCancelable(false); // if it's cancelable you should map cancel to postpone, but only for optional updates
-        dialogBuilder.create().show();
+        new MaterialAlertDialogBuilder(activity, R.style.DialogTheme)
+                .setTitle(activity.getString(R.string.new_version_available, versionName))
+                .setMessage(releaseNotes)
+                .setPositiveButton(activity.getString(com.microsoft.appcenter.distribute.R.string.appcenter_distribute_update_dialog_download),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Distribute.notifyUpdateAction(UpdateAction.UPDATE);
+                            }
+                        }).setNegativeButton(activity.getString(com.microsoft.appcenter.distribute.R.string.appcenter_distribute_update_dialog_postpone),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Distribute.notifyUpdateAction(UpdateAction.POSTPONE);
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        Distribute.notifyUpdateAction(UpdateAction.POSTPONE);
+                    }
+                })
+                .create().show();
 
         // Return true if you're using your own dialog, false otherwise
         return true;
+
+
+
     }
 
     @Override

@@ -12,7 +12,7 @@
     </string-array>
 
     <!-- AutoUpdate -->
-    <string name="new_version_available">有新版本了: </string>
+    <string name="new_version_available">有新版本了:  %1$s</string>
 
     <!--  Navigation  -->
     <string name="nav_index">首页</string>
@@ -33,9 +33,6 @@
     <string name="pref_version">版本号</string>
     <string name="cancel">取消</string>
     <string name="loading_from">载入 %s  中</string>
-    <string name="new_version_cancel">不用了</string>
-    <string name="new_version_desc">有新版本可以更新！</string>
-    <string name="new_version_download_github">下载 (Github)</string>
     <string name="set_default_language">设置漫画语言</string>
     <string name="snackbar_comic_added"><![CDATA[已新增至 <font color=\"yellow\">%s</font>]]></string>
     <string name="snackbar_comic_delete_error">删除漫画时出错: %s</string>

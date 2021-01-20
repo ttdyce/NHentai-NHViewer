@@ -34,7 +34,7 @@
     </string-array>
 
     <!-- AutoUpdate -->
-    <string name="new_version_available">New version available</string>
+    <string name="new_version_available">New version available %1$s</string>
 
     <string name="nav_index">Index</string>
     <string name="nav_collection">Collection</string>
@@ -58,8 +58,5 @@
     <string name="snackbar_comic_delete_error">Error when deleting comic named %s</string>
     <string name="set_default_language">Set your default language</string>
     <string name="cancel">Cancel</string>
-    <string name="new_version_desc">Check out my coolest update on Github!</string>
-    <string name="new_version_download_github">Download (Github)</string>
-    <string name="new_version_cancel">No, thanks</string>
     <string name="enter_search_query">Enter search query</string>
 </resources>
