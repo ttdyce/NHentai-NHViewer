@@ -26,7 +26,7 @@ ext {
     })
 
     gitVersionCode = tags.size()
-    gitVersionName = tags[tags.size()-1].getName() + "b"
+    gitVersionName = tags[tags.size()-1].getName() + "in-app-update1"
 
     println 'gitVersionCode'
     println 'gitVersionName'
@@ -127,9 +127,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
     //QRCode scanner
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
-    //Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
-    implementation 'com.google.firebase:firebase-config:19.1.4'
     //ROOM
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
