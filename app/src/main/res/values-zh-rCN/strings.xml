@@ -39,5 +39,6 @@
     <string name="snackbar_comic_deleted"><![CDATA[已从  <font color=\"yellow\">%s</font> 中删除: %s]]></string>
     <string name="snackbar_comic_exist"><![CDATA[要按坏了！漫画已存在于 <font color=\"red\">%s</font>]]></string>
     <string name="enter_search_query">搜索</string>
+    <string name="remind_restart_after_setting">设定会在重启后生效</string>
 
 </resources>

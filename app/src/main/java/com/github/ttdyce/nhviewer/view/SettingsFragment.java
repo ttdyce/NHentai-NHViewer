@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreference;
 
 import com.github.ttdyce.nhviewer.BuildConfig;
 import com.github.ttdyce.nhviewer.R;
@@ -23,6 +24,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         showVersionName();
         setVersionOnClick();
+        setCheckUpdateOnClick();
+    }
+
+    private void setCheckUpdateOnClick() {
+
+        SwitchPreference checkUpdatePreference = findPreference(MainActivity.KEY_PREF_CHECK_UPDATE);
+        checkUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Toast.makeText(requireContext(), R.string.remind_restart_after_setting, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -32,8 +46,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     private void setVersionOnClick() {
-        PreferenceScreen editTextPreference = findPreference(MainActivity.KEY_PREF_VERSION);
-        editTextPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        PreferenceScreen versionPreference = findPreference(MainActivity.KEY_PREF_VERSION);
+        versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Toast.makeText(requireContext(), "Checking latest version...", Toast.LENGTH_SHORT).show();

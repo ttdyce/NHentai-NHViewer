@@ -59,4 +59,5 @@
     <string name="set_default_language">Set your default language</string>
     <string name="cancel">Cancel</string>
     <string name="enter_search_query">Enter search query</string>
+    <string name="remind_restart_after_setting">Settings would take effect after restart</string>
 </resources>
