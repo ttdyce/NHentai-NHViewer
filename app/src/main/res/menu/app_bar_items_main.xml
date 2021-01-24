@@ -6,17 +6,17 @@
 
     <item
         android:id="@+id/action_sort"
-        android:icon="@drawable/ic_sort_black_24dp"
+        android:icon="@drawable/ic_sort_24dp"
         android:title="Sort"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_jumpToPage"
-        android:icon="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:icon="@drawable/ic_keyboard_arrow_right_24dp"
         android:title="Jump to page"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_selection"
-        android:icon="@drawable/ic_check_box_black_24dp"
+        android:icon="@drawable/ic_check_box_24dp"
         android:title="Selection mode"
         app:showAsAction="ifRoom" />
     </menu>
