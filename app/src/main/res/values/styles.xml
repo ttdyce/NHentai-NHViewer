@@ -6,7 +6,32 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <!--    Preference's summary color    -->
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+        <item name="android:windowBackground">@color/splashBackground</item>
+        <!--    ContentLoadingProgressBar color    -->
+        <item name="colorAccent">@color/primaryTextColor</item>
+        <!--     Bottom nav   -->
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">#031629</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <!-- Comic activity theme. -->
+    <style name="ComicTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
 
     </style>
 

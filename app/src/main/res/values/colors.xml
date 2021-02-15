@@ -6,8 +6,10 @@
     <color name="secondaryColor">#b0bec5</color>
     <color name="secondaryLightColor">#e2f1f8</color>
     <color name="secondaryDarkColor">#808e95</color>
-    <color name="primaryTextColor">#000</color>
-    <color name="secondaryTextColor">#fff</color>
+
+    <color name="primaryTextColor">@color/secondaryTextColor</color>
+    <color name="secondaryLightTextColor">#fff</color>
+    <color name="secondaryTextColor">@color/secondaryColor</color>
     <color name="white">#fff</color>
     <color name="splashBackground">#202a34</color>
 
