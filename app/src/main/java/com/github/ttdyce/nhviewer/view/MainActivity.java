@@ -78,20 +78,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        // setup vs-app-center
+        Distribute.setListener(new MyDistributeListener());
+        AppCenter.start(getApplication(), "3b65600f-dd4f-415c-8949-e32f594cba0d",
+                Analytics.class, Crashes.class, Distribute.class);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
-        if (!enabledCheckUpdate)
-            Distribute.disableAutomaticCheckForUpdate();
+        AppCenter.setEnabled(enabledCheckUpdate); // for all services
 //        if (enabledCheckUpdate)
 //            Updater.with(this).onUpdateNeeded(this).check();
         // todo: keep for 1 version. Migrate from firebase to vs-app-center
-
-        // setup vs-app-center
-        Distribute.setListener(new MyDistributeListener());
-
-        AppCenter.start(getApplication(), "3b65600f-dd4f-415c-8949-e32f594cba0d",
-                Analytics.class, Crashes.class, Distribute.class);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)

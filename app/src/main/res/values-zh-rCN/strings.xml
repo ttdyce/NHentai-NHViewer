@@ -23,7 +23,7 @@
     <!--  Setting page  -->
     <string name="pref_language">语言</string>
     <string name="pref_enable_splash">启用开屏动画</string>
-    <string name="pref_check_update">检查更新</string>
+    <string name="pref_check_update">检查更新 (VS App Center)</string>
     <string name="pref_demo_mode">显示模式</string>
     <string name="pref_general">通用</string>
     <string name="pref_backup">备份</string>
