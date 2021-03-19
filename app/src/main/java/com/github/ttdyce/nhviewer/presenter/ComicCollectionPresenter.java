@@ -80,7 +80,7 @@ public class ComicCollectionPresenter {
                 ResponseCallback callback = new ResponseCallback() {
                     @Override
                     public void onReponse(String response) {
-                        JsonObject obj = new JsonParser().parse(response).getAsJsonObject();
+                        JsonObject obj = JsonParser.parseString(response).getAsJsonObject();
                         Gson gson = new Gson();
                         Comic c = gson.fromJson(obj, Comic.class);
                         final String thumbUrl = NHAPI.URLs.getThumbnail(c.getMid(), c.getImages().getThumbnail().getType());

@@ -60,7 +60,7 @@ public class ComicListPresenter {
         this.callback = new ResponseCallback() {
             @Override
             public void onReponse(String result) {
-                JsonArray array = new JsonParser().parse(result).getAsJsonArray();
+                JsonArray array = JsonParser.parseString(result).getAsJsonArray();
                 Gson gson = new Gson();
 
                 if (array.size() == 0)

@@ -86,7 +86,7 @@ public class SearchingFragment extends Fragment {
                     nhapi.getComic(id, new ResponseCallback() {
                         @Override
                         public void onReponse(String response) {
-                            JsonObject obj = new JsonParser().parse(response).getAsJsonObject();
+                            JsonObject obj = JsonParser.parseString(response).getAsJsonObject();
                             Gson gson = new Gson();
                             Comic c = gson.fromJson(obj, Comic.class);
                             //enter comic

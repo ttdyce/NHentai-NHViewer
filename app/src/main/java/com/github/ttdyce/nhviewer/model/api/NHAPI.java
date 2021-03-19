@@ -61,7 +61,7 @@ public class NHAPI {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
+                        JsonArray result = JsonParser.parseString(response).getAsJsonObject().get("result").getAsJsonArray();
                         callback.onReponse(result.toString());
                     }
                 }, new Response.ErrorListener() {

@@ -67,7 +67,7 @@ public class ComicPresenter {
             NHApiComicFactory.getComicById(new NHAPI(context), idFromBrowser, new ResponseCallback() {
                 @Override
                 public void onReponse(String response) {
-                    JsonObject object = new JsonParser().parse(response).getAsJsonObject();
+                    JsonObject object = JsonParser.parseString(response).getAsJsonObject();
                     Gson gson = new Gson();
                     Comic c = gson.fromJson(object, Comic.class);
 
