@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
@@ -35,8 +36,13 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     public static final String KEY_PREF_CHECK_UPDATE = "key_check_update";
     public static final String KEY_PREF_LAST_VERSION_OPENED = "key_last_version_opened";
     public static final CharSequence KEY_PREF_VERSION = "key_version";
+    public static final String KEY_PREF_PROXY = "key_proxy";
+    public static final String KEY_PREF_PROXY_HOST = "key_proxy_host";
+    public static final String KEY_PREF_PROXY_PORT = "key_proxy_port";
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
+    public static String proxyHost;
+    public static int proxyPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String currentVersion = BuildConfig.VERSION_NAME;
         String lastVersion = pref.getString(KEY_PREF_LAST_VERSION_OPENED, "0.0.0");
-        if(!currentVersion.equals(lastVersion)){
+        if (!currentVersion.equals(lastVersion)) {
             //it is first time open after update / simply first time open
 
-            if(currentVersion.equals("2.6.0") || lastVersion.equals("0.0.0")){
+            if (currentVersion.equals("2.6.0") || lastVersion.equals("0.0.0")) {
                 //fix for 2.5.0 -> 2.6.0
                 pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
             }
@@ -100,6 +106,18 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         //app bar
         Toolbar myToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(myToolbar);
+
+        //proxy
+        proxyHost = pref.getString(KEY_PREF_PROXY_HOST, "");
+        try {
+            proxyPort = Integer.parseInt(pref.getString(KEY_PREF_PROXY_PORT, "8080"));
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "init ignorable error: setting proxyPort to default (8080)");
+            proxyPort = 8080;
+        }
+
+        Log.d(TAG, "init: proxyHost: " + proxyHost);
+        Log.d(TAG, "init: proxyPort: " + proxyPort);
 
     }
 
@@ -147,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
             pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
         }
 
-        if (!comicLanguage.equals(SettingsFragment.Language.notSet.toString()) ) {
+        if (!comicLanguage.equals(SettingsFragment.Language.notSet.toString())) {
             initNavigation();
             return;
         }

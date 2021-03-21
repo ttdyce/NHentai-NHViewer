@@ -91,7 +91,7 @@ public class ComicListPresenter {
             }
         };
         if (collectionName.equals("index") || collectionName.equals("result"))// TODO: 2019/10/25 improve collection name checking
-            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity()), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
+            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity(), MainActivity.proxyHost, MainActivity.proxyPort), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
         else
             comicFactory = new DBComicFactory(collectionName, db, pageNow, sortedPopularNow, callback);
 

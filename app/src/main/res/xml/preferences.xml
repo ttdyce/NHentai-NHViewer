@@ -8,8 +8,11 @@
             android:entryValues="@array/value_languages"
             android:key="key_default_language"
             android:title="@string/pref_language"
-            app:useSimpleSummaryProvider="true"/>
-
+            app:useSimpleSummaryProvider="true" />
+        <PreferenceScreen
+            android:key="key_proxy"
+            android:summary="Remember to restart after setting proxy!"
+            android:title="Set Proxy" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="key_enable_splash"
