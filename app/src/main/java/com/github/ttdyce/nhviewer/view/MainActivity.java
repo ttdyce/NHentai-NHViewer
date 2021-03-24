@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     private static final String TAG = "MainActivity";
     private static AppDatabase appDatabase;
 
+    // migrating to VSApp Center, remind user to download from there from V3
+    // see init()
+    private boolean showV3UpdateReminder = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);//replacing the SplashTheme
@@ -76,9 +80,23 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
-        if (enabledCheckUpdate)
-            Updater.with(this).onUpdateNeeded(this).check();
+        if (enabledCheckUpdate) {
+            if(showV3UpdateReminder){
+                AlertDialog alertDialog = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
+                        .setTitle(R.string.v3_update_title)
+                        .setMessage(R.string.v3_update_message)
+                        .setPositiveButton("Go to GitHub", (dialog, which) -> {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ttdyce/NHentai-NHViewer#Download"));
+                            startActivity(browserIntent);
+                        })
+                        .setNegativeButton("Don't check updates anymore", (dialog, which) -> pref.edit().putBoolean(KEY_PREF_CHECK_UPDATE, false).apply())
+                        .create();
 
+                alertDialog.show();
+            }
+
+            Updater.with(this).onUpdateNeeded(this).check();
+        }
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
                 .addMigrations(AppDatabase.MIGRATION_1_2).build();

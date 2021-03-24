@@ -62,4 +62,6 @@
     <string name="new_version_download_github">Download (Github)</string>
     <string name="new_version_cancel">No, thanks</string>
     <string name="enter_search_query">Enter search query</string>
+    <string name="v3_update_message">Re-downloading from GitHub is required for version 3.0.0 (V3).  Please go to GitHub to see more details about V3 (e.g. changes on auto-update, the look and feel, and more features!)</string>
+    <string name="v3_update_title">Version 3.0.0 update</string>
 </resources>

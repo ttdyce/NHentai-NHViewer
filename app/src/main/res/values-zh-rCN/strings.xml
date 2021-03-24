@@ -42,5 +42,7 @@
     <string name="snackbar_comic_deleted"><![CDATA[已从  <font color=\"yellow\">%s</font> 中删除: %s]]></string>
     <string name="snackbar_comic_exist"><![CDATA[要按坏了！漫画已存在于 <font color=\"red\">%s</font>]]></string>
     <string name="enter_search_query">搜索</string>
+    <string name="v3_update_message">"需要从 GitHub 重新下载，以更新到3.0.0版本 (V3)。有关 V3 的更新内容亦放在了 GitHub 上 (如自动更新，外观，和更多的新功能！) "</string>
+    <string name="v3_update_title">"更新到 3.0.0 "</string>
 
 </resources>
