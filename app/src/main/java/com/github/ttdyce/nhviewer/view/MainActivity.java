@@ -213,4 +213,11 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         return appDatabase;
     }
 
+    public static boolean isProxied(){
+        if ("".equals(proxyHost))
+            return false;
+
+        return true;
+    }
+
 }

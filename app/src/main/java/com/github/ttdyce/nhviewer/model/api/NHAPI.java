@@ -54,7 +54,7 @@ public class NHAPI {
         String language = languageArray[languageIdInt];
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
+        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
         Log.d(TAG, "getComicList: loading from url " + url);
         Log.d(TAG, "getComicList: language id = " + languageId);
@@ -84,7 +84,7 @@ public class NHAPI {
     public void getComic(int id, final ResponseCallback callback) {
         Log.d(TAG, "nhapi: getting comic");
         // Instantiate the RequestQueue.
-        RequestQueue queue = isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
+        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.getComic(id);
 
         // Request a string response from the provided URL.
@@ -105,13 +105,6 @@ public class NHAPI {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-    }
-
-    public boolean isProxied(){
-        if ("".equals(proxyHost))
-            return false;
-
-        return true;
     }
 
     //https://nhentai.net/api/galleries/search?query=language:chinese&page=1&sort=popular
