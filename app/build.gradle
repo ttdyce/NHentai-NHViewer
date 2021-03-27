@@ -26,7 +26,7 @@ ext {
     })
 
     gitVersionCode = tags.size()
-    gitVersionName = tags[tags.size()-1].getName() + "in-app-update4"
+    gitVersionName = tags[tags.size()-1].getName() + "in-app-update5"
 
     println 'gitVersionCode'
     println 'gitVersionName'
