@@ -35,7 +35,7 @@
                 android:layout_gravity="end|top"
                 android:layout_margin="4dp"
                 android:contentDescription="@string/comic_selector"
-                android:src="@drawable/ic_check_box_black_24dp"
+                android:src="@drawable/ic_check_box_24dp"
                 android:tint="@color/primaryColor"
                 android:visibility="invisible" />
 
@@ -64,7 +64,7 @@
             android:layout_alignParentTop="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/comic_collect_button"
-            android:src="@drawable/ic_add_to_photos_black_24dp" />
+            android:src="@drawable/ic_add_to_photos_24dp" />
 
         <TextView
             android:id="@+id/tvNumOfPages"
@@ -81,7 +81,7 @@
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/comic_favorite_button"
-            android:src="@drawable/ic_favorite_border_black_24dp" />
+            android:src="@drawable/ic_favorite_border_24dp" />
 
     </RelativeLayout>
 

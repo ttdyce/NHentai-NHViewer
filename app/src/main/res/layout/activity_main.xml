@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/AppTheme"
-            app:titleTextColor="@color/secondaryTextColor"
+            app:titleTextColor="@color/secondaryLightTextColor"
             app:layout_scrollFlags="snap|enterAlways|scroll"
             />
 

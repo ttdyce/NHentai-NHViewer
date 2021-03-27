@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ArrayAdapter;
@@ -19,16 +18,22 @@ import androidx.room.Room;
 
 import com.github.ttdyce.nhviewer.BuildConfig;
 import com.github.ttdyce.nhviewer.R;
-import com.github.ttdyce.nhviewer.model.firebase.Updater;
+import com.github.ttdyce.nhviewer.model.MyDistributeListener;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.distribute.Distribute;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
+
+// todo: keep for 1 version. Migrate from firebase to vs-app-center
+//public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
+public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
     public static final String KEY_PREF_ENABLE_SPLASH = "key_enable_splash";
@@ -63,10 +68,10 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String currentVersion = BuildConfig.VERSION_NAME;
         String lastVersion = pref.getString(KEY_PREF_LAST_VERSION_OPENED, "0.0.0");
-        if(!currentVersion.equals(lastVersion)){
+        if (!currentVersion.equals(lastVersion)) {
             //it is first time open after update / simply first time open
 
-            if(currentVersion.equals("2.6.0") || lastVersion.equals("0.0.0")){
+            if (currentVersion.equals("2.6.0") || lastVersion.equals("0.0.0")) {
                 //fix for 2.5.0 -> 2.6.0
                 pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
             }
@@ -77,9 +82,18 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
     }
 
     private void init() {
+        // setup vs-app-center
+        Distribute.setListener(new MyDistributeListener());
+        AppCenter.start(getApplication(), "3b65600f-dd4f-415c-8949-e32f594cba0d",
+                Analytics.class, Crashes.class, Distribute.class);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
+        AppCenter.setEnabled(enabledCheckUpdate); // for all services
+//        if (enabledCheckUpdate)
+//            Updater.with(this).onUpdateNeeded(this).check();
+        // todo: keep for 1 version. Migrate from firebase to vs-app-center
+
         if (enabledCheckUpdate) {
             if(showV3UpdateReminder){
                 AlertDialog alertDialog = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
@@ -95,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
                 alertDialog.show();
             }
 
-            Updater.with(this).onUpdateNeeded(this).check();
         }
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
@@ -118,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
         //app bar
         Toolbar myToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(myToolbar);
-
     }
 
     //Link bottom navigation view with jetpack navigation
@@ -130,29 +142,31 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
 //        Navigation.findNavController(this, R.id.fragmentNavHost)
     }
 
-    @Override
-    public void onUpdateNeeded(final String updateUrl) {
-        AlertDialog alert = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-                .setTitle(getString(R.string.new_version_available))
-                .setMessage(getString(R.string.new_version_desc))
-                .setPositiveButton(getString(R.string.new_version_download_github),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        }).setNegativeButton(getString(R.string.new_version_cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
 
-        alert.show();
-    }
+    // todo: keep for 1 version. Migrate from firebase to vs-app-center
+//    @Override
+//    public void onUpdateNeeded(final String updateUrl) {
+//        AlertDialog alert = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
+//                .setTitle(getString(R.string.new_version_available))
+//                .setMessage(getString(R.string.new_version_desc))
+//                .setPositiveButton(getString(R.string.new_version_download_github),
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                startActivity(intent);
+//                            }
+//                        }).setNegativeButton(getString(R.string.new_version_cancel),
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).create();
+//
+//        alert.show();
+//    }
 
     @SuppressLint("ApplySharedPref")
     private void tryAskForLanguage() {
@@ -165,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements Updater.OnUpdateN
             pref.edit().remove(KEY_PREF_DEFAULT_LANGUAGE).commit();
         }
 
-        if (!comicLanguage.equals(SettingsFragment.Language.notSet.toString()) ) {
+        if (!comicLanguage.equals(SettingsFragment.Language.notSet.toString())) {
             initNavigation();
             return;
         }

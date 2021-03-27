@@ -1,6 +1,7 @@
 package com.github.ttdyce.nhviewer.view;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,8 +23,6 @@ import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
 import com.github.ttdyce.nhviewer.view.component.ZoomRecyclerView;
 
 import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
-
-import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
     private int id;
@@ -129,6 +128,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         circularProgressDrawable = new CircularProgressDrawable(this);// TODO: 2019/10/27 many drawable object is created, may hurt performance & loading speed
         circularProgressDrawable.setStrokeWidth(10f);
         circularProgressDrawable.setCenterRadius(30f);
+        circularProgressDrawable.setColorSchemeColors(Color.WHITE); // stroke color, found in CircularProgressDrawable comment
         circularProgressDrawable.start();
 
         //determine blur image or not

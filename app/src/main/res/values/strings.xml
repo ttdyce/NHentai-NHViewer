@@ -34,7 +34,7 @@
     </string-array>
 
     <!-- AutoUpdate -->
-    <string name="new_version_available">New version available</string>
+    <string name="new_version_available">New version available %1$s</string>
 
     <string name="nav_index">Index</string>
     <string name="nav_collection">Collection</string>
@@ -43,7 +43,7 @@
     <string name="nav_setting">Setting</string>
     <string name="pref_language">Language</string>
     <string name="pref_enable_splash">Enable splash screen</string>
-    <string name="pref_check_update">Check update</string>
+    <string name="pref_check_update">Check update (by VS App Center)</string>
     <string name="pref_demo_mode">Demo mode</string>
     <string name="pref_general">General</string>
     <string name="pref_backup">Backup</string>
@@ -58,10 +58,8 @@
     <string name="snackbar_comic_delete_error">Error when deleting comic named %s</string>
     <string name="set_default_language">Set your default language</string>
     <string name="cancel">Cancel</string>
-    <string name="new_version_desc">Check out my coolest update on Github!</string>
-    <string name="new_version_download_github">Download (Github)</string>
-    <string name="new_version_cancel">No, thanks</string>
     <string name="enter_search_query">Enter search query</string>
+    <string name="remind_restart_after_setting">Settings would take effect after restart</string>
     <string name="v3_update_message">Re-downloading from GitHub is required for version 3.0.0 (V3).  Please go to GitHub to see more details about V3 (e.g. changes on auto-update, the look and feel, and more features!)</string>
     <string name="v3_update_title">Version 3.0.0 update</string>
 </resources>

@@ -12,7 +12,7 @@
     </string-array>
 
     <!-- AutoUpdate -->
-    <string name="new_version_available">新版本檢查: </string>
+    <string name="new_version_available">新版本檢查: %1$s</string>
 
     <!--  Navigation  -->
     <string name="nav_index">首頁</string>
@@ -23,7 +23,7 @@
     <!--  Setting page  -->
     <string name="pref_language">語言</string>
     <string name="pref_enable_splash">開啟打開動畫</string>
-    <string name="pref_check_update">檢查更新</string>
+    <string name="pref_check_update">檢查更新 (VS App Center)</string>
     <string name="pref_demo_mode">演示模式</string>
     <string name="pref_general">通用</string>
     <string name="pref_backup">備份</string>
@@ -33,15 +33,13 @@
     <string name="pref_version">安裝版本</string>
     <string name="cancel">取消</string>
     <string name="loading_from">載入 %s  中</string>
-    <string name="new_version_cancel">不用了</string>
-    <string name="new_version_desc">有新版本可以更新！</string>
-    <string name="new_version_download_github">下載 (Github)</string>
     <string name="set_default_language">設定漫畫語言</string>
     <string name="snackbar_comic_added"><![CDATA[已新增至 <font color=\"yellow\">%s</font>]]></string>
     <string name="snackbar_comic_delete_error">刪除漫畫時出錯: %s</string>
     <string name="snackbar_comic_deleted"><![CDATA[已由  <font color=\"yellow\">%s</font> 中刪除: %s]]></string>
     <string name="snackbar_comic_exist"><![CDATA[要按壞了！漫畫已存在於 <font color=\"red\">%s</font>]]></string>
     <string name="enter_search_query">搜尋</string>
+    <string name="remind_restart_after_setting">設定會在重啟後生效</string>
     <string name="v3_update_message">需要從 GitHub 重新下載，以更新到3.0.0版本 (V3)。有關 V3 的更新內容亦放在了 GitHub 上 (如自動更新，外觀，和更多的新功能！)</string>
     <string name="v3_update_title">"更新到 3.0.0 "</string>
 

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/splash_slogan2"
-        android:textColor="@color/secondaryTextColor" />
+        android:textColor="@color/secondaryLightTextColor" />
 
     <TextView
         android:id="@+id/tvSplashLoading"
@@ -35,7 +35,7 @@
         android:gravity="center"
         android:layout_marginTop="80dp"
         android:text="@string/loading_from_index"
-        android:textColor="@color/secondaryTextColor" />
+        android:textColor="@color/secondaryLightTextColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
             android:layout_marginBottom="40dp"
             android:gravity="center"
             android:text="@string/initial_author"
-            android:textColor="@color/secondaryTextColor" />
+            android:textColor="@color/secondaryLightTextColor" />
 
     </LinearLayout>
 
