@@ -1,6 +1,7 @@
 # NHViewer
 
-[![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)[![Build status](https://build.appcenter.ms/v0.1/apps/38433c11-f829-4f5d-8bea-418b4478d68a/branches/release/badge)](https://appcenter.ms)
+[![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
+[![Build status](https://build.appcenter.ms/v0.1/apps/38433c11-f829-4f5d-8bea-418b4478d68a/branches/release/badge)](http://adfoc.us/5869871)
 
 Simple third-party application for browsing nhentai.net.
 
