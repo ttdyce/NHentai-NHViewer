@@ -21,7 +21,7 @@ ext {
             int featureVersionDiff = Integer.parseInt(aNames[1]) - Integer.parseInt(bNames[1])
             int bugfixVersionDiff = Integer.parseInt(aNames[2]) - Integer.parseInt(bNames[2])
 
-            return bigVersionDiff * 3 + featureVersionDiff * 2 + bugfixVersionDiff * 1
+            return bigVersionDiff > 0 || featureVersionDiff > 0 || bugfixVersionDiff > 0 ? 1 : 0
         }
     })
 
