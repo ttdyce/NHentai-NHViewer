@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="key_proxy_host"
+        android:summary="Default empty"
+        android:title="Proxy host (e.g. domain, ip)" />
+    <EditTextPreference
+        android:key="key_proxy_port"
+        android:summary="Default 8080"
+        android:title="Proxy port"/>
+
+</PreferenceScreen>

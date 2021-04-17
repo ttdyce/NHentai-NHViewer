@@ -122,6 +122,8 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
 
+    implementation "com.github.bumptech.glide:volley-integration:4.11.0"
+
     implementation 'com.google.android.material:material:1.1.0'
     //image transformations for Glide (for blur image)
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
