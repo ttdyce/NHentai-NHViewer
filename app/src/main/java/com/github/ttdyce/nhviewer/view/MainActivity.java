@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         // setup vs-app-center
         Distribute.setListener(new MyDistributeListener());
-        AppCenter.start(getApplication(), "3b65600f-dd4f-415c-8949-e32f594cba0d",
+        AppCenter.start(getApplication(), "9803719c-1913-46ad-8bfe-826d98538d3c",
                 Analytics.class, Crashes.class, Distribute.class);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
