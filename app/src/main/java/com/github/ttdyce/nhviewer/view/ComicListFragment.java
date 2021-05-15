@@ -135,6 +135,9 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
         holder.tvTitle.setText(title);
         holder.tvNumOfPages.setText(String.format(Locale.ENGLISH, "%dp", numOfPages));
 
+        if(MainActivity.isSponsor)
+        thumbUrl = "https://hello-ttdyce.azurewebsites.net/api/NHViewerProxy?code=wfV4fHvSB1ydMDRdQzVcktxA3XieSmN5bKHUVzGTdJuQkkob2p/d2w==&url=" + thumbUrl;
+
         //determine blur image or not
         if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
             Glide.with(requireContext())

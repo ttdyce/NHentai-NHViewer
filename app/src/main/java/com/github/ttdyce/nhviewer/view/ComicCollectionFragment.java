@@ -80,6 +80,9 @@ public class ComicCollectionFragment extends Fragment implements ComicCollection
         holder.tvNumOfComics.setText(String.format(Locale.ENGLISH, "%d collected", numOfPages));
         holder.tvTitle.setText(name);
 
+        if(MainActivity.isSponsor)
+            thumbUrl = "https://hello-ttdyce.azurewebsites.net/api/NHViewerProxy?code=wfV4fHvSB1ydMDRdQzVcktxA3XieSmN5bKHUVzGTdJuQkkob2p/d2w==&url=" + thumbUrl;
+
         //determine blur image or not
         if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
             Glide.with(requireContext())

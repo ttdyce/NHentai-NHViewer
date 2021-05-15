@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_account">
+        <SwitchPreference
+            android:defaultValue="@bool/constants_false"
+            android:key="key_nhvp_proxy"
+            android:title="NHV+ proxy" />
+        <Preference
+            android:key="key_logout"
+            android:title="Logout" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

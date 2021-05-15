@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_proxySettingsFragment"
             app:destination="@id/proxySettingsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_accountSettingsFragment"
+            app:destination="@id/accountSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/proxySettingsFragment"
@@ -74,7 +77,16 @@
         android:label="fragment_proxy_settings"
         >
         <action
-            android:id="@+id/action_settingsFragment_to_indexFragment"
+            android:id="@+id/action_proxySettingsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountSettingsFragment"
+        android:name="com.github.ttdyce.nhviewer.view.AccountSettingsFragment"
+        android:label="fragment_account_settings"
+        >
+        <action
+            android:id="@+id/action_accountSettingsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
     <fragment

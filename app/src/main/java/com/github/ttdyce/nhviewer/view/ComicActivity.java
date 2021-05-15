@@ -131,6 +131,9 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
         circularProgressDrawable.setColorSchemeColors(Color.WHITE); // stroke color, found in CircularProgressDrawable comment
         circularProgressDrawable.start();
 
+        if(MainActivity.isSponsor)
+            url = "https://hello-ttdyce.azurewebsites.net/api/NHViewerProxy?code=wfV4fHvSB1ydMDRdQzVcktxA3XieSmN5bKHUVzGTdJuQkkob2p/d2w==&url=" + url;
+
         //determine blur image or not
         if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
             Glide.with(this)

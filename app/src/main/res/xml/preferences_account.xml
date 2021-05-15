@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_account">
+        <PreferenceScreen
+            android:key="key_account"
+            android:title="GitHub sponsors features" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,6 +19,8 @@ import com.github.ttdyce.nhviewer.view.SettingsFragment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 
 public class NHAPI {
@@ -48,6 +52,8 @@ public class NHAPI {
      * */
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
         String languageId = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
+        boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
+
         int languageIdInt = Integer.parseInt(languageId);
 
         final String[] languageArray = context.getResources().getStringArray(R.array.key_languages);
@@ -61,6 +67,14 @@ public class NHAPI {
         if (languageIdInt == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
             url = URLs.getIndex(page);
 
+        // for sponsors, debugging
+        try {
+            if ((isSponsor || "ttdyce".equals(MainActivity.currentUsername)) && pref.getBoolean(MainActivity.KEY_PREF_NHVP_PROXY, false))
+                url = "https://hello-ttdyce.azurewebsites.net/api/NHViewerProxy?code=wfV4fHvSB1ydMDRdQzVcktxA3XieSmN5bKHUVzGTdJuQkkob2p/d2w==&url=" + URLEncoder.encode(url, "utf-8");
+            Log.d(TAG, "for sponsors, debugging: loading from url " + URLEncoder.encode(url, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -83,9 +97,20 @@ public class NHAPI {
 
     public void getComic(int id, final ResponseCallback callback) {
         Log.d(TAG, "nhapi: getting comic");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
         // Instantiate the RequestQueue.
         RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.getComic(id);
+
+        // for sponsors, debugging
+        try {
+            if ((isSponsor || "ttdyce".equals(MainActivity.currentUsername)) && pref.getBoolean(MainActivity.KEY_PREF_NHVP_PROXY, false))
+                url = "https://hello-ttdyce.azurewebsites.net/api/NHViewerProxy?code=wfV4fHvSB1ydMDRdQzVcktxA3XieSmN5bKHUVzGTdJuQkkob2p/d2w==&url=" + URLEncoder.encode(url, "utf-8");
+            Log.d(TAG, "for sponsors, debugging: loading from url " + URLEncoder.encode(url, "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
