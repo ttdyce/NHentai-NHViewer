@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,6 +50,8 @@ public class NHAPI {
      * */
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
         String languageId = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
+        boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
+
         int languageIdInt = Integer.parseInt(languageId);
 
         final String[] languageArray = context.getResources().getStringArray(R.array.key_languages);
@@ -83,6 +87,8 @@ public class NHAPI {
 
     public void getComic(int id, final ResponseCallback callback) {
         Log.d(TAG, "nhapi: getting comic");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
         // Instantiate the RequestQueue.
         RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.getComic(id);

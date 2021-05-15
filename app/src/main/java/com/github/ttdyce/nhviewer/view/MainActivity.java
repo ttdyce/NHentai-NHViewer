@@ -24,6 +24,7 @@ import com.github.ttdyce.nhviewer.model.room.AppDatabase;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionDao;
 import com.github.ttdyce.nhviewer.model.room.ComicCollectionEntity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -44,10 +45,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_PROXY = "key_proxy";
     public static final String KEY_PREF_PROXY_HOST = "key_proxy_host";
     public static final String KEY_PREF_PROXY_PORT = "key_proxy_port";
+    public static final String KEY_PREF_LOGIN = "key_login";
+    public static final String KEY_PREF_ACCOUNT = "key_account";
+    public static final String KEY_PREF_LOGOUT = "key_logout";
+    public static final String KEY_PREF_NHVP_PROXY = "key_nhvp_proxy";
+    public static final String KEY_PREF_CURRENT_USERNAME = "current_username";
+    public static final String KEY_PREF_IS_SPONSOR = "key_pref_is_sponsor";
     private static final String TAG = "MainActivity";
+    public static String currentUsername = null;
     private static AppDatabase appDatabase;
     public static String proxyHost;
     public static int proxyPort;
+    // shortcut stored in MainActivity, not the most accurate one. See NHAPI.isSponsor for fresh data
+    public static boolean isSponsor = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +105,17 @@ public class MainActivity extends AppCompatActivity {
 //        if (enabledCheckUpdate)
 //            Updater.with(this).onUpdateNeeded(this).check();
         // todo: keep for 1 version. Migrate from firebase to vs-app-center
+
+        // API proxy
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        SharedPreferences.Editor editor = pref.edit();
+
+        if (firebaseAuth.getCurrentUser() == null)
+            editor.putBoolean(KEY_PREF_NHVP_PROXY, false);
+        editor.apply();
+
+        // TODO: 5/1/2021 get username from storage
+        currentUsername = pref.getString(KEY_PREF_CURRENT_USERNAME, null);
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
@@ -226,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
         return appDatabase;
     }
 
-    public static boolean isProxied(){
+    public static boolean isProxied() {
         if ("".equals(proxyHost))
             return false;
 
