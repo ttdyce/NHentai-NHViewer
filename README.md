@@ -1,6 +1,7 @@
 # NHViewer
 
-[![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)[![Build status](https://build.appcenter.ms/v0.1/apps/38433c11-f829-4f5d-8bea-418b4478d68a/branches/release/badge)](https://appcenter.ms)
+[![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
+[![Build status](https://build.appcenter.ms/v0.1/apps/38433c11-f829-4f5d-8bea-418b4478d68a/branches/release/badge)](http://adfoc.us/5869871)
 
 Simple third-party application for browsing nhentai.net.
 
@@ -13,15 +14,15 @@ Simple third-party application for browsing nhentai.net.
 The app now uses [Visual Studio App Center](https://visualstudio.microsoft.com/zh-hant/app-center/) to provide in-app update, app analysis, and crashes report. 
 To enable these features, some data will be collected from you (the user) and sent to App Center. You can find the details [here](https://docs.microsoft.com/en-us/appcenter/sdk/data-collected).
 
-As it might be a concern to certain user, a new option is added in the settings page for this changes. 
+As it might be a concern to some users, a new option is added in the settings page for disabling in-app update. 
 
 ### Better auto-update
 
-Instead of using Firebase's remote config to handle update-checking manually, the app now uses [Visual Studio App Center](https://visualstudio.microsoft.com/zh-hant/app-center/) to handle it automatically (well, kind of...). <u>This feature will also be disabled along with disabling App Center Integration.</u> 
+Instead of using Firebase's remote config to handle update checking manually, the app now uses [Visual Studio App Center](https://visualstudio.microsoft.com/zh-hant/app-center/) to handle it automatically (well, kind of...). <u>This feature will also be disabled along with disabling in-app update.</u> 
 
 
 
-*[Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)*😕
+[Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)😕
 
 ---
 
@@ -29,8 +30,8 @@ Instead of using Firebase's remote config to handle update-checking manually, th
 
 From VS App Center
 
-- with ads: http://adfoc.us/5869871
-- without ads: https://install.appcenter.ms/users/ttdyce/apps/nhviewer/distribution_groups/public
+- with 5 seconds ads: http://adfoc.us/5869871
+- without 5 seconds ads: https://install.appcenter.ms/users/ttdyce/apps/nhviewer/distribution_groups/public
 
 ### Important note
 
