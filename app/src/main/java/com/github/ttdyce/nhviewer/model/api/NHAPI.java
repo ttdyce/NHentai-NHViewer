@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ttdyce.nhviewer.R;
+import com.github.ttdyce.nhviewer.model.proxy.NHVProxyStack;
 import com.github.ttdyce.nhviewer.view.MainActivity;
 import com.github.ttdyce.nhviewer.view.SettingsFragment;
 import com.google.gson.JsonArray;
@@ -21,9 +22,13 @@ import java.util.Locale;
 public class NHAPI {
     private static final String TAG = "NHAPI";
     private Context context;
+    private String proxyHost;
+    private int proxyPort;
 
-    public NHAPI(Context context) {
+    public NHAPI(Context context, String proxyHost, int proxyPort) {
         this.context = context;
+        this.proxyHost = proxyHost;
+        this.proxyPort = proxyPort;
     }
 
     public void getComicList(String query, final ResponseCallback callback, SharedPreferences pref) {
@@ -49,11 +54,11 @@ public class NHAPI {
         String language = languageArray[languageIdInt];
 
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
         Log.d(TAG, "getComicList: loading from url " + url);
         Log.d(TAG, "getComicList: language id = " + languageId);
-        if(languageIdInt  == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
+        if (languageIdInt == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
             url = URLs.getIndex(page);
 
         // Request a string response from the provided URL.
@@ -79,7 +84,7 @@ public class NHAPI {
     public void getComic(int id, final ResponseCallback callback) {
         Log.d(TAG, "nhapi: getting comic");
         // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(context);
+        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
         String url = URLs.getComic(id);
 
         // Request a string response from the provided URL.

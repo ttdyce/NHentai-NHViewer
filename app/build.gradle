@@ -21,7 +21,7 @@ ext {
             int featureVersionDiff = Integer.parseInt(aNames[1]) - Integer.parseInt(bNames[1])
             int bugfixVersionDiff = Integer.parseInt(aNames[2]) - Integer.parseInt(bNames[2])
 
-            return bigVersionDiff * 3 + featureVersionDiff * 2 + bugfixVersionDiff * 1
+            return bigVersionDiff > 0 || featureVersionDiff > 0 || bugfixVersionDiff > 0 ? 1 : 0
         }
     })
 
@@ -121,6 +121,8 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
+
+    implementation "com.github.bumptech.glide:volley-integration:4.11.0"
 
     implementation 'com.google.android.material:material:1.1.0'
     //image transformations for Glide (for blur image)

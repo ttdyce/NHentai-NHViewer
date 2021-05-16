@@ -64,7 +64,7 @@ public class ComicPresenter {
     // process id from browser || id from comic list fragment
     public static ComicPresenter factory(final Context context, final ComicView comicView, Bundle extras, int idFromBrowser, final RecyclerView rvComic) {
         if (idFromBrowser != -1) {
-            NHApiComicFactory.getComicById(new NHAPI(context), idFromBrowser, new ResponseCallback() {
+            NHApiComicFactory.getComicById(new NHAPI(context, MainActivity.proxyHost, MainActivity.proxyPort), idFromBrowser, new ResponseCallback() {
                 @Override
                 public void onReponse(String response) {
                     JsonObject object = JsonParser.parseString(response).getAsJsonObject();

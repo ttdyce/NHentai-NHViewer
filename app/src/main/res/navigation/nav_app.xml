@@ -64,6 +64,18 @@
         <action
             android:id="@+id/action_settingsFragment_to_indexFragment"
             app:destination="@id/indexFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_proxySettingsFragment"
+            app:destination="@id/proxySettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/proxySettingsFragment"
+        android:name="com.github.ttdyce.nhviewer.view.ProxySettingsFragment"
+        android:label="fragment_proxy_settings"
+        >
+        <action
+            android:id="@+id/action_settingsFragment_to_indexFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchingFragment"

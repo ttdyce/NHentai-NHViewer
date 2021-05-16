@@ -80,7 +80,7 @@ public class SearchingFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 try {
                     int id = Integer.parseInt(query); // treat number query as an id
-                    NHAPI nhapi = new NHAPI(requireContext());
+                    NHAPI nhapi = new NHAPI(requireContext(), MainActivity.proxyHost, MainActivity.proxyPort);
 
                     // FIXME: 10/26/2020 activity is opened twice
                     nhapi.getComic(id, new ResponseCallback() {

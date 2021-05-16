@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
@@ -24,6 +27,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         showVersionName();
         setVersionOnClick();
+
+        PreferenceScreen proxyPreference = findPreference(MainActivity.KEY_PREF_PROXY);
+        proxyPreference.setOnPreferenceClickListener(preference -> {
+            NavController navController = Navigation.findNavController(getActivity(), R.id.fragmentNavHost);
+            navController.navigate(R.id.proxySettingsFragment);
+            return true;
+        });
         setCheckUpdateOnClick();
     }
 
