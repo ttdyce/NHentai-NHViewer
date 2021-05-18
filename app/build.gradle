@@ -4,6 +4,8 @@ apply plugin: "org.ajoberstar.grgit"
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Tag
 
+def isAppCenter = System.getenv("isAppCenter") == "true"
+
 ext {
     //Git tag as version name, using org.ajoberstar.grgit.Grgit
     git = Grgit.open(currentDir: project.rootDir)
@@ -27,6 +29,10 @@ ext {
 
     gitVersionCode = tags.size()
     gitVersionName = tags[tags.size()-1].getName()
+
+    if (isAppCenter && System.getenv("branch") == "distribution"){
+        gitVersionCode += 14 // missing simple tag on azure repo
+    }
 
     println 'gitVersionCode'
     println 'gitVersionName'
@@ -71,8 +77,7 @@ android {
         }
     }
 
-    //signing with travis config for release
-    def isAppCenter = System.getenv("isAppCenter") == "true"
+    //signing with VSAppCenter config for release
     if (isAppCenter) {
         // configure keystore
         signingConfigs.release.storeFile = signingConfigs.config.storeFile = file("myapps.jks")
