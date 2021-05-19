@@ -24,11 +24,15 @@ public class NHAPI {
     private Context context;
     private String proxyHost;
     private int proxyPort;
+    private RequestQueue requestQueue;
+    private RequestQueue requestQueueProxied;
 
     public NHAPI(Context context, String proxyHost, int proxyPort) {
         this.context = context;
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueueProxied = Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort));
     }
 
     public void getComicList(String query, final ResponseCallback callback, SharedPreferences pref) {
@@ -53,8 +57,8 @@ public class NHAPI {
         final String[] languageArray = context.getResources().getStringArray(R.array.key_languages);
         String language = languageArray[languageIdInt];
 
-        // Instantiate the RequestQueue.
-        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
+        // choose the RequestQueue.
+        RequestQueue queue = MainActivity.isProxied() ? requestQueueProxied : requestQueue;
         String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
         Log.d(TAG, "getComicList: loading from url " + url);
         Log.d(TAG, "getComicList: language id = " + languageId);
@@ -83,8 +87,8 @@ public class NHAPI {
 
     public void getComic(int id, final ResponseCallback callback) {
         Log.d(TAG, "nhapi: getting comic");
-        // Instantiate the RequestQueue.
-        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
+        // Get the RequestQueue.
+        RequestQueue queue = MainActivity.isProxied() ? requestQueueProxied : requestQueue;
         String url = URLs.getComic(id);
 
         // Request a string response from the provided URL.
