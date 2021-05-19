@@ -1,7 +1,7 @@
 # NHViewer
 
 [![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
-[![Build status](https://build.appcenter.ms/v0.1/apps/38433c11-f829-4f5d-8bea-418b4478d68a/branches/release/badge)](http://adfoc.us/5869871)
+[![Build status](https://build.appcenter.ms/v0.1/apps/78b72c73-8619-4435-a052-f43403b0ecbf/branches/distribution/badge)](http://adfoc.us/5869871)
 
 Simple third-party application for browsing nhentai.net.
 
@@ -28,18 +28,15 @@ Instead of using Firebase's remote config to handle update checking manually, th
 
 ## Download
 
-From VS App Center
+**The release here is NHViewer+**, which is based on NHViewer but includes GitHub Sponsors features
 
-- with 5 seconds ads: http://adfoc.us/5869871
-- without 5 seconds ads: https://install.appcenter.ms/users/ttdyce/apps/nhviewer/distribution_groups/public
+[Download From VS App Center](https://install.appcenter.ms/users/ttdyce/apps/nhviewer-1/distribution_groups/public)
 
 ### Important note
 
-- Download from VS App Center is recommended (to enable auto-update), rather than building locally.
+- Download from VS App Center is recommended for auto-update
 - To support this project, you can...
-  1. Sponsor this project on Patreon / GitHub! 
-
-  2. Or... download from the first link 📺
+  1. Sponsor this project on GitHub for more features!
 
   3. Or... star the repository 🌟
 
@@ -49,11 +46,13 @@ From VS App Center
 
 ## Features
 
+- For **GitHub Sponsors**
+  - Exclusive Proxy to unblock nhentai for some regions
 - Collection system
   - Add / remove comic from Favorite / Read later / History
   - Backup collection content to desktop (by scanning QRCode with [NHV-Backup, Java program](https://github.com/ttdyce/NHV-Backup))
-  
 - General
+  - Basic proxy
   - Vertical scrolling
   - Comic list sorting (by popularity / uploaded recently)
   - Search with specific language (Chinese / English / Japanese)
@@ -68,13 +67,13 @@ From VS App Center
 
 ## Roadmap
 
-| Feature                                                      | Schedule        | Status  |
-| ------------------------------------------------------------ | --------------- | ------- |
-| In-app Proxy setting & **Exclusive Proxy Server for Patreon Sponsors** | mid-March ~ May | WIP     |
-| Tag Filtering                                                | May ~ July      | Pending |
-| Comic Descriptions on Appbar (e.g. authors/categories)       | July ~          | Pending |
-| Cloud Sync (Either by nhentai account or by github/google account) | -               | Pending |
-| and...                                                       | -               | -       |
+| Feature                                                      | Schedule        | Status   |
+| ------------------------------------------------------------ | --------------- | -------- |
+| In-app Proxy setting & **Exclusive Proxy for GitHub Sponsors** | mid-March ~ May | Released |
+| Tag Filtering                                                | May ~ July?     | Pending  |
+| Comic Descriptions on Appbar (e.g. authors/categories)       | July ~          | Pending  |
+| Cloud Sync (Either by nhentai account or by github/google account) | -               | Pending  |
+| and...                                                       | -               | -        |
 
 ---
 
