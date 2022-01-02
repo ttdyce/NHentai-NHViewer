@@ -184,6 +184,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString(KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.all.toString());
+                editor.apply();
                 initNavigation();
             }
         });
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         return appDatabase;
     }
 
-    public static boolean isProxied(){
+    public static boolean isProxied() {
         if ("".equals(proxyHost))
             return false;
 
