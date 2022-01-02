@@ -28,29 +28,21 @@ public class NHAPI {
     private Context context;
     private String proxyHost;
     private int proxyPort;
+    private RequestQueue requestQueue;
+    private RequestQueue requestQueueProxied;
 
     public NHAPI(Context context, String proxyHost, int proxyPort) {
         this.context = context;
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
-    }
-
-    public void getComicList(String query, final ResponseCallback callback, SharedPreferences pref) {
-        getComicList(query, 1, false, callback, pref);
-    }
-
-    public void getComicList(String query, int page, final ResponseCallback callback, SharedPreferences pref) {
-        getComicList(query, page, false, callback, pref);
-    }
-
-    public void getComicList(String query, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
-        getComicList(query, 1, sortedPopular, callback, pref);
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueueProxied = Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort));
     }
 
     /*
      * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
      * */
-    public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback, SharedPreferences pref) {
+    public void getComicList(String query, int page, PopularType popularType, final ResponseCallback callback, SharedPreferences pref) {
         String languageId = pref.getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
         boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
 
@@ -59,9 +51,9 @@ public class NHAPI {
         final String[] languageArray = context.getResources().getStringArray(R.array.key_languages);
         String language = languageArray[languageIdInt];
 
-        // Instantiate the RequestQueue.
-        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
-        String url = URLs.search("language:" + language + " " + query, page, sortedPopular);
+        // choose the RequestQueue.
+        RequestQueue queue = MainActivity.isProxied() ? requestQueueProxied : requestQueue;
+        String url = URLs.search("language:" + language + " " + query, page, popularType);
         Log.d(TAG, "getComicList: loading from url " + url);
         Log.d(TAG, "getComicList: language id = " + languageId);
         if (languageIdInt == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
@@ -99,8 +91,8 @@ public class NHAPI {
         Log.d(TAG, "nhapi: getting comic");
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         boolean isSponsor = pref.getBoolean(MainActivity.KEY_PREF_IS_SPONSOR, false);
-        // Instantiate the RequestQueue.
-        RequestQueue queue = MainActivity.isProxied() ? Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort)) : Volley.newRequestQueue(context);
+        // Get the RequestQueue.
+        RequestQueue queue = MainActivity.isProxied() ? requestQueueProxied : requestQueue;
         String url = URLs.getComic(id);
 
         // for sponsors, debugging
@@ -139,11 +131,20 @@ public class NHAPI {
         private static String getComicPrefix = "https://nhentai.net/api/gallery/";
         private static String[] types = {"jpg", "png"};
 
-        public static String search(String query, int page, boolean sortedPopular) {
-            if (sortedPopular)
-                return searchPrefix + query + "&page=" + page + "&sort=popular";
-            else
+        public static String search(String query, int page, PopularType popularType) {
+            if (popularType == PopularType.none)
                 return searchPrefix + query + "&page=" + page;
+            if (popularType == PopularType.allTime)
+                return searchPrefix + query + "&page=" + page + "&sort=popular";
+            if (popularType == PopularType.month)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-month";
+            if (popularType == PopularType.week)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-week";
+            if (popularType == PopularType.today)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-today";
+
+            Log.w(TAG, "search: popular-type not found");
+            return searchPrefix + query + "&page=" + page;// should be not needed
         }
 
         public static String getComic(int id) {

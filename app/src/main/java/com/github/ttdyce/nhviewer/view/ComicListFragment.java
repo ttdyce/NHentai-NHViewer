@@ -1,5 +1,6 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ttdyce.nhviewer.R;
+import com.github.ttdyce.nhviewer.model.api.PopularType;
 import com.github.ttdyce.nhviewer.presenter.ComicListPresenter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -241,6 +244,36 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
             selector.setVisibility(View.INVISIBLE);
         }
 
+    }
+
+    @Override
+    public void onSortClick() {
+        if(!presenter.cannotDelete()) // TODO: 2/1/2022 refactor naming: should be using `isSortable`
+            return;
+        final String[] popularTypes = getResources().getStringArray(R.array.popular_types);
+        new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialDialogTheme)
+                .setTitle(R.string.popular_type)
+                .setItems(popularTypes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        Log.d(TAG, "onClick: choosing popular type" + which);
+                        Log.d(TAG, "onClick: choosing popular type enum" + PopularType.get(which));
+                        presenter.setSortBy(PopularType.get(which));
+                        // TODO: 1/1/2022 save popular type for next time opening
+//                        SharedPreferences.Editor editor = pref.edit();
+//
+//                        editor.putString(KEY_PREF_LAST_TIME_POPULAR_TYPE, String.valueOf(which));
+//                        editor.apply();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing on cancel
+                            }
+                        })
+                .create().show();
     }
 
 }

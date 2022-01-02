@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,8 +32,6 @@ import com.microsoft.appcenter.distribute.Distribute;
 import java.util.Date;
 
 
-// todo: keep for 1 version. Migrate from firebase to vs-app-center
-//public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
 public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
@@ -102,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
         AppCenter.setEnabled(enabledCheckUpdate); // for all services
-//        if (enabledCheckUpdate)
-//            Updater.with(this).onUpdateNeeded(this).check();
-        // todo: keep for 1 version. Migrate from firebase to vs-app-center
 
         // API proxy
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -162,32 +156,6 @@ public class MainActivity extends AppCompatActivity {
 //        Navigation.findNavController(this, R.id.fragmentNavHost)
     }
 
-
-    // todo: keep for 1 version. Migrate from firebase to vs-app-center
-//    @Override
-//    public void onUpdateNeeded(final String updateUrl) {
-//        AlertDialog alert = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-//                .setTitle(getString(R.string.new_version_available))
-//                .setMessage(getString(R.string.new_version_desc))
-//                .setPositiveButton(getString(R.string.new_version_download_github),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                            }
-//                        }).setNegativeButton(getString(R.string.new_version_cancel),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).create();
-//
-//        alert.show();
-//    }
-
     @SuppressLint("ApplySharedPref")
     private void tryAskForLanguage() {
         String comicLanguage = SettingsFragment.Language.notSet.toString();
@@ -206,10 +174,6 @@ public class MainActivity extends AppCompatActivity {
 
         //pop up dialog for setting default language
         final String[] languageArray = getResources().getStringArray(R.array.languages);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                languageArray);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
 
         builder.setTitle(getString(R.string.set_default_language));
@@ -223,19 +187,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+        builder.setItems(languageArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onClick: init language clicked: " + which);
                 SharedPreferences.Editor editor = pref.edit();
 
                 editor.putString(KEY_PREF_DEFAULT_LANGUAGE, String.valueOf(which));
                 editor.apply();
 
+                final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             }
         });
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                String language = pref.getString(KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.notSet.toString());
+                if (SettingsFragment.Language.notSet.toString().equals(language)) {
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString(KEY_PREF_DEFAULT_LANGUAGE, SettingsFragment.Language.all.toString());
+                    editor.apply();
+                }
+
+                Log.d(TAG, "onClick: after init language, before dismiss dialog: " + pref.getString(KEY_PREF_DEFAULT_LANGUAGE, "not set"));
                 initNavigation();
             }
         });
