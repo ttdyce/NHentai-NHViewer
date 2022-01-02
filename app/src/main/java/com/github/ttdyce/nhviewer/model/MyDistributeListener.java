@@ -23,7 +23,7 @@ public class MyDistributeListener implements DistributeListener {
 //        Uri releaseNotesUrl = releaseDetails.getReleaseNotesUrl();
 
         // Build our own dialog title and message
-        new MaterialAlertDialogBuilder(activity, R.style.DialogTheme)
+        new MaterialAlertDialogBuilder(activity, R.style.MaterialDialogTheme)
                 .setTitle(activity.getString(R.string.new_version_available, versionName))
                 .setMessage(releaseNotes)
                 .setPositiveButton(activity.getString(com.microsoft.appcenter.distribute.R.string.appcenter_distribute_update_dialog_download),
