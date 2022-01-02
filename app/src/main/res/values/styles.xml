@@ -41,7 +41,14 @@
     </style>
 
     <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryDarkColor</item>
 
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="MaterialDialogTheme" parent="MaterialAlertDialog.MaterialComponents">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorSecondary">@color/secondaryDarkColor</item>

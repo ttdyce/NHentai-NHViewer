@@ -1,5 +1,6 @@
 package com.github.ttdyce.nhviewer.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.api.NHAPI;
+import com.github.ttdyce.nhviewer.model.api.PopularType;
 import com.github.ttdyce.nhviewer.model.api.ResponseCallback;
 import com.github.ttdyce.nhviewer.model.comic.Comic;
 import com.github.ttdyce.nhviewer.model.comic.factory.ComicFactory;
@@ -39,7 +41,8 @@ import java.util.Date;
 
 public class ComicListPresenter {
     private String collectionName, query;
-    private boolean sortedPopularNow = false, hasNextPage = true;
+    private PopularType popularType = PopularType.none;
+    private boolean hasNextPage = true;
     private int pageNow = 1;
     private boolean selectionMode = false;
 
@@ -91,9 +94,9 @@ public class ComicListPresenter {
             }
         };
         if (collectionName.equals("index") || collectionName.equals("result"))// TODO: 2019/10/25 improve collection name checking
-            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity(), MainActivity.proxyHost, MainActivity.proxyPort), query, pageNow, sortedPopularNow, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
+            comicFactory = new NHApiComicFactory(new NHAPI(comicListView.getRequiredActivity(), MainActivity.proxyHost, MainActivity.proxyPort), query, pageNow, popularType, callback, PreferenceManager.getDefaultSharedPreferences(comicListView.getRequiredActivity()));
         else
-            comicFactory = new DBComicFactory(collectionName, db, pageNow, sortedPopularNow, callback);
+            comicFactory = new DBComicFactory(collectionName, db, pageNow, false, callback);
 
         refreshComicList();
     }
@@ -148,15 +151,9 @@ public class ComicListPresenter {
         new EditCollectionComicTask(db, comicListView, AppDatabase.COL_COLLECTION_FAVORITE, c).execute();
     }
 
+    // see also setSortBy
     private void onSortClick() {
-        //toggle sort by popular
-        setPageNow(1);
-        setSortedPopularNow(!sortedPopularNow);
-
-        adapter.clear();
-
-        comicListView.updateList(true);
-        refreshComicList();
+        comicListView.onSortClick(); // trigger dialog
     }
 
     private void onJumpToPageClick() {
@@ -197,12 +194,8 @@ public class ComicListPresenter {
             refreshComicList();
     }
 
-    private void setSortedPopularNow(boolean sortedPopularNow) {
-        this.sortedPopularNow = sortedPopularNow;
-        if (sortedPopularNow)
-            comicFactory.setSortBy(NHApiComicFactory.SORT_BY_POPULAR);
-        else
-            comicFactory.setSortBy(NHApiComicFactory.SORT_BY_DEFAULT);
+    private void setPopularType(PopularType popularType) {
+        comicFactory.setSortBy(popularType);
     }
 
     private void setPageNow(int pageNow) {
@@ -242,6 +235,16 @@ public class ComicListPresenter {
         return false;
     }
 
+    public void setSortBy(PopularType popularType) {
+        setPageNow(1);
+        setPopularType(popularType);
+
+        adapter.clear();
+
+        comicListView.updateList(true);
+        refreshComicList();
+    }
+
 
     private class ComicListAdapter extends RecyclerView.Adapter<ComicListViewHolder> {
         private ArrayList<Comic> comics = new ArrayList<>();
@@ -253,7 +256,7 @@ public class ComicListPresenter {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final ComicListViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final ComicListViewHolder holder, @SuppressLint("RecyclerView") final int position) {
             final Comic c = comics.get(position);
             String title = c.getTitle().toString();
             String thumbUrl = NHAPI.URLs.getThumbnail(c.getMid(), c.getImages().getThumbnail().getType());
@@ -363,6 +366,7 @@ public class ComicListPresenter {
 
         void onSelectionDone(ArrayList<View> selectedSelectors);
 
+        void onSortClick();
     }
 
     public static class EditCollectionComicTask extends AsyncTask<Void, Integer, Boolean> {

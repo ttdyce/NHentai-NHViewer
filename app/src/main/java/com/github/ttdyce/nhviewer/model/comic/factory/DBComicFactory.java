@@ -2,6 +2,7 @@ package com.github.ttdyce.nhviewer.model.comic.factory;
 
 import android.os.AsyncTask;
 
+import com.github.ttdyce.nhviewer.model.api.PopularType;
 import com.github.ttdyce.nhviewer.model.api.ResponseCallback;
 import com.github.ttdyce.nhviewer.model.comic.Comic;
 import com.github.ttdyce.nhviewer.model.room.AppDatabase;
@@ -44,7 +45,7 @@ public class DBComicFactory implements ComicFactory {
     }
 
     @Override
-    public void setSortBy(int sortBy) {
+    public void setSortBy(PopularType sortBy) {
         // TODO: 2019/9/28 Not yet supported sorting in Collection
     }
 

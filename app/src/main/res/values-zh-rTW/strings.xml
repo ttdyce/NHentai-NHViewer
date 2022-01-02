@@ -42,5 +42,6 @@
     <string name="remind_restart_after_setting">設定會在重啟後生效</string>
     <string name="v3_update_message">需要從 GitHub 重新下載，以更新到3.0.0版本 (V3)。有關 V3 的更新內容亦放在了 GitHub 上 (如自動更新，外觀，和更多的新功能！)</string>
     <string name="v3_update_title">"更新到 3.0.0 "</string>
+    <string name="popular_type">按受歡迎程度排列</string>
 
 </resources>
