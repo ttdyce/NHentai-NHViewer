@@ -32,8 +32,6 @@ import com.microsoft.appcenter.distribute.Distribute;
 import java.util.Date;
 
 
-// todo: keep for 1 version. Migrate from firebase to vs-app-center
-//public class MainActivity extends AppCompatActivity implements Updater.OnUpdateNeededListener {
 public class MainActivity extends AppCompatActivity {
     public static final String KEY_PREF_DEFAULT_LANGUAGE = "key_default_language";
     public static final String KEY_PREF_DEMO_MODE = "key_demo_mode";
@@ -92,9 +90,6 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean enabledCheckUpdate = pref.getBoolean(KEY_PREF_CHECK_UPDATE, true);
         AppCenter.setEnabled(enabledCheckUpdate); // for all services
-//        if (enabledCheckUpdate)
-//            Updater.with(this).onUpdateNeeded(this).check();
-        // todo: keep for 1 version. Migrate from firebase to vs-app-center
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, AppDatabase.DB_NAME)
@@ -140,32 +135,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigation, navController);
 //        Navigation.findNavController(this, R.id.fragmentNavHost)
     }
-
-
-    // todo: keep for 1 version. Migrate from firebase to vs-app-center
-//    @Override
-//    public void onUpdateNeeded(final String updateUrl) {
-//        AlertDialog alert = new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-//                .setTitle(getString(R.string.new_version_available))
-//                .setMessage(getString(R.string.new_version_desc))
-//                .setPositiveButton(getString(R.string.new_version_download_github),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                            }
-//                        }).setNegativeButton(getString(R.string.new_version_cancel),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).create();
-//
-//        alert.show();
-//    }
 
     @SuppressLint("ApplySharedPref")
     private void tryAskForLanguage() {
