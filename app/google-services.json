@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "1020157334621",
+    "firebase_url": "https://nhviewer.firebaseio.com",
+    "project_id": "nhviewer",
+    "storage_bucket": "nhviewer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020157334621:android:1e3152ecdfe8bed6f6a9b4",
+        "android_client_info": {
+          "package_name": "com.github.ttdyce.nhviewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020157334621-rrjtsfqns9a0tnf135fh9k7idoc9c8rm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.ttdyce.nhviewer",
+            "certificate_hash": "b48d3e0173c8ca231bd5f8c1ae762c2b591c7c5b"
+          }
+        },
+        {
+          "client_id": "1020157334621-b02s95h7tasv016986fnai7rn66jub0r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.ttdyce.nhviewer",
+            "certificate_hash": "eadf500bd08c21fe39e4e3e5b2b1d3c360748e55"
+          }
+        },
+        {
+          "client_id": "1020157334621-6j478e8rpcgjkc7381imnuehu6dece3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLz3T5dIXBfwp4VY2bh28zCv44jIUzmgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020157334621-6j478e8rpcgjkc7381imnuehu6dece3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
