@@ -91,6 +91,7 @@ android {
         def props = new Properties()
 
         if (ksFile.canRead()) {
+            println 'Reading \'keystore.properties\'!'
             props.load(new FileInputStream(ksFile))
 
             if (props != null) {
@@ -98,6 +99,11 @@ android {
                 android.signingConfigs.config.storePassword props['KEYSTORE_PASSWORD']
                 android.signingConfigs.config.keyAlias props['KEYSTORE_ALIAS']
                 android.signingConfigs.config.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
+
+                android.signingConfigs.release.storeFile file(props['KEYSTORE_FILE'])
+                android.signingConfigs.release.storePassword props['KEYSTORE_PASSWORD']
+                android.signingConfigs.release.keyAlias props['KEYSTORE_ALIAS']
+                android.signingConfigs.release.keyPassword props['KEYSTORE_ALIAS_PASSWORD']
             } else {
                 println 'some entries in \'keystore.properties\' not found!'
             }
