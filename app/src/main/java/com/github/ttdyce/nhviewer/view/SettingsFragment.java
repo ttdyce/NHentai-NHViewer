@@ -63,33 +63,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 Toast.makeText(requireContext(), "Checking latest version...", Toast.LENGTH_SHORT).show();
                 Distribute.checkForUpdate();
 
-                // todo: keep for 1 version. Migrate from firebase to vs-app-center
-//                Updater.with(requireContext()).onUpdateNeeded(new Updater.OnUpdateNeededListener() {
-//                    @Override
-//                    public void onUpdateNeeded(final String updateUrl) {
-//
-//                        AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.DialogTheme)
-//                                .setTitle(getString(R.string.new_version_available))
-//                                .setMessage(getString(R.string.new_version_desc))
-//                                .setPositiveButton(getString(R.string.new_version_download_github),
-//                                        new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialog, int which) {
-//                                                final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-//                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                                startActivity(intent);
-//                                            }
-//                                        }).setNegativeButton(getString(R.string.new_version_cancel),
-//                                        new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialog, int which) {
-//                                                dialog.dismiss();
-//                                            }
-//                                        }).create();
-//                        dialog.show();
-//                    }
-//                }).check();
-
                 return true;
             }
         });
