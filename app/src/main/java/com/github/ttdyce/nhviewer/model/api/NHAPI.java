@@ -10,9 +10,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ttdyce.nhviewer.R;
+import com.github.ttdyce.nhviewer.model.CookieStringRequest;
 import com.github.ttdyce.nhviewer.model.proxy.NHVProxyStack;
 import com.github.ttdyce.nhviewer.view.MainActivity;
 import com.github.ttdyce.nhviewer.view.SettingsFragment;
@@ -67,8 +67,18 @@ public class NHAPI {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        while (CookieStringRequest.challengeCookies == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
+            }
+        }
+
+        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -104,8 +114,19 @@ public class NHAPI {
             e.printStackTrace();
         }
 
+        while (CookieStringRequest.challengeCookies == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
+            }
+        }
+
+        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
+
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
