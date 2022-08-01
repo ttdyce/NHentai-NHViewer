@@ -65,18 +65,6 @@ Instead of using Firebase's remote config to handle update checking manually, th
 
   More new features (see #Roadmap)
 
-## Roadmap
-
-| Feature                                                      | Schedule        | Status   |
-| ------------------------------------------------------------ | --------------- | -------- |
-| In-app Proxy setting & **Exclusive Proxy for GitHub Sponsors** | mid-March ~ May | Released |
-| Tag Filtering                                                | May ~ July?     | Pending  |
-| Comic Descriptions on Appbar (e.g. authors/categories)       | July ~          | Pending  |
-| Cloud Sync (Either by nhentai account or by github/google account) | -               | Pending  |
-| and...                                                       | -               | -        |
-
----
-
 ### Version 2 overview
 
 - [M-V-P](https://stackoverflow.com/questions/2056/what-are-mvp-and-mvc-and-what-is-the-difference)
