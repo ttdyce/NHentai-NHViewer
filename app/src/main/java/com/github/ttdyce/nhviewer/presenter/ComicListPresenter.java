@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -106,7 +107,12 @@ public class ComicListPresenter {
     }
 
     private void refreshComicList() {
-        comicFactory.requestComicList();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                comicFactory.requestComicList();
+            }
+        }).start();
     }
 
     private void onComicItemClick(int position) {

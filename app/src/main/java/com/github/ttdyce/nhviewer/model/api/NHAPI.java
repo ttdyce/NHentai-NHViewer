@@ -8,9 +8,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.ttdyce.nhviewer.R;
+import com.github.ttdyce.nhviewer.model.CookieStringRequest;
 import com.github.ttdyce.nhviewer.model.proxy.NHVProxyStack;
 import com.github.ttdyce.nhviewer.view.MainActivity;
 import com.github.ttdyce.nhviewer.view.SettingsFragment;
@@ -35,7 +35,7 @@ public class NHAPI {
         requestQueueProxied = Volley.newRequestQueue(context, new NHVProxyStack(proxyHost, proxyPort));
     }
 
-        /*
+    /*
      * Return a JsonArray string containing 25 Comic object, as [ {"id": 284928,"media_id": "1483523",...}, ...]
      * */
     public void getComicList(String query, int page, PopularType popularType, final ResponseCallback callback, SharedPreferences pref) {
@@ -53,8 +53,18 @@ public class NHAPI {
         if (languageIdInt == SettingsFragment.Language.all.getInt() || languageIdInt == SettingsFragment.Language.notSet.getInt())// TODO: 2019/10/1 Function is limited if language = all
             url = URLs.getIndex(page);
 
+        while (CookieStringRequest.challengeCookies == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
+            }
+        }
+
+        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -79,8 +89,19 @@ public class NHAPI {
         RequestQueue queue = MainActivity.isProxied() ? requestQueueProxied : requestQueue;
         String url = URLs.getComic(id);
 
+        while (CookieStringRequest.challengeCookies == null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
+            }
+        }
+
+        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
+
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
