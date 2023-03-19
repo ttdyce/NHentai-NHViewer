@@ -40,6 +40,7 @@ public class SplashActivity extends AppCompatActivity {
 //        });
 
         wvInvisibleSplash.getSettings().setJavaScriptEnabled(true);
+        wvInvisibleSplash.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/110.0");
         wvInvisibleSplash.loadUrl(url);
 
         /* Performs animation on a TextView. */
@@ -63,6 +64,8 @@ public class SplashActivity extends AppCompatActivity {
                 Log.d("SplashActivitiy", "url: " + url);
                 Log.d("SplashActivitiy", "Got cookie: " + cookies);
                 Log.d("SplashActivitiy", "User agent: " + wvInvisibleSplash.getSettings().getUserAgentString());
+                if (!cookies.contains("cf_clearance="))
+                    Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, I think API call won't work");
                 CookieStringRequest.challengeCookies = cookies;
                 CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();
 
