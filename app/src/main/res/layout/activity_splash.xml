@@ -16,9 +16,9 @@
 
     <WebView
         android:id="@+id/wvInvisibleSplash"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="invisible"/>
+        android:layout_width="300dp"
+        android:layout_height="600dp"
+        android:visibility="visible"/>
 
     <TextView
         android:layout_width="match_parent"
