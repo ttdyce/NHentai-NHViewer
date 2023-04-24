@@ -17,7 +17,7 @@ public class CookieStringRequest extends StringRequest {
     public CookieStringRequest(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);
         headers.put("cookie", challengeCookies);
-        headers.put("user-agent", userAgent);
+//        headers.put("user-agent", userAgent); // 20230425 seems no effect, trying not to use it
     }
 
     // not in use (as for 8/1/2022)

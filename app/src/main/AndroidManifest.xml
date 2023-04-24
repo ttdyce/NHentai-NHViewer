@@ -20,6 +20,8 @@
             android:name=".view.SplashActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.BackupActivity"/>
+        <activity android:name=".view.RefreshCookieActivity"/>
+
         <activity
             android:name=".view.ComicActivity"
             android:screenOrientation="portrait"

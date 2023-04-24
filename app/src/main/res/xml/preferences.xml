@@ -12,7 +12,16 @@
         <PreferenceScreen
             android:key="key_proxy"
             android:summary="Remember to restart after setting proxy!"
-            android:title="Set Proxy" />
+            android:title="Set Proxy" />>
+        <Preference
+            android:summary="Load nhentai.net in a webview to retrive cookie"
+            android:title="Refresh Cookie">
+
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetClass="com.github.ttdyce.nhviewer.view.RefreshCookieActivity"
+                android:targetPackage="com.github.ttdyce.nhviewer" />
+        </Preference>
         <SwitchPreference
             android:defaultValue="true"
             android:key="key_enable_splash"
