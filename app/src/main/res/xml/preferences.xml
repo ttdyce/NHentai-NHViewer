@@ -16,11 +16,7 @@
         <Preference
             android:summary="Load nhentai.net in a webview to retrive cookie"
             android:title="Refresh Cookie">
-
-            <intent
-                android:action="android.intent.action.MAIN"
-                android:targetClass="com.github.ttdyce.nhviewer.view.RefreshCookieActivity"
-                android:targetPackage="com.github.ttdyce.nhviewer" />
+            <intent android:action=".RefreshCookieActivity" />
         </Preference>
         <SwitchPreference
             android:defaultValue="true"
@@ -41,11 +37,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_backup">
         <Preference android:title="@string/pref_scan_qr_code">
-
-            <intent
-                android:action="android.intent.action.MAIN"
-                android:targetClass="com.github.ttdyce.nhviewer.view.BackupActivity"
-                android:targetPackage="com.github.ttdyce.nhviewer" />
+            <intent android:action=".BackupActivity" />
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_about">

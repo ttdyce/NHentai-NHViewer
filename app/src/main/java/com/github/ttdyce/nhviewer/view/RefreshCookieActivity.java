@@ -4,12 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 

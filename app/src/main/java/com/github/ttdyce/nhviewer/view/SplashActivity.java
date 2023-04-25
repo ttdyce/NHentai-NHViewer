@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Use a WebView to bypass cloudflare challenge (Retrieve cookie) */
         // any api url is fine :|
-        String url = NHAPI.URLs.search("english", 1, PopularType.none);
+        String url = "https://nhentai.net";
         WebView wvInvisibleSplash = findViewById(R.id.wvInvisibleSplash);
 
         // uncomment this part to simulate no-cookie state, for debugging
@@ -37,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
 //        });
 
         wvInvisibleSplash.getSettings().setJavaScriptEnabled(true);
-        wvInvisibleSplash.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/110.0");
+//        wvInvisibleSplash.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/110.0");
         wvInvisibleSplash.loadUrl(url);
 
         /* Performs animation on a TextView. */
