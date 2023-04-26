@@ -56,6 +56,6 @@ public class MyDistributeListener implements DistributeListener {
 
     @Override
     public void onNoReleaseAvailable(Activity activity) {
-        Toast.makeText(activity, "no updates available", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "no updates available", Toast.LENGTH_LONG).show();
     }
 }

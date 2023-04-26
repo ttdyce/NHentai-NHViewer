@@ -11,11 +11,13 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.api.NHAPI;
 import com.github.ttdyce.nhviewer.model.api.PopularType;
@@ -62,6 +64,12 @@ public class ComicListPresenter {
         this.comicListView = comicListView;
         this.adapter = new ComicListAdapter();
         this.callback = new ResponseCallback() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+                Toast.makeText(comicListView.getRequiredActivity().getApplicationContext(), "Volley error, cookie not set or try force restart app", Toast.LENGTH_LONG).show();
+            }
+
             @Override
             public void onReponse(String result) {
                 JsonArray array = JsonParser.parseString(result).getAsJsonArray();

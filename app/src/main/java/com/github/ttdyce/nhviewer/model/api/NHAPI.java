@@ -69,14 +69,14 @@ public class NHAPI {
         }
         while (CookieStringRequest.challengeCookies == null) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
             }
         }
 
-        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
+        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (SplashScreen/RefreshCookieScreen is ok) ");
         // Request a string response from the provided URL.
         CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -116,14 +116,14 @@ public class NHAPI {
 
         while (CookieStringRequest.challengeCookies == null) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                Log.d(TAG, "getComicList: CookieStringRequest.challengeCookies is still null!");
+                Log.d(TAG, "getComic: CookieStringRequest.challengeCookies is still null!");
             }
         }
 
-        Log.i(TAG, "getComicList: CookieStringRequest.challengeCookies is ready (I guss SplashScreen ok?) ");
+        Log.i(TAG, "getComic: CookieStringRequest.challengeCookies is ready (SplashScreen/RefreshCookieScreen is ok) ");
 
         // Request a string response from the provided URL.
         CookieStringRequest stringRequest = new CookieStringRequest(Request.Method.GET, url,

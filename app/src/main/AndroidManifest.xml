@@ -18,13 +18,26 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".view.SplashActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.BackupActivity"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.BackupActivity">
+            <intent-filter>
+                <action android:name=".BackupActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.RefreshCookieActivity"
+            android:label="RefreshCookieActivity">
+            <intent-filter>
+                <action android:name=".RefreshCookieActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".view.ComicActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <data
                     android:host="nhentai.net"

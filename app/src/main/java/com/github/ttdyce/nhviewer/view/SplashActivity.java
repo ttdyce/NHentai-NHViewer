@@ -1,5 +1,6 @@
 package com.github.ttdyce.nhviewer.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,8 +17,6 @@ import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.model.api.GitHubSponsorsAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.github.ttdyce.nhviewer.model.CookieStringRequest;
-import com.github.ttdyce.nhviewer.model.api.NHAPI;
-import com.github.ttdyce.nhviewer.model.api.PopularType;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,19 +27,16 @@ public class SplashActivity extends AppCompatActivity {
 
         /* Use a WebView to bypass cloudflare challenge (Retrieve cookie) */
         // any api url is fine :|
-        String url = NHAPI.URLs.search("english", 1, PopularType.none);
+        String url = "https://nhentai.net";
         WebView wvInvisibleSplash = findViewById(R.id.wvInvisibleSplash);
 
         // uncomment this part to simulate no-cookie state, for debugging
-//        CookieManager.getInstance().removeAllCookies(new ValueCallback<Boolean>() {
-//            @Override
-//            public void onReceiveValue(Boolean value) {
-//                // leave empty
-//            }
-//        });
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
 
         wvInvisibleSplash.getSettings().setJavaScriptEnabled(true);
-        wvInvisibleSplash.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/110.0");
+        wvInvisibleSplash.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/112.0");
+
         wvInvisibleSplash.loadUrl(url);
 
         /* Performs animation on a TextView. */
@@ -57,6 +53,7 @@ public class SplashActivity extends AppCompatActivity {
             });
         }
         Handler handler = new Handler();
+        Intent refreshCookieIntent = new Intent(this, RefreshCookieActivity.class);
         handler.postDelayed(new Runnable() {
             public void run() {
                 // handle Cloudflare challenge
@@ -64,15 +61,19 @@ public class SplashActivity extends AppCompatActivity {
                 Log.d("SplashActivitiy", "url: " + url);
                 Log.d("SplashActivitiy", "Got cookie: " + cookies);
                 Log.d("SplashActivitiy", "User agent: " + wvInvisibleSplash.getSettings().getUserAgentString());
-                if (!cookies.contains("cf_clearance="))
+                if (cookies == null || !cookies.contains("cf_clearance=")) {
                     Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, I think API call won't work");
-                CookieStringRequest.challengeCookies = cookies;
-                CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();
+
+                    Toast.makeText(getApplicationContext(), "Failed to bypass human checking, use manual mode", Toast.LENGTH_LONG).show();
+                    startActivity(refreshCookieIntent);
+                } else {
+                    CookieStringRequest.challengeCookies = cookies;
+                    CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();
+                }
 
                 // return to MainActivity
                 finish();
             }
-        }, 5 * 1000);   //5 seconds
-
+        }, 2 * 1000);   // 2 seconds
     }
 }
