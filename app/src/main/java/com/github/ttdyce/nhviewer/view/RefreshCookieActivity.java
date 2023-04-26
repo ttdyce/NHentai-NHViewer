@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,23 +42,24 @@ public class RefreshCookieActivity extends AppCompatActivity {
         Log.d("SplashActivitiy", "url: " + url);
         Log.d("SplashActivitiy", "Got cookie: " + cookies);
         Log.d("SplashActivitiy", "User agent: " + wvRefreshCookie.getSettings().getUserAgentString());
-        checkCookie();
+        checkCookie(wvRefreshCookie.getSettings().getUserAgentString());
     }
 
-    private void checkCookie(){
+    private void checkCookie(String userAgent){
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 String cookies = CookieManager.getInstance().getCookie(url);
                 if (cookies == null || !cookies.contains("cf_clearance=")){
                     Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, try again soon...");
-                    checkCookie();
+                    checkCookie(userAgent);
                 }else{
                     Log.d("SplashActivitiy", "url: " + url);
                     Log.d("SplashActivitiy", "Got cookie: " + cookies);
 //                Log.d("SplashActivitiy", "User agent: " + wvInvisibleSplash.getSettings().getUserAgentString());
                     CookieStringRequest.challengeCookies = cookies;
-//                CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();
+                CookieStringRequest.userAgent = userAgent;
+                    Toast.makeText(getApplicationContext(), "Saved cookie, page loading should be work now (" + cookies, Toast.LENGTH_LONG).show();
 
                     finish();
                 }
