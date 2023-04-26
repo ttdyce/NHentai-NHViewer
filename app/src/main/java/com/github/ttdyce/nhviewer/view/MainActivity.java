@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        deleteDatabase(AppDatabase.DB_NAME);
         //init Collections
+        // todo replace with executor-things (java concurrent)
         new Thread(
                 new Runnable() {
                     @Override
