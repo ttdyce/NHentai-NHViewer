@@ -43,7 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         checkUpdatePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(requireContext(), R.string.remind_restart_after_setting, Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), R.string.remind_restart_after_setting, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -60,7 +60,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         versionPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Toast.makeText(requireContext(), "Checking latest version...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity().getApplicationContext(), "Checking latest version...", Toast.LENGTH_SHORT).show();
                 Distribute.checkForUpdate();
 
                 return true;

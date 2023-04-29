@@ -12,7 +12,12 @@
         <PreferenceScreen
             android:key="key_proxy"
             android:summary="Remember to restart after setting proxy!"
-            android:title="Set Proxy" />
+            android:title="Set Proxy" />>
+        <Preference
+            android:summary="Load nhentai.net in a webview to retrive cookie"
+            android:title="Refresh Cookie">
+            <intent android:action=".RefreshCookieActivity" />
+        </Preference>
         <SwitchPreference
             android:defaultValue="true"
             android:key="key_enable_splash"
@@ -32,11 +37,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_backup">
         <Preference android:title="@string/pref_scan_qr_code">
-
-            <intent
-                android:action="android.intent.action.MAIN"
-                android:targetClass="com.github.ttdyce.nhviewer.view.BackupActivity"
-                android:targetPackage="com.github.ttdyce.nhviewer" />
+            <intent android:action=".BackupActivity" />
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_about">

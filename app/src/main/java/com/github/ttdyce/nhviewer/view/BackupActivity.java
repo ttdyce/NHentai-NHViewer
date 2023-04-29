@@ -72,7 +72,7 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
         if (requestCode == 1 && permissions[0].equals(Manifest.permission.CAMERA)) {
             if (grantResults[0] == -1) {
                 // permission denied
-                Toast.makeText(this, "Failed to scan QRCode, no permission!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to scan QRCode, no permission!", Toast.LENGTH_LONG).show();
                 finish();
             } else {
                 // reload so that camera is usable
@@ -143,9 +143,9 @@ public class BackupActivity extends AppCompatActivity implements QRCodeReaderVie
             dialog.dismiss();
             String actionCapital = qrData.action.substring(0, 1).toUpperCase() + qrData.action.substring(1);
             if (success)
-                Toast.makeText(activityRef.get(), actionCapital + " finished! ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityRef.get().getApplicationContext(), actionCapital + " finished! ", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(activityRef.get(), actionCapital + " failed :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activityRef.get().getApplicationContext(), actionCapital + " failed :(", Toast.LENGTH_SHORT).show();
             activityRef.get().finish();
         }
 
