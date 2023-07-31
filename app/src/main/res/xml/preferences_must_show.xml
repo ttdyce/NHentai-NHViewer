@@ -14,7 +14,7 @@
             android:summary="Remember to restart after setting proxy!"
             android:title="Set Proxy" />>
         <Preference
-            android:summary="Load nhentai.net in a webview to retrive cookie"
+            android:summary="Load nhentai.net in a webview to retrieve cookie"
             android:title="Refresh Cookie">
             <intent android:action=".RefreshCookieActivity" />
         </Preference>

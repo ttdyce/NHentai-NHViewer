@@ -85,13 +85,13 @@ public class ComicCollectionFragment extends Fragment implements ComicCollection
 
         //determine blur image or not
         if (pref.getBoolean(MainActivity.KEY_PREF_DEMO_MODE, false))
-            Glide.with(requireContext())
+            Glide.with(this)
                     .load(thumbUrl)
                     .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
                     .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
                     .into(holder.ivThumb);
         else
-            Glide.with(requireContext())
+            Glide.with(this)
                     .load(thumbUrl)
                     .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
                     .into(holder.ivThumb);
