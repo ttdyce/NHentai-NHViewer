@@ -53,6 +53,8 @@ public class RefreshCookieActivity extends AppCompatActivity {
                 if (cookies == null || !cookies.contains("cf_clearance=")) {
                     Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, try again soon...");
                     checkCookie(userAgent);
+//                    checkCookie(userAgent);
+                    finish();
                 } else {
                     Log.d("SplashActivitiy", "url: " + url);
                     Log.d("SplashActivitiy", "Got cookie: " + cookies);
