@@ -125,7 +125,7 @@ public class NHAPI {
     public static class URLs {
         private static String searchPrefix = "https://nhentai.net/api/galleries/search?query=";
         private static String getComicPrefix = "https://nhentai.net/api/gallery/";
-        private static String[] types = {"jpg", "png"};
+        private static String[] types = {"jpg", "png", "gif", "webp"};
 
         public static String search(String query, int page, PopularType popularType) {
             if (popularType == PopularType.none)
@@ -150,7 +150,7 @@ public class NHAPI {
         public static String getThumbnail(String mid, String type) {
             for (String t : types) {
                 if (t.charAt(0) == type.charAt(0))
-                    return String.format(Locale.ENGLISH, "https://t.nhentai.net/galleries/%s/thumb.%s", mid, t);
+                    return String.format(Locale.ENGLISH, "https://t1.nhentai.net/galleries/%s/thumb.%s", mid, t);
             }
 
             return "";//should be not needed
@@ -159,7 +159,7 @@ public class NHAPI {
         public static String getPage(String mid, int page, String type) {
             for (String t : types) {
                 if (t.charAt(0) == type.charAt(0))
-                    return String.format(Locale.ENGLISH, "https://i.nhentai.net/galleries/%s/%d.%s", mid, page, t);
+                    return String.format(Locale.ENGLISH, "https://i1.nhentai.net/galleries/%s/%d.%s", mid, page, t);
             }
 
             return "";//should be not needed

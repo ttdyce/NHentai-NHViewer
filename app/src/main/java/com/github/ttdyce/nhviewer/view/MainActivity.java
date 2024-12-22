@@ -201,8 +201,9 @@ public class MainActivity extends AppCompatActivity {
         return appDatabase;
     }
 
+    // TODO: 4/5/2023 seems not the best way to maintain proxy-related settings here, proxyHost sometimes becomes null
     public static boolean isProxied() {
-        if ("".equals(proxyHost))
+        if (proxyHost == null || "".equals(proxyHost))
             return false;
 
         return true;
