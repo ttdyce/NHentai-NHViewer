@@ -62,10 +62,12 @@ public class SplashActivity extends AppCompatActivity {
                 Log.d("SplashActivitiy", "Got cookie: " + cookies);
                 Log.d("SplashActivitiy", "User agent: " + wvInvisibleSplash.getSettings().getUserAgentString());
                 if (cookies == null || !cookies.contains("cf_clearance=")) {
-                    Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, I think API call won't work");
+                    Log.e("SplashActivitiy", "Not found required cookie: cf_clearance, try loading anyway as recently CF Cookie is not needed");
 
-                    Toast.makeText(getApplicationContext(), "Failed to bypass human checking, use manual mode", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Failed to bypass human checking, maybe direct connect is allowed", Toast.LENGTH_LONG).show();
                     startActivity(refreshCookieIntent);
+                    CookieStringRequest.challengeCookies = "cf_clearance=N/A";
+                    CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();
                 } else {
                     CookieStringRequest.challengeCookies = cookies;
                     CookieStringRequest.userAgent = wvInvisibleSplash.getSettings().getUserAgentString();

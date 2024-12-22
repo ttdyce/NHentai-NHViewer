@@ -36,7 +36,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ComicListFragment extends Fragment implements ComicListPresenter.ComicListView {
     public static final String ARG_COLLECTION_NAME = "collectionName";
@@ -146,7 +146,7 @@ public class ComicListFragment extends Fragment implements ComicListPresenter.Co
             Glide.with(this)
                     .load(thumbUrl)
                     .placeholder(new ColorDrawable(ContextCompat.getColor(requireContext(), R.color.secondaryColor)))
-                    .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(16, 5)))
                     .into(holder.ivThumb);
         else
             Glide.with(this)

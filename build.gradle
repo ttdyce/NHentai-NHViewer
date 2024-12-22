@@ -14,7 +14,7 @@ buildscript {
         // in the individual module build.gradle files
         //Firebase
         classpath 'com.google.gms:google-services:4.3.2'
-        classpath "org.ajoberstar.grgit:grgit-gradle:4.0.1"
+        classpath "org.ajoberstar.grgit:grgit-gradle:4.1.1"
     }
 }
 

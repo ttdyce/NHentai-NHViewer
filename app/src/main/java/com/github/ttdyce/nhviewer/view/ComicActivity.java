@@ -22,7 +22,7 @@ import com.github.ttdyce.nhviewer.R;
 import com.github.ttdyce.nhviewer.presenter.ComicPresenter;
 import com.github.ttdyce.nhviewer.view.component.ZoomRecyclerView;
 
-import jp.wasabeef.glide.transformations.SupportRSBlurTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ComicActivity extends AppCompatActivity implements ComicPresenter.ComicView {
     private int id;
@@ -139,7 +139,7 @@ public class ComicActivity extends AppCompatActivity implements ComicPresenter.C
             Glide.with(this)
                     .load(url)
                     .placeholder(circularProgressDrawable)
-                    .apply(RequestOptions.bitmapTransform(new SupportRSBlurTransformation(16, 5)))
+                    .apply(RequestOptions.bitmapTransform(new BlurTransformation(16, 5)))
                     .into(holder.ivComicPage);
         else
             Glide.with(this)
