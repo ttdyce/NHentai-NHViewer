@@ -1,44 +1,31 @@
 # NHViewer
 
 [![GitHub license](https://img.shields.io/github/license/ttdyce/NHentaiViewer?color=brightgreen)](https://github.com/ttdyce/NHentaiViewer/blob/master/LICENSE.md)
-[![Build status](https://build.appcenter.ms/v0.1/apps/78b72c73-8619-4435-a052-f43403b0ecbf/branches/distribution/badge)](https://install.appcenter.ms/users/ttdyce/apps/nhviewer-1/distribution_groups/public)
 
 Simple third-party application for browsing nhentai.net.
 
 > Just a little app for Android
 
-## Recent changes: Visual Studio App Center
+## Important Note: Visual Studio App Center is retiring soon!
 
-### Data collection
+written on 2024-12-23
 
-The app now uses [Visual Studio App Center](https://visualstudio.microsoft.com/zh-hant/app-center/) to provide in-app update, app analysis, and crashes report. 
-To enable these features, some data will be collected from you (the user) and sent to App Center. You can find the details [here](https://docs.microsoft.com/en-us/appcenter/sdk/data-collected).
-
-As it might be a concern to some users, a new option is added in the settings page for disabling in-app update. 
-
-### Better auto-update
-
-Instead of using Firebase's remote config to handle update checking manually, the app now uses [Visual Studio App Center](https://visualstudio.microsoft.com/zh-hant/app-center/) to handle it automatically (well, kind of...). <u>This feature will also be disabled along with disabling in-app update.</u> 
-
-
-
-[Known bugs](https://github.com/ttdyce/NHentaiViewer/projects/1)😕
+Visual Studio App Center will be retired on March 31, 2025, which means this app won't receive auto update afterwards.  
+To provide a wider support for both iOS and Android, I am working on a new solution on [ttdyce/nhviewer-universal](https://github.com/ttdyce/nhviewer-universal) as a replacement of this app. It's still under development but you can find the latest news there. 
 
 ---
 
 ## Download
 
-**The release here is NHViewer+**, which is based on NHViewer but includes GitHub Sponsors features
-
-[Download From VS App Center](https://install.appcenter.ms/users/ttdyce/apps/nhviewer-1/distribution_groups/public)
+[Download From VS App Center (retiring on March 31, 2025!)](https://install.appcenter.ms/users/ttdyce/apps/nhviewer-1/distribution_groups/public)
 
 ### Important note
 
 - Download from VS App Center is recommended for auto-update
 - To support this project, you can...
-  1. Sponsor this project on GitHub for more features!
+  1. Sponsor this project on GitHub
 
-  3. Or... star the repository 🌟
+  3. Or... star the replacement app 🌟 [ttdyce/nhviewer-universal](https://github.com/ttdyce/nhviewer-universal)
 
 ## Look and Feel - in demo mode( •̀ ω •́ )y
 
@@ -46,8 +33,6 @@ Instead of using Firebase's remote config to handle update checking manually, th
 
 ## Features
 
-- For **GitHub Sponsors**
-  - Exclusive Proxy to unblock nhentai for some regions
 - Collection system
   - Add / remove comic from Favorite / Read later / History
   - Backup collection content to desktop (by scanning QRCode with [NHV-Backup, Java program](https://github.com/ttdyce/NHV-Backup))
